@@ -1,7 +1,5 @@
 name: Cypress E2E
-
-on:
-  push:
+on: [push]
 
 jobs:
   cypress-run:
@@ -16,7 +14,7 @@ jobs:
 
       - uses: cypress-io/github-action@v6
         with:
-          build: npm install
+          install-command: npm install
           start: npm start
           wait-on: http://localhost:3000
           wait-on-timeout: 180
