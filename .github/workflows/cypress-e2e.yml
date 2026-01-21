@@ -2,12 +2,10 @@ name: Cypress E2E
 
 on:
   push:
-  pull_request:
 
 jobs:
   cypress-run:
     runs-on: ubuntu-24.04
-
     steps:
       - uses: actions/checkout@v4
 
@@ -16,9 +14,9 @@ jobs:
           node-version: 22
           cache: npm
 
-      - name: Cypress run
-        uses: cypress-io/github-action@v6
+      - uses: cypress-io/github-action@v6
         with:
+          build: npm install
           start: npm start
           wait-on: http://localhost:3000
           wait-on-timeout: 180
