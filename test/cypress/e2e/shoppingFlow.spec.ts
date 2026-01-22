@@ -48,13 +48,13 @@ describe('Shopping Flow', () => {
     })
 
     it('should update basket counter correctly when removing and adding products', () => {
+      cy.visit('/#/basket')
+      cy.get('mat-row').should('have.length.at.least', 1)
+      
       cy.get('button[aria-label="Show the shopping cart"] .fa-layers-counter')
         .invoke('text')
         .then((initialText) => {
           const initialCount = parseInt(initialText)
-          
-          cy.visit('/#/basket')
-          cy.get('mat-row').should('have.length.at.least', 1)
           
           cy.get('mat-cell.mat-column-remove button').first().click()
           cy.wait(1000)
@@ -62,7 +62,8 @@ describe('Shopping Flow', () => {
             .invoke('text')
             .then((afterRemoveText) => {
               const afterRemoveCount = parseInt(afterRemoveText)
-              expect(afterRemoveCount).to.be.lessThan(initialCount)
+              const removedQuantity = initialCount - afterRemoveCount
+              expect(removedQuantity).to.be.greaterThan(0)
               
               cy.visit('/#/')
               cy.get('mat-grid-tile').first().within(() => {
