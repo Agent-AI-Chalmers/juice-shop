@@ -1,0 +1,49 @@
+# -----------------------------
+# 1. Core Dependencies & Build (Standard)
+# -----------------------------
+node_modules/
+dist/
+.tmp/
+.angular/
+
+# -----------------------------
+# 2. Third-Party Assets & Libraries (Critical fix based on results)
+# -----------------------------
+# dat.gui.min.js and three.js cause many false positives.
+# These are usually static assets or third-party libraries in the assets directory and should not be scanned.
+frontend/src/assets/
+
+# Ignore all minified JavaScript files
+*.min.js
+
+# -----------------------------
+# 3. Test Files (Test Code)
+# -----------------------------
+# Juice Shop unit test files
+# (.spec.ts) are scattered across the source directories and must be explicitly ignored.
+# Otherwise, many "Hardcoded Secret" false positives will appear.
+test/
+*.spec.ts
+cypress.config.ts
+
+# -----------------------------
+# 4. Other Non-Business Logic Directories
+# -----------------------------
+ftp/
+data/
+vagrant/
+i18n/
+encryptionkeys/
+# Ignore some special config files to avoid noisy parse errors
+.github/
+Dockerfile
+
+# -----------------------------
+# 5. Documentation & Non-Code
+# -----------------------------
+*.md
+LICENSE
+*.json
+*.lock
+*.yaml
+*.yml
