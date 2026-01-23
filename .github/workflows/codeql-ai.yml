@@ -9,6 +9,8 @@ jobs:
     runs-on: ubuntu-latest
     permissions:
       contents: read
+      actions: read
+      # security-events: write
       # ⚠️ 注意：这里故意移除了 security-events: write 权限
       # 因为我们不上传到 Security Tab，所以不需要它。
 
@@ -45,6 +47,7 @@ jobs:
           # 👇 关键配置：专为 AI 消费和私有仓库优化
           # -------------------------------------------------------
           upload: false           # 🚫 核心：禁止上传到 GitHub Security Tab
+          upload-database: false  # 👇 禁止上传 CodeQL 数据库 (解决 Failed to upload database 报错)
           output: sarif-results   # 📂 指定结果输出到一个临时文件夹
           # -------------------------------------------------------
 
