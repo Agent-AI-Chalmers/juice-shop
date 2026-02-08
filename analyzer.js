@@ -24,19 +24,45 @@ try {
     // 注意：ts-morph 需要标准化的路径
     const sourceFile = project.getSourceFileOrThrow(targetFilePath);
 
-    // 4. 找到目标函数 (支持 function 声明和 const 箭头函数)
-    let targetNode = sourceFile.getFunction(functionName);
-    
+    // 4. 找到目标函数 (支持 function 声明、const 箭头函数、以及类方法)
+    // 核心：自动清洗函数名 (e.g. "res.cookie" -> "cookie", "AuthController.login" -> "login")
+    let searchName = functionName;
+    if (functionName.includes('.')) {
+        searchName = functionName.split('.').pop();
+    }
+
+    // 尝试 1: Function Declaration (function foo() {})
+    let targetNode = sourceFile.getFunction(searchName);
+
     if (!targetNode) {
-        // 如果不是 function 关键字定义的，尝试找变量 (const App = () => ...)
-        const variable = sourceFile.getVariableDeclaration(functionName);
+        // 尝试 2: Variable Declaration (const foo = () => {})
+        const variable = sourceFile.getVariableDeclaration(searchName);
         if (variable) {
             targetNode = variable;
         }
     }
 
+    // 尝试 3: Class Method (class Foo { bar() {} })
+    // 如果 LLM 传入了 "AuthController.login"，split 后变成 "login"，这里能找到它
     if (!targetNode) {
-        throw new Error(`Function '${functionName}' not found in ${targetFilePath}`);
+        const classes = sourceFile.getClasses();
+        for (const cls of classes) {
+            const method = cls.getMethod(searchName);
+            if (method) {
+                targetNode = method;
+                break;
+            }
+            // 顺便支持静态方法
+            const staticMethod = cls.getStaticMethod(searchName);
+            if (staticMethod) {
+                targetNode = staticMethod;
+                break;
+            }
+        }
+    }
+
+    if (!targetNode) {
+        throw new Error(`Function or symbol '${searchName}' (origin: '${functionName}') not found in ${targetFilePath}`);
     }
 
     // 5. 核心魔法：查找引用 (Find References)
@@ -48,7 +74,7 @@ try {
     for (const ref of references) {
         const refSourceFile = ref.getSourceFile();
         const filePath = refSourceFile.getFilePath();
-        
+
         // 排除定义本身（我们只关心谁调用了它）
         // 如果你想包含定义本身，把这个 if 去掉
         if (filePath === sourceFile.getFilePath() && ref.getStart() === targetNode.getNameNode().getStart()) {
@@ -65,11 +91,12 @@ try {
     }
 
     // 6. 输出 JSON 给 Python
-    console.log(JSON.stringify({ 
-        status: "success", 
+    console.log(JSON.stringify({
+        status: "success",
         data: results,
         summary: {
-            function: functionName,
+            function: searchName, // 返回实际搜索的名称
+            origin: functionName,
             file: path.relative(projectRoot, targetFilePath),
             totalReferences: results.length
         }
@@ -77,10 +104,9 @@ try {
 
 } catch (error) {
     // 捕获错误并以 JSON 格式输出，防止 Python 端解析失败
-    console.log(JSON.stringify({ 
-        status: "error", 
+    console.log(JSON.stringify({
+        status: "error",
         message: error.message,
         stack: error.stack
     }));
 }
-
