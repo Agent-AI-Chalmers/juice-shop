@@ -1,0 +1,99 @@
+# ==========================================
+# 1. 安全底线 (Security & Secrets)
+# 禁止 Agent 读取任何可能包含真实凭据的文件
+# ==========================================
+.env
+.env.*
+*.key
+*.pem
+# 虽然是故意暴露的，但建议屏蔽以模拟真实审计环境
+encryptionkeys/
+# 包含 JWT 签名私钥的文件（如果存在物理文件）
+lib/insecurity.ts.bak
+
+# ==========================================
+# 2. 认知卸载 (Cognitive De-noising)
+# 屏蔽体积巨大且对逻辑分析毫无帮助的依赖和产物
+# ==========================================
+node_modules/
+frontend/node_modules/
+package-lock.json
+yarn.lock
+pnpm-lock.yaml
+
+# 屏蔽编译后的二进制/中间产物
+dist/
+build/
+*.exe
+*.dll
+*.so
+*.out
+
+# 屏蔽前端 Angular 编译产物
+frontend/dist/
+frontend/.angular/
+frontend/src/assets/
+
+# ==========================================
+# 3. 存储与日志 (Data & Logs)
+# 避免 Agent 尝试读取大型二进制数据库或无尽的日志
+# ==========================================
+data/*.sqlite
+data/*.db
+*.log
+logs/
+.fluent-bit/
+
+# ==========================================
+# 4. 环境与元数据 (Metadata & Tooling)
+# ==========================================
+.git/
+.svn/
+.vscode/
+.idea/
+.vagrant/
+.docker/
+.github/
+# 单元测试覆盖率报告
+coverage/
+.nyc_output/
+
+# ==========================================
+# 5. 特殊路径 (Juice Shop Specific)
+# 屏蔽那些包含大量静态资源或混淆文件的目录
+# ==========================================
+# FTP 目录通常包含一些模拟的“敏感文件”，
+# 如果不是专门为了测试文件泄露漏洞，建议屏蔽以防 Agent 误入歧途
+ftp/
+# 包含大量图片资产
+frontend/src/assets/public/images/
+
+# ==========================================
+# 6. 防止 Agent “作弊”（Logic Cheat-sheets）
+# ==========================================
+SOLUTIONS.md
+threat-model.json
+REFERENCES.md
+HALL_OF_FAME.md
+
+# ==========================================
+# 7. 高噪声国际化与多媒体资源
+# ==========================================
+i18n/*.json
+screenshots/
+views/themes/
+frontend/src/assets/
+
+# ==========================================
+# 8. 用户上传与临时缓存数据
+# ==========================================
+uploads/
+rsn/cache.json
+system_benign_manifest.json
+
+# ==========================================
+# 9. 辅助构建与环境配置
+# ==========================================
+vagrant/
+Gruntfile.js
+crowdin.yaml
