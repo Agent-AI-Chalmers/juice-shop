@@ -447,16 +447,6 @@
         },
         {
             "file": "api/deliveryApiSpec.ts",
-            "description": "GET delivery methods",
-            "reason": "Verified clean business logic"
-        },
-        {
-            "file": "api/deliveryApiSpec.ts",
-            "description": "GET delivery method",
-            "reason": "Verified clean business logic"
-        },
-        {
-            "file": "api/deliveryApiSpec.ts",
             "description": "GET delivery method",
             "reason": "Verified clean business logic"
         },
@@ -658,11 +648,6 @@
         {
             "file": "api/fileServingSpec.ts",
             "description": "GET the premium content by visiting the AES decrypted URL",
-            "reason": "Verified clean business logic"
-        },
-        {
-            "file": "api/fileServingSpec.ts",
-            "description": "GET path traversal does not work in folder containing access log files",
             "reason": "Verified clean business logic"
         },
         {
@@ -1357,67 +1342,7 @@
         },
         {
             "file": "api/socketSpec.ts",
-            "description": "notification received",
-            "reason": "Verified clean business logic"
-        },
-        {
-            "file": "api/socketSpec.ts",
-            "description": "notification received",
-            "reason": "Verified clean business logic"
-        },
-        {
-            "file": "api/socketSpec.ts",
-            "description": "notification received",
-            "reason": "Verified clean business logic"
-        },
-        {
-            "file": "api/socketSpec.ts",
-            "description": "notification received",
-            "reason": "Verified clean business logic"
-        },
-        {
-            "file": "api/socketSpec.ts",
-            "description": "notification received",
-            "reason": "Verified clean business logic"
-        },
-        {
-            "file": "api/socketSpec.ts",
-            "description": "notification received",
-            "reason": "Verified clean business logic"
-        },
-        {
-            "file": "api/socketSpec.ts",
-            "description": "notification received",
-            "reason": "Verified clean business logic"
-        },
-        {
-            "file": "api/socketSpec.ts",
-            "description": "notification received",
-            "reason": "Verified clean business logic"
-        },
-        {
-            "file": "api/socketSpec.ts",
-            "description": "notification received",
-            "reason": "Verified clean business logic"
-        },
-        {
-            "file": "api/socketSpec.ts",
-            "description": "notification received",
-            "reason": "Verified clean business logic"
-        },
-        {
-            "file": "api/socketSpec.ts",
-            "description": "notification received",
-            "reason": "Verified clean business logic"
-        },
-        {
-            "file": "api/socketSpec.ts",
             "description": "server handles empty confirmation message",
-            "reason": "Verified clean business logic"
-        },
-        {
-            "file": "api/socketSpec.ts",
-            "description": "notification received",
             "reason": "Verified clean business logic"
         },
         {
@@ -1843,6 +1768,11 @@
             "reason": "Exact Denylist match: Confirmed exploitative test"
         },
         {
+            "file": "api/fileServingSpec.ts",
+            "description": "GET path traversal does not work in folder containing access log files",
+            "reason": "PoC keyword: path traversal"
+        },
+        {
             "file": "api/fileUploadSpec.ts",
             "description": "POST file type XML with XXE attack against Windows",
             "reason": "PoC keyword: attack"
@@ -2251,11 +2181,6 @@
             "file": "server/utilsSpec.ts",
             "description": "fails on plain input string",
             "reason": "Edge Case keyword: fails"
-        },
-        {
-            "file": "server/utilsSpec.ts",
-            "description": "fails on plain input string",
-            "reason": "Edge Case keyword: fails"
         }
     ],
     "garbage": [
@@ -2316,42 +2241,7 @@
         },
         {
             "file": "api/challengeApiSpec.ts",
-            "description": "GET can retrieve continue code for currently solved challenges",
-            "reason": "Infrastructure or Insecure mock libraries"
-        },
-        {
-            "file": "api/challengeApiSpec.ts",
-            "description": "PUT invalid continue code is rejected (alphanumeric)",
-            "reason": "Infrastructure or Insecure mock libraries"
-        },
-        {
-            "file": "api/challengeApiSpec.ts",
             "description": "PUT completely invalid continue code is rejected (non-alphanumeric)",
-            "reason": "Infrastructure or Insecure mock libraries"
-        },
-        {
-            "file": "api/challengeApiSpec.ts",
-            "description": "PUT continue code for more than one challenge is accepted",
-            "reason": "Infrastructure or Insecure mock libraries"
-        },
-        {
-            "file": "api/challengeApiSpec.ts",
-            "description": "GET can retrieve continue code for currently solved challenges",
-            "reason": "Infrastructure or Insecure mock libraries"
-        },
-        {
-            "file": "api/challengeApiSpec.ts",
-            "description": "PUT invalid continue code is rejected (alphanumeric)",
-            "reason": "Infrastructure or Insecure mock libraries"
-        },
-        {
-            "file": "api/challengeApiSpec.ts",
-            "description": "PUT completely invalid continue code is rejected (non-alphanumeric)",
-            "reason": "Infrastructure or Insecure mock libraries"
-        },
-        {
-            "file": "api/challengeApiSpec.ts",
-            "description": "PUT continue code for more than one challenge is accepted",
             "reason": "Infrastructure or Insecure mock libraries"
         },
         {
@@ -2412,11 +2302,6 @@
         {
             "file": "api/httpSpec.ts",
             "description": "response must contain sameorigin frameguard header",
-            "reason": "Infrastructure or Insecure mock libraries"
-        },
-        {
-            "file": "api/httpSpec.ts",
-            "description": "response must contain CORS header allowing all origins",
             "reason": "Infrastructure or Insecure mock libraries"
         },
         {
@@ -2751,11 +2636,6 @@
         },
         {
             "file": "cypress/e2e/contact.spec.ts",
-            "description": "should be possible to post typosquatting NPM package as feedback",
-            "reason": "Asset outside trusted regression zone (Cypress/Py/Material)"
-        },
-        {
-            "file": "cypress/e2e/contact.spec.ts",
             "description": "should be possible to post hidden character name as feedback",
             "reason": "Asset outside trusted regression zone (Cypress/Py/Material)"
         },
@@ -2857,31 +2737,6 @@
         {
             "file": "cypress/e2e/forgedJwt.spec.ts",
             "description": "should accept a token HMAC-signed with public RSA key with email rsa_lord@juice-sh.op in the payload ",
-            "reason": "Asset outside trusted regression zone (Cypress/Py/Material)"
-        },
-        {
-            "file": "cypress/e2e/forgotPassword.spec.ts",
-            "description": "should be able to reset password with his security answer",
-            "reason": "Asset outside trusted regression zone (Cypress/Py/Material)"
-        },
-        {
-            "file": "cypress/e2e/forgotPassword.spec.ts",
-            "description": "should be able to reset password with his security answer",
-            "reason": "Asset outside trusted regression zone (Cypress/Py/Material)"
-        },
-        {
-            "file": "cypress/e2e/forgotPassword.spec.ts",
-            "description": "should be able to reset password with his security answer",
-            "reason": "Asset outside trusted regression zone (Cypress/Py/Material)"
-        },
-        {
-            "file": "cypress/e2e/forgotPassword.spec.ts",
-            "description": "should be able to reset password with his security answer",
-            "reason": "Asset outside trusted regression zone (Cypress/Py/Material)"
-        },
-        {
-            "file": "cypress/e2e/forgotPassword.spec.ts",
-            "description": "should be able to reset password with his security answer",
             "reason": "Asset outside trusted regression zone (Cypress/Py/Material)"
         },
         {
@@ -3166,16 +3021,6 @@
         },
         {
             "file": "cypress/e2e/search.spec.ts",
-            "description": "search query should be susceptible to reflected XSS attacks",
-            "reason": "Asset outside trusted regression zone (Cypress/Py/Material)"
-        },
-        {
-            "file": "cypress/e2e/search.spec.ts",
-            "description": "query param in product search endpoint should be susceptible to UNION SQL injection attacks",
-            "reason": "Asset outside trusted regression zone (Cypress/Py/Material)"
-        },
-        {
-            "file": "cypress/e2e/search.spec.ts",
             "description": "query param in product search endpoint should be susceptible to UNION SQL injection attacks",
             "reason": "Asset outside trusted regression zone (Cypress/Py/Material)"
         },
@@ -3370,16 +3215,6 @@
             "reason": "Infrastructure or Insecure mock libraries"
         },
         {
-            "file": "server/challengeUtilsSpec.ts",
-            "description": "returns undefined for non-existing challenge",
-            "reason": "Infrastructure or Insecure mock libraries"
-        },
-        {
-            "file": "server/challengeUtilsSpec.ts",
-            "description": "returns existing challenge",
-            "reason": "Infrastructure or Insecure mock libraries"
-        },
-        {
             "file": "server/chatBotValidationSpec.ts",
             "description": "should accept training data with the expected intent and handler",
             "reason": "Infrastructure or Insecure mock libraries"
@@ -3471,17 +3306,7 @@
         },
         {
             "file": "server/configValidationSpec.ts",
-            "description": "should accept a valid config",
-            "reason": "Infrastructure or Insecure mock libraries"
-        },
-        {
-            "file": "server/configValidationSpec.ts",
             "description": "should fail if product has no exifForBlueprintChallenge",
-            "reason": "Infrastructure or Insecure mock libraries"
-        },
-        {
-            "file": "server/configValidationSpec.ts",
-            "description": "should accept a valid config",
             "reason": "Infrastructure or Insecure mock libraries"
         },
         {
@@ -3491,17 +3316,7 @@
         },
         {
             "file": "server/configValidationSpec.ts",
-            "description": "should accept a valid config",
-            "reason": "Infrastructure or Insecure mock libraries"
-        },
-        {
-            "file": "server/configValidationSpec.ts",
             "description": "should fail if less than 4 products are configured",
-            "reason": "Infrastructure or Insecure mock libraries"
-        },
-        {
-            "file": "server/configValidationSpec.ts",
-            "description": "should accept a valid config",
             "reason": "Infrastructure or Insecure mock libraries"
         },
         {
@@ -3521,17 +3336,7 @@
         },
         {
             "file": "server/configValidationSpec.ts",
-            "description": "should accept a valid config",
-            "reason": "Infrastructure or Insecure mock libraries"
-        },
-        {
-            "file": "server/configValidationSpec.ts",
             "description": "should fail if a memory is configured for multiple challenges",
-            "reason": "Infrastructure or Insecure mock libraries"
-        },
-        {
-            "file": "server/configValidationSpec.ts",
-            "description": "should accept a valid config",
             "reason": "Infrastructure or Insecure mock libraries"
         },
         {
@@ -3542,11 +3347,6 @@
         {
             "file": "server/configValidationSpec.ts",
             "description": "should fail if a memory is linked to another user",
-            "reason": "Infrastructure or Insecure mock libraries"
-        },
-        {
-            "file": "server/configValidationSpec.ts",
-            "description": "should accept a valid config",
             "reason": "Infrastructure or Insecure mock libraries"
         },
         {
@@ -3766,42 +3566,12 @@
         },
         {
             "file": "server/insecuritySpec.ts",
-            "description": "returns input unchanged for plain text input",
-            "reason": "Infrastructure or Insecure mock libraries"
-        },
-        {
-            "file": "server/insecuritySpec.ts",
             "description": "removes all opening tags and subsequent character from HTML input",
             "reason": "Infrastructure or Insecure mock libraries"
         },
         {
             "file": "server/insecuritySpec.ts",
             "description": "can be bypassed to allow working HTML payload to be returned",
-            "reason": "Infrastructure or Insecure mock libraries"
-        },
-        {
-            "file": "server/insecuritySpec.ts",
-            "description": "handles empty inputs by returning their string representation",
-            "reason": "Infrastructure or Insecure mock libraries"
-        },
-        {
-            "file": "server/insecuritySpec.ts",
-            "description": "returns input unchanged for plain text input",
-            "reason": "Infrastructure or Insecure mock libraries"
-        },
-        {
-            "file": "server/insecuritySpec.ts",
-            "description": "returns input unchanged for HTML input with only harmless text formatting",
-            "reason": "Infrastructure or Insecure mock libraries"
-        },
-        {
-            "file": "server/insecuritySpec.ts",
-            "description": "returns input unchanged for HTML input with only harmless links",
-            "reason": "Infrastructure or Insecure mock libraries"
-        },
-        {
-            "file": "server/insecuritySpec.ts",
-            "description": "removes all Javascript from HTML input",
             "reason": "Infrastructure or Insecure mock libraries"
         },
         {
@@ -3957,11 +3727,6 @@
         {
             "file": "server/verifySpec.ts",
             "description": "is not solved when no error occurs on a response with OK 200 status code",
-            "reason": "Infrastructure or Insecure mock libraries"
-        },
-        {
-            "file": "server/verifySpec.ts",
-            "description": "${statusCode} status code",
             "reason": "Infrastructure or Insecure mock libraries"
         },
         {
