@@ -316,26 +316,6 @@
             "reason": "Verified clean business logic"
         },
         {
-            "file": "api/challengeApiSpec.ts",
-            "description": "PUT invalid continue code is rejected (alphanumeric)",
-            "reason": "Verified clean business logic"
-        },
-        {
-            "file": "api/challengeApiSpec.ts",
-            "description": "PUT invalid continue code is rejected (non-alphanumeric)",
-            "reason": "Verified clean business logic"
-        },
-        {
-            "file": "api/challengeApiSpec.ts",
-            "description": "PUT invalid continue code is rejected (alphanumeric)",
-            "reason": "Verified clean business logic"
-        },
-        {
-            "file": "api/challengeApiSpec.ts",
-            "description": "PUT invalid continue code is rejected (alphanumeric)",
-            "reason": "Verified clean business logic"
-        },
-        {
             "file": "api/chatBotSpec.ts",
             "description": "GET bot state for anonymous users contains log in request",
             "reason": "Verified clean business logic"
@@ -751,26 +731,6 @@
             "reason": "Verified clean business logic"
         },
         {
-            "file": "api/httpSpec.ts",
-            "description": "response must contain CORS header allowing all origins",
-            "reason": "Verified clean business logic"
-        },
-        {
-            "file": "api/httpSpec.ts",
-            "description": "response must contain sameorigin frameguard header",
-            "reason": "Verified clean business logic"
-        },
-        {
-            "file": "api/httpSpec.ts",
-            "description": "response must contain CORS header allowing all origins",
-            "reason": "Verified clean business logic"
-        },
-        {
-            "file": "api/httpSpec.ts",
-            "description": "response must not contain recruiting header",
-            "reason": "Verified clean business logic"
-        },
-        {
             "file": "api/internetResourcesSpec.ts",
             "description": "Comment on \"Top 10 Fruits you probably dont know\" blog post with PasteBin paste URL spoiler available",
             "reason": "Verified clean business logic"
@@ -823,21 +783,6 @@
         {
             "file": "api/memoryApiSpec.ts",
             "description": "POST new memory with valid for JPG format image",
-            "reason": "Verified clean business logic"
-        },
-        {
-            "file": "api/metricsApiSpec.ts",
-            "description": "GET metrics via public API that are available instantaneously",
-            "reason": "Verified clean business logic"
-        },
-        {
-            "file": "api/metricsApiSpec.ts",
-            "description": "GET file upload metrics via public API",
-            "reason": "Verified clean business logic"
-        },
-        {
-            "file": "api/metricsApiSpec.ts",
-            "description": "GET file upload error metrics via public API",
             "reason": "Verified clean business logic"
         },
         {
@@ -1833,16 +1778,6 @@
             "reason": "Edge Case keyword: non-existing"
         },
         {
-            "file": "api/challengeApiSpec.ts",
-            "description": "PUT completely invalid continue code is rejected (non-alphanumeric)",
-            "reason": "Edge Case keyword: completely invalid"
-        },
-        {
-            "file": "api/challengeApiSpec.ts",
-            "description": "PUT completely invalid continue code is rejected (non-alphanumeric)",
-            "reason": "Edge Case keyword: completely invalid"
-        },
-        {
             "file": "api/chatBotSpec.ts",
             "description": "Returns a 500 when the user name is set to crash request",
             "reason": "PoC keyword: crash request"
@@ -2051,11 +1986,6 @@
             "file": "api/ftpFolderSpec.ts",
             "description": "GET existing file /ftp/quarantine/juicy_malware_windows_64.exe.url",
             "reason": "PoC keyword: malware"
-        },
-        {
-            "file": "api/httpSpec.ts",
-            "description": "response must not contain XSS protection header",
-            "reason": "PoC keyword: xss"
         },
         {
             "file": "api/loginApiSpec.ts",
@@ -2337,62 +2267,92 @@
         {
             "file": "api/challengeApiSpec.ts",
             "description": "GET all challenges",
-            "reason": "CTF logic or challenge-solving assertion"
+            "reason": "Infrastructure or Insecure mock libraries"
         },
         {
             "file": "api/challengeApiSpec.ts",
             "description": "POST new challenge is forbidden via public API even when authenticated",
-            "reason": "CTF logic or challenge-solving assertion"
+            "reason": "Infrastructure or Insecure mock libraries"
         },
         {
             "file": "api/challengeApiSpec.ts",
             "description": "GET existing challenge by id is forbidden via public API even when authenticated",
-            "reason": "CTF logic or challenge-solving assertion"
+            "reason": "Infrastructure or Insecure mock libraries"
         },
         {
             "file": "api/challengeApiSpec.ts",
             "description": "PUT update existing challenge is forbidden via public API even when authenticated",
-            "reason": "CTF logic or challenge-solving assertion"
+            "reason": "Infrastructure or Insecure mock libraries"
         },
         {
             "file": "api/challengeApiSpec.ts",
             "description": "DELETE existing challenge is forbidden via public API even when authenticated",
-            "reason": "CTF logic or challenge-solving assertion"
+            "reason": "Infrastructure or Insecure mock libraries"
         },
         {
             "file": "api/challengeApiSpec.ts",
             "description": "GET can retrieve continue code for currently solved challenges",
-            "reason": "CTF logic or challenge-solving assertion"
+            "reason": "Infrastructure or Insecure mock libraries"
+        },
+        {
+            "file": "api/challengeApiSpec.ts",
+            "description": "PUT invalid continue code is rejected (alphanumeric)",
+            "reason": "Infrastructure or Insecure mock libraries"
+        },
+        {
+            "file": "api/challengeApiSpec.ts",
+            "description": "PUT invalid continue code is rejected (non-alphanumeric)",
+            "reason": "Infrastructure or Insecure mock libraries"
         },
         {
             "file": "api/challengeApiSpec.ts",
             "description": "PUT continue code for more than one challenge is accepted",
-            "reason": "CTF logic or challenge-solving assertion"
+            "reason": "Infrastructure or Insecure mock libraries"
         },
         {
             "file": "api/challengeApiSpec.ts",
             "description": "PUT continue code for non-existent challenge #999 is accepted",
-            "reason": "CTF logic or challenge-solving assertion"
+            "reason": "Infrastructure or Insecure mock libraries"
         },
         {
             "file": "api/challengeApiSpec.ts",
             "description": "GET can retrieve continue code for currently solved challenges",
-            "reason": "CTF logic or challenge-solving assertion"
+            "reason": "Infrastructure or Insecure mock libraries"
+        },
+        {
+            "file": "api/challengeApiSpec.ts",
+            "description": "PUT invalid continue code is rejected (alphanumeric)",
+            "reason": "Infrastructure or Insecure mock libraries"
+        },
+        {
+            "file": "api/challengeApiSpec.ts",
+            "description": "PUT completely invalid continue code is rejected (non-alphanumeric)",
+            "reason": "Infrastructure or Insecure mock libraries"
         },
         {
             "file": "api/challengeApiSpec.ts",
             "description": "PUT continue code for more than one challenge is accepted",
-            "reason": "CTF logic or challenge-solving assertion"
+            "reason": "Infrastructure or Insecure mock libraries"
         },
         {
             "file": "api/challengeApiSpec.ts",
             "description": "GET can retrieve continue code for currently solved challenges",
-            "reason": "CTF logic or challenge-solving assertion"
+            "reason": "Infrastructure or Insecure mock libraries"
+        },
+        {
+            "file": "api/challengeApiSpec.ts",
+            "description": "PUT invalid continue code is rejected (alphanumeric)",
+            "reason": "Infrastructure or Insecure mock libraries"
+        },
+        {
+            "file": "api/challengeApiSpec.ts",
+            "description": "PUT completely invalid continue code is rejected (non-alphanumeric)",
+            "reason": "Infrastructure or Insecure mock libraries"
         },
         {
             "file": "api/challengeApiSpec.ts",
             "description": "PUT continue code for more than one challenge is accepted",
-            "reason": "CTF logic or challenge-solving assertion"
+            "reason": "Infrastructure or Insecure mock libraries"
         },
         {
             "file": "api/chatBotSpec.ts",
@@ -2445,6 +2405,31 @@
             "reason": "CTF logic or challenge-solving assertion"
         },
         {
+            "file": "api/httpSpec.ts",
+            "description": "response must contain CORS header allowing all origins",
+            "reason": "Infrastructure or Insecure mock libraries"
+        },
+        {
+            "file": "api/httpSpec.ts",
+            "description": "response must contain sameorigin frameguard header",
+            "reason": "Infrastructure or Insecure mock libraries"
+        },
+        {
+            "file": "api/httpSpec.ts",
+            "description": "response must contain CORS header allowing all origins",
+            "reason": "Infrastructure or Insecure mock libraries"
+        },
+        {
+            "file": "api/httpSpec.ts",
+            "description": "response must not contain recruiting header",
+            "reason": "Infrastructure or Insecure mock libraries"
+        },
+        {
+            "file": "api/httpSpec.ts",
+            "description": "response must not contain XSS protection header",
+            "reason": "Infrastructure or Insecure mock libraries"
+        },
+        {
             "file": "api/internetResourcesSpec.ts",
             "description": "for default configuration (https://pastebin.com/90dUgd7s)",
             "reason": "CTF logic or challenge-solving assertion"
@@ -2477,6 +2462,21 @@
         {
             "file": "api/internetResourcesSpec.ts",
             "description": "GitHub issue (https://github.com/apostrophecms/sanitize-html/issues/29) for \"Server-side XSS Protection\" challenge available",
+            "reason": "CTF logic or challenge-solving assertion"
+        },
+        {
+            "file": "api/metricsApiSpec.ts",
+            "description": "GET metrics via public API that are available instantaneously",
+            "reason": "CTF logic or challenge-solving assertion"
+        },
+        {
+            "file": "api/metricsApiSpec.ts",
+            "description": "GET file upload metrics via public API",
+            "reason": "CTF logic or challenge-solving assertion"
+        },
+        {
+            "file": "api/metricsApiSpec.ts",
+            "description": "GET file upload error metrics via public API",
             "reason": "CTF logic or challenge-solving assertion"
         },
         {
@@ -3868,881 +3868,6 @@
             "file": "server/redirectSpec.ts",
             "description": "tricking the allowlist should solve \"redirectChallenge\"",
             "reason": "CTF logic or challenge-solving assertion"
-        },
-        {
-            "file": "server/repomix-output.xml",
-            "description": "should serve index.html for any URL",
-            "reason": "Asset outside trusted regression zone (Cypress/Py/Material)"
-        },
-        {
-            "file": "server/repomix-output.xml",
-            "description": "should raise error for /api endpoint URL",
-            "reason": "Asset outside trusted regression zone (Cypress/Py/Material)"
-        },
-        {
-            "file": "server/repomix-output.xml",
-            "description": "should raise error for /rest endpoint URL",
-            "reason": "Asset outside trusted regression zone (Cypress/Py/Material)"
-        },
-        {
-            "file": "appConfigurationSpec.ts",
-            "description": "should return configuration object",
-            "reason": "Asset outside trusted regression zone (Cypress/Py/Material)"
-        },
-        {
-            "file": "appVersionSpec.ts",
-            "description": "should ' + config.get<boolean>('application.showVersionNumber') ? '' : 'not ' + 'return version specified in package.json",
-            "reason": "Asset outside trusted regression zone (Cypress/Py/Material)"
-        },
-        {
-            "file": "b2bOrderSpec.ts",
-            "description": "infinite loop payload does not succeed but solves \"rceChallenge\"",
-            "reason": "Asset outside trusted regression zone (Cypress/Py/Material)"
-        },
-        {
-            "file": "b2bOrderSpec.ts",
-            "description": "timeout after 2 seconds solves \"rceOccupyChallenge\"",
-            "reason": "Asset outside trusted regression zone (Cypress/Py/Material)"
-        },
-        {
-            "file": "b2bOrderSpec.ts",
-            "description": "deserializing JSON as documented in Swagger should not solve \"rceChallenge\"",
-            "reason": "Asset outside trusted regression zone (Cypress/Py/Material)"
-        },
-        {
-            "file": "b2bOrderSpec.ts",
-            "description": "deserializing arbitrary JSON should not solve \"rceChallenge\"",
-            "reason": "Asset outside trusted regression zone (Cypress/Py/Material)"
-        },
-        {
-            "file": "b2bOrderSpec.ts",
-            "description": "deserializing broken JSON should not solve \"rceChallenge\"",
-            "reason": "Asset outside trusted regression zone (Cypress/Py/Material)"
-        },
-        {
-            "file": "blueprintSpec.ts",
-            "description": "should contain properties from exifForBlueprintChallenge",
-            "reason": "Asset outside trusted regression zone (Cypress/Py/Material)"
-        },
-        {
-            "file": "botUtilsSpec.ts",
-            "description": "returns static test response",
-            "reason": "Asset outside trusted regression zone (Cypress/Py/Material)"
-        },
-        {
-            "file": "botUtilsSpec.ts",
-            "description": "response contains a valid 10% coupon code for current date",
-            "reason": "Asset outside trusted regression zone (Cypress/Py/Material)"
-        },
-        {
-            "file": "challengeCountryMappingSpec.ts",
-            "description": "should have a country mapping for every challenge",
-            "reason": "Asset outside trusted regression zone (Cypress/Py/Material)"
-        },
-        {
-            "file": "challengeCountryMappingSpec.ts",
-            "description": "should have unique country codes in every mapping",
-            "reason": "Asset outside trusted regression zone (Cypress/Py/Material)"
-        },
-        {
-            "file": "challengeTutorialSequenceSpec.ts",
-            "description": "should have unique tutorial orders",
-            "reason": "Asset outside trusted regression zone (Cypress/Py/Material)"
-        },
-        {
-            "file": "challengeUtilsSpec.ts",
-            "description": "returns undefined for non-existing challenge",
-            "reason": "Asset outside trusted regression zone (Cypress/Py/Material)"
-        },
-        {
-            "file": "challengeUtilsSpec.ts",
-            "description": "returns existing challenge",
-            "reason": "Asset outside trusted regression zone (Cypress/Py/Material)"
-        },
-        {
-            "file": "challengeUtilsSpec.ts",
-            "description": "returns undefined for non-existing challenge",
-            "reason": "Asset outside trusted regression zone (Cypress/Py/Material)"
-        },
-        {
-            "file": "challengeUtilsSpec.ts",
-            "description": "returns existing challenge",
-            "reason": "Asset outside trusted regression zone (Cypress/Py/Material)"
-        },
-        {
-            "file": "chatBotValidationSpec.ts",
-            "description": "should accept training data with the expected intent and handler",
-            "reason": "Asset outside trusted regression zone (Cypress/Py/Material)"
-        },
-        {
-            "file": "chatBotValidationSpec.ts",
-            "description": "should fail if the training data lacks the expected intent",
-            "reason": "Asset outside trusted regression zone (Cypress/Py/Material)"
-        },
-        {
-            "file": "chatBotValidationSpec.ts",
-            "description": "should fail if the training data lacks the expected handler for the given intent",
-            "reason": "Asset outside trusted regression zone (Cypress/Py/Material)"
-        },
-        {
-            "file": "chatBotValidationSpec.ts",
-            "description": "should accept the default chatbot training data",
-            "reason": "Asset outside trusted regression zone (Cypress/Py/Material)"
-        },
-        {
-            "file": "chatBotValidationSpec.ts",
-            "description": "should fail if the chatbot training data is empty",
-            "reason": "Asset outside trusted regression zone (Cypress/Py/Material)"
-        },
-        {
-            "file": "codeSnippetSpec.ts",
-            "description": "should assert single correctly selected vuln line as correct",
-            "reason": "Asset outside trusted regression zone (Cypress/Py/Material)"
-        },
-        {
-            "file": "codeSnippetSpec.ts",
-            "description": "should assert multiple correctly selected vuln lines as correct in any order",
-            "reason": "Asset outside trusted regression zone (Cypress/Py/Material)"
-        },
-        {
-            "file": "codeSnippetSpec.ts",
-            "description": "should ignore selected neutral lines during correct assertion",
-            "reason": "Asset outside trusted regression zone (Cypress/Py/Material)"
-        },
-        {
-            "file": "codeSnippetSpec.ts",
-            "description": "should assert missing vuln lines as wrong",
-            "reason": "Asset outside trusted regression zone (Cypress/Py/Material)"
-        },
-        {
-            "file": "codeSnippetSpec.ts",
-            "description": "should assert additionally selected lines as wrong",
-            "reason": "Asset outside trusted regression zone (Cypress/Py/Material)"
-        },
-        {
-            "file": "codeSnippetSpec.ts",
-            "description": "should assert lack of selected lines as wrong",
-            "reason": "Asset outside trusted regression zone (Cypress/Py/Material)"
-        },
-        {
-            "file": "codeSnippetSpec.ts",
-            "description": "should assert empty edge case as correct",
-            "reason": "Asset outside trusted regression zone (Cypress/Py/Material)"
-        },
-        {
-            "file": "codingChallengeFixesSpec.ts",
-            "description": "should have a correct fix for each coding challenge",
-            "reason": "Asset outside trusted regression zone (Cypress/Py/Material)"
-        },
-        {
-            "file": "codingChallengeFixesSpec.ts",
-            "description": "should have a total of three or more fix options for each coding challenge",
-            "reason": "Asset outside trusted regression zone (Cypress/Py/Material)"
-        },
-        {
-            "file": "codingChallengeFixesSpec.ts",
-            "description": "should have an info YAML file for each coding challenge",
-            "reason": "Asset outside trusted regression zone (Cypress/Py/Material)"
-        },
-        {
-            "file": "configValidationSpec.ts",
-            "description": "should accept a valid config",
-            "reason": "Asset outside trusted regression zone (Cypress/Py/Material)"
-        },
-        {
-            "file": "configValidationSpec.ts",
-            "description": "should fail if multiple products are configured for the same challenge",
-            "reason": "Asset outside trusted regression zone (Cypress/Py/Material)"
-        },
-        {
-            "file": "configValidationSpec.ts",
-            "description": "should fail if a required challenge product is missing",
-            "reason": "Asset outside trusted regression zone (Cypress/Py/Material)"
-        },
-        {
-            "file": "configValidationSpec.ts",
-            "description": "should accept a valid config",
-            "reason": "Asset outside trusted regression zone (Cypress/Py/Material)"
-        },
-        {
-            "file": "configValidationSpec.ts",
-            "description": "should fail if product has no exifForBlueprintChallenge",
-            "reason": "Asset outside trusted regression zone (Cypress/Py/Material)"
-        },
-        {
-            "file": "configValidationSpec.ts",
-            "description": "should accept a valid config",
-            "reason": "Asset outside trusted regression zone (Cypress/Py/Material)"
-        },
-        {
-            "file": "configValidationSpec.ts",
-            "description": "should fail if a product is configured for multiple challenges",
-            "reason": "Asset outside trusted regression zone (Cypress/Py/Material)"
-        },
-        {
-            "file": "configValidationSpec.ts",
-            "description": "should accept a valid config",
-            "reason": "Asset outside trusted regression zone (Cypress/Py/Material)"
-        },
-        {
-            "file": "configValidationSpec.ts",
-            "description": "should fail if less than 4 products are configured",
-            "reason": "Asset outside trusted regression zone (Cypress/Py/Material)"
-        },
-        {
-            "file": "configValidationSpec.ts",
-            "description": "should accept a valid config",
-            "reason": "Asset outside trusted regression zone (Cypress/Py/Material)"
-        },
-        {
-            "file": "configValidationSpec.ts",
-            "description": "should fail if multiple memories are configured for the same challenge",
-            "reason": "Asset outside trusted regression zone (Cypress/Py/Material)"
-        },
-        {
-            "file": "configValidationSpec.ts",
-            "description": "should fail if a required challenge memory is missing",
-            "reason": "Asset outside trusted regression zone (Cypress/Py/Material)"
-        },
-        {
-            "file": "configValidationSpec.ts",
-            "description": "should fail if memories have mixed up the required challenge keys",
-            "reason": "Asset outside trusted regression zone (Cypress/Py/Material)"
-        },
-        {
-            "file": "configValidationSpec.ts",
-            "description": "should accept a valid config",
-            "reason": "Asset outside trusted regression zone (Cypress/Py/Material)"
-        },
-        {
-            "file": "configValidationSpec.ts",
-            "description": "should fail if a memory is configured for multiple challenges",
-            "reason": "Asset outside trusted regression zone (Cypress/Py/Material)"
-        },
-        {
-            "file": "configValidationSpec.ts",
-            "description": "should accept a valid config",
-            "reason": "Asset outside trusted regression zone (Cypress/Py/Material)"
-        },
-        {
-            "file": "configValidationSpec.ts",
-            "description": "should accept a config where the default users are associated",
-            "reason": "Asset outside trusted regression zone (Cypress/Py/Material)"
-        },
-        {
-            "file": "configValidationSpec.ts",
-            "description": "should fail if a memory is linked to another user",
-            "reason": "Asset outside trusted regression zone (Cypress/Py/Material)"
-        },
-        {
-            "file": "configValidationSpec.ts",
-            "description": "should accept a valid config",
-            "reason": "Asset outside trusted regression zone (Cypress/Py/Material)"
-        },
-        {
-            "file": "configValidationSpec.ts",
-            "description": "should fail if less than 2 memories are configured",
-            "reason": "Asset outside trusted regression zone (Cypress/Py/Material)"
-        },
-        {
-            "file": "configValidationSpec.ts",
-            "description": "should accept the active config from config/${process.env.NODE_ENV}.yml",
-            "reason": "Asset outside trusted regression zone (Cypress/Py/Material)"
-        },
-        {
-            "file": "configValidationSpec.ts",
-            "description": "should fail if the config is invalid",
-            "reason": "Asset outside trusted regression zone (Cypress/Py/Material)"
-        },
-        {
-            "file": "configValidationSpec.ts",
-            "description": "should accept a config with valid schema",
-            "reason": "Asset outside trusted regression zone (Cypress/Py/Material)"
-        },
-        {
-            "file": "configValidationSpec.ts",
-            "description": "should fail for a config with schema errors",
-            "reason": "Asset outside trusted regression zone (Cypress/Py/Material)"
-        },
-        {
-            "file": "continueCodeSpec.ts",
-            "description": "should be empty when no challenges are solved",
-            "reason": "Asset outside trusted regression zone (Cypress/Py/Material)"
-        },
-        {
-            "file": "continueCodeSpec.ts",
-            "description": "should be hashid value of IDs of solved challenges",
-            "reason": "Asset outside trusted regression zone (Cypress/Py/Material)"
-        },
-        {
-            "file": "countryMappingSpec.ts",
-            "description": "should return configured country mappings",
-            "reason": "Asset outside trusted regression zone (Cypress/Py/Material)"
-        },
-        {
-            "file": "countryMappingSpec.ts",
-            "description": "should return server error when configuration has no country mappings",
-            "reason": "Asset outside trusted regression zone (Cypress/Py/Material)"
-        },
-        {
-            "file": "countryMappingSpec.ts",
-            "description": "should return ' + (config.get('ctf.countryMapping') ? 'no ' : '') + 'server error for active configuration from config/' + process.env.NODE_ENV + '.yml",
-            "reason": "Asset outside trusted regression zone (Cypress/Py/Material)"
-        },
-        {
-            "file": "currentUserSpec.ts",
-            "description": "should return neither ID nor email if no cookie was present in the request headers",
-            "reason": "Asset outside trusted regression zone (Cypress/Py/Material)"
-        },
-        {
-            "file": "currentUserSpec.ts",
-            "description": "should return ID and email of user belonging to cookie from the request",
-            "reason": "Asset outside trusted regression zone (Cypress/Py/Material)"
-        },
-        {
-            "file": "easterEggSpec.ts",
-            "description": "should serve /frontend/dist/frontend/assets/private/threejs-demo.html",
-            "reason": "Asset outside trusted regression zone (Cypress/Py/Material)"
-        },
-        {
-            "file": "easterEggSpec.ts",
-            "description": "should solve \"easterEggLevelTwoChallenge\"",
-            "reason": "Asset outside trusted regression zone (Cypress/Py/Material)"
-        },
-        {
-            "file": "fileServerSpec.ts",
-            "description": "should serve PDF files from folder /ftp",
-            "reason": "Asset outside trusted regression zone (Cypress/Py/Material)"
-        },
-        {
-            "file": "fileServerSpec.ts",
-            "description": "should serve Markdown files from folder /ftp",
-            "reason": "Asset outside trusted regression zone (Cypress/Py/Material)"
-        },
-        {
-            "file": "fileServerSpec.ts",
-            "description": "should serve incident-support.kdbx files from folder /ftp",
-            "reason": "Asset outside trusted regression zone (Cypress/Py/Material)"
-        },
-        {
-            "file": "fileServerSpec.ts",
-            "description": "should raise error for slashes in filename",
-            "reason": "Asset outside trusted regression zone (Cypress/Py/Material)"
-        },
-        {
-            "file": "fileServerSpec.ts",
-            "description": "should raise error for disallowed file type",
-            "reason": "Asset outside trusted regression zone (Cypress/Py/Material)"
-        },
-        {
-            "file": "fileServerSpec.ts",
-            "description": "should solve \"directoryListingChallenge\" when requesting acquisitions.md",
-            "reason": "Asset outside trusted regression zone (Cypress/Py/Material)"
-        },
-        {
-            "file": "fileServerSpec.ts",
-            "description": "should solve \"easterEggLevelOneChallenge\" when requesting eastere.gg with Poison Null Byte attack",
-            "reason": "Asset outside trusted regression zone (Cypress/Py/Material)"
-        },
-        {
-            "file": "fileServerSpec.ts",
-            "description": "should solve \"forgottenDevBackupChallenge\" when requesting package.json.bak with Poison Null Byte attack",
-            "reason": "Asset outside trusted regression zone (Cypress/Py/Material)"
-        },
-        {
-            "file": "fileServerSpec.ts",
-            "description": "should solve \"forgottenBackupChallenge\" when requesting coupons_2013.md.bak with Poison Null Byte attack",
-            "reason": "Asset outside trusted regression zone (Cypress/Py/Material)"
-        },
-        {
-            "file": "fileServerSpec.ts",
-            "description": "should solve \"misplacedSignatureFileChallenge\" when requesting suspicious_errors.yml with Poison Null Byte attack",
-            "reason": "Asset outside trusted regression zone (Cypress/Py/Material)"
-        },
-        {
-            "file": "fileUploadSpec.ts",
-            "description": "${size} bytes",
-            "reason": "Asset outside trusted regression zone (Cypress/Py/Material)"
-        },
-        {
-            "file": "fileUploadSpec.ts",
-            "description": "should solve \"uploadSizeChallenge\" when file size exceeds 100000 bytes",
-            "reason": "Asset outside trusted regression zone (Cypress/Py/Material)"
-        },
-        {
-            "file": "fileUploadSpec.ts",
-            "description": "should solve \"uploadTypeChallenge\" when file type is not PDF",
-            "reason": "Asset outside trusted regression zone (Cypress/Py/Material)"
-        },
-        {
-            "file": "fileUploadSpec.ts",
-            "description": "should not solve \"uploadTypeChallenge\" when file type is PDF",
-            "reason": "Asset outside trusted regression zone (Cypress/Py/Material)"
-        },
-        {
-            "file": "insecuritySpec.ts",
-            "description": "returns string unchanged if it contains no null byte",
-            "reason": "Asset outside trusted regression zone (Cypress/Py/Material)"
-        },
-        {
-            "file": "insecuritySpec.ts",
-            "description": "returns string up to null byte",
-            "reason": "Asset outside trusted regression zone (Cypress/Py/Material)"
-        },
-        {
-            "file": "insecuritySpec.ts",
-            "description": "returns content of \"x-user-email\" header if present",
-            "reason": "Asset outside trusted regression zone (Cypress/Py/Material)"
-        },
-        {
-            "file": "insecuritySpec.ts",
-            "description": "returns undefined if header \"x-user-email\" is not present",
-            "reason": "Asset outside trusted regression zone (Cypress/Py/Material)"
-        },
-        {
-            "file": "insecuritySpec.ts",
-            "description": "returns base85-encoded month, year and discount as coupon code",
-            "reason": "Asset outside trusted regression zone (Cypress/Py/Material)"
-        },
-        {
-            "file": "insecuritySpec.ts",
-            "description": "uses current month and year if not specified",
-            "reason": "Asset outside trusted regression zone (Cypress/Py/Material)"
-        },
-        {
-            "file": "insecuritySpec.ts",
-            "description": "does not encode day of month or time into coupon code",
-            "reason": "Asset outside trusted regression zone (Cypress/Py/Material)"
-        },
-        {
-            "file": "insecuritySpec.ts",
-            "description": "returns undefined when not passing in a coupon code",
-            "reason": "Asset outside trusted regression zone (Cypress/Py/Material)"
-        },
-        {
-            "file": "insecuritySpec.ts",
-            "description": "returns undefined for malformed coupon code",
-            "reason": "Asset outside trusted regression zone (Cypress/Py/Material)"
-        },
-        {
-            "file": "insecuritySpec.ts",
-            "description": "returns undefined for coupon code not according to expected pattern",
-            "reason": "Asset outside trusted regression zone (Cypress/Py/Material)"
-        },
-        {
-            "file": "insecuritySpec.ts",
-            "description": "returns undefined for expired coupon code",
-            "reason": "Asset outside trusted regression zone (Cypress/Py/Material)"
-        },
-        {
-            "file": "insecuritySpec.ts",
-            "description": "returns discount from valid coupon code",
-            "reason": "Asset outside trusted regression zone (Cypress/Py/Material)"
-        },
-        {
-            "file": "insecuritySpec.ts",
-            "description": "returns user by associated token",
-            "reason": "Asset outside trusted regression zone (Cypress/Py/Material)"
-        },
-        {
-            "file": "insecuritySpec.ts",
-            "description": "returns undefined if no token is passed in",
-            "reason": "Asset outside trusted regression zone (Cypress/Py/Material)"
-        },
-        {
-            "file": "insecuritySpec.ts",
-            "description": "returns token by associated user",
-            "reason": "Asset outside trusted regression zone (Cypress/Py/Material)"
-        },
-        {
-            "file": "insecuritySpec.ts",
-            "description": "returns user by associated token from request",
-            "reason": "Asset outside trusted regression zone (Cypress/Py/Material)"
-        },
-        {
-            "file": "insecuritySpec.ts",
-            "description": "returns undefined if no token is present in request",
-            "reason": "Asset outside trusted regression zone (Cypress/Py/Material)"
-        },
-        {
-            "file": "insecuritySpec.ts",
-            "description": "handles empty inputs by returning their string representation",
-            "reason": "Asset outside trusted regression zone (Cypress/Py/Material)"
-        },
-        {
-            "file": "insecuritySpec.ts",
-            "description": "returns input unchanged for plain text input",
-            "reason": "Asset outside trusted regression zone (Cypress/Py/Material)"
-        },
-        {
-            "file": "insecuritySpec.ts",
-            "description": "returns input unchanged for HTML input with only harmless text formatting",
-            "reason": "Asset outside trusted regression zone (Cypress/Py/Material)"
-        },
-        {
-            "file": "insecuritySpec.ts",
-            "description": "returns input unchanged for HTML input with only harmless links",
-            "reason": "Asset outside trusted regression zone (Cypress/Py/Material)"
-        },
-        {
-            "file": "insecuritySpec.ts",
-            "description": "removes all Javascript from HTML input",
-            "reason": "Asset outside trusted regression zone (Cypress/Py/Material)"
-        },
-        {
-            "file": "insecuritySpec.ts",
-            "description": "can be bypassed by exploiting lack of recursive sanitization",
-            "reason": "Asset outside trusted regression zone (Cypress/Py/Material)"
-        },
-        {
-            "file": "insecuritySpec.ts",
-            "description": "returns empty string for undefined input",
-            "reason": "Asset outside trusted regression zone (Cypress/Py/Material)"
-        },
-        {
-            "file": "insecuritySpec.ts",
-            "description": "returns input unchanged for plain text input",
-            "reason": "Asset outside trusted regression zone (Cypress/Py/Material)"
-        },
-        {
-            "file": "insecuritySpec.ts",
-            "description": "removes all opening tags and subsequent character from HTML input",
-            "reason": "Asset outside trusted regression zone (Cypress/Py/Material)"
-        },
-        {
-            "file": "insecuritySpec.ts",
-            "description": "can be bypassed to allow working HTML payload to be returned",
-            "reason": "Asset outside trusted regression zone (Cypress/Py/Material)"
-        },
-        {
-            "file": "insecuritySpec.ts",
-            "description": "handles empty inputs by returning their string representation",
-            "reason": "Asset outside trusted regression zone (Cypress/Py/Material)"
-        },
-        {
-            "file": "insecuritySpec.ts",
-            "description": "returns input unchanged for plain text input",
-            "reason": "Asset outside trusted regression zone (Cypress/Py/Material)"
-        },
-        {
-            "file": "insecuritySpec.ts",
-            "description": "returns input unchanged for HTML input with only harmless text formatting",
-            "reason": "Asset outside trusted regression zone (Cypress/Py/Material)"
-        },
-        {
-            "file": "insecuritySpec.ts",
-            "description": "returns input unchanged for HTML input with only harmless links",
-            "reason": "Asset outside trusted regression zone (Cypress/Py/Material)"
-        },
-        {
-            "file": "insecuritySpec.ts",
-            "description": "removes all Javascript from HTML input",
-            "reason": "Asset outside trusted regression zone (Cypress/Py/Material)"
-        },
-        {
-            "file": "insecuritySpec.ts",
-            "description": "cannot be bypassed by exploiting lack of recursive sanitization",
-            "reason": "Asset outside trusted regression zone (Cypress/Py/Material)"
-        },
-        {
-            "file": "insecuritySpec.ts",
-            "description": "returns MD5 hash for any input string",
-            "reason": "Asset outside trusted regression zone (Cypress/Py/Material)"
-        },
-        {
-            "file": "insecuritySpec.ts",
-            "description": "returns SHA-256 HMAC with \"pa4qacea4VK9t9nGv7yZtwmj\" as salt any input string",
-            "reason": "Asset outside trusted regression zone (Cypress/Py/Material)"
-        },
-        {
-            "file": "keyServerSpec.ts",
-            "description": "should serve requested file from folder /encryptionkeys",
-            "reason": "Asset outside trusted regression zone (Cypress/Py/Material)"
-        },
-        {
-            "file": "keyServerSpec.ts",
-            "description": "should raise error for slashes in filename",
-            "reason": "Asset outside trusted regression zone (Cypress/Py/Material)"
-        },
-        {
-            "file": "preconditionValidationSpec.ts",
-            "description": "should define the supported semver range as 20 - 24",
-            "reason": "Asset outside trusted regression zone (Cypress/Py/Material)"
-        },
-        {
-            "file": "preconditionValidationSpec.ts",
-            "description": "should accept a supported version",
-            "reason": "Asset outside trusted regression zone (Cypress/Py/Material)"
-        },
-        {
-            "file": "preconditionValidationSpec.ts",
-            "description": "should fail for an unsupported version",
-            "reason": "Asset outside trusted regression zone (Cypress/Py/Material)"
-        },
-        {
-            "file": "preconditionValidationSpec.ts",
-            "description": "should resolve when port 3000 is closed",
-            "reason": "Asset outside trusted regression zone (Cypress/Py/Material)"
-        },
-        {
-            "file": "preconditionValidationSpec.ts",
-            "description": "should reject when port 3000 is open",
-            "reason": "Asset outside trusted regression zone (Cypress/Py/Material)"
-        },
-        {
-            "file": "premiumRewardSpec.ts",
-            "description": "should serve /frontend/dist/frontend/assets/private/JuiceShop_Wallpaper_1920x1080_VR.jpg",
-            "reason": "Asset outside trusted regression zone (Cypress/Py/Material)"
-        },
-        {
-            "file": "premiumRewardSpec.ts",
-            "description": "should solve \"premiumPaywallChallenge\"",
-            "reason": "Asset outside trusted regression zone (Cypress/Py/Material)"
-        },
-        {
-            "file": "redirectSpec.ts",
-            "description": "should raise error for URL not on allowlist",
-            "reason": "Asset outside trusted regression zone (Cypress/Py/Material)"
-        },
-        {
-            "file": "redirectSpec.ts",
-            "description": "redirecting to https://blockchain.info/address/1AbKfgvw9psQ41NbLi8kufDQTezwG8DRZm should solve the \"redirectCryptoCurrencyChallenge\"",
-            "reason": "Asset outside trusted regression zone (Cypress/Py/Material)"
-        },
-        {
-            "file": "redirectSpec.ts",
-            "description": "redirecting to https://explorer.dash.org/address/Xr556RzuwX6hg5EGpkybbv5RanJoZN17kW should solve the \"redirectCryptoCurrencyChallenge\"",
-            "reason": "Asset outside trusted regression zone (Cypress/Py/Material)"
-        },
-        {
-            "file": "redirectSpec.ts",
-            "description": "redirecting to https://etherscan.io/address/0x0f933ab9fcaaa782d0279c300d73750e1311eae6 should solve the \"redirectCryptoCurrencyChallenge\"",
-            "reason": "Asset outside trusted regression zone (Cypress/Py/Material)"
-        },
-        {
-            "file": "redirectSpec.ts",
-            "description": "tricking the allowlist should solve \"redirectChallenge\"",
-            "reason": "Asset outside trusted regression zone (Cypress/Py/Material)"
-        },
-        {
-            "file": "utilsSpec.ts",
-            "description": "returns ipv6 address unchanged",
-            "reason": "Asset outside trusted regression zone (Cypress/Py/Material)"
-        },
-        {
-            "file": "utilsSpec.ts",
-            "description": "returns ipv4 address fully specified as ipv6 unchanged",
-            "reason": "Asset outside trusted regression zone (Cypress/Py/Material)"
-        },
-        {
-            "file": "utilsSpec.ts",
-            "description": "returns ipv6 loopback address as ipv4 address",
-            "reason": "Asset outside trusted regression zone (Cypress/Py/Material)"
-        },
-        {
-            "file": "utilsSpec.ts",
-            "description": "returns ipv4-mapped address as ipv4 address",
-            "reason": "Asset outside trusted regression zone (Cypress/Py/Material)"
-        },
-        {
-            "file": "utilsSpec.ts",
-            "description": "returns standalone filename unchanged",
-            "reason": "Asset outside trusted regression zone (Cypress/Py/Material)"
-        },
-        {
-            "file": "utilsSpec.ts",
-            "description": "returns filename from http:// URL",
-            "reason": "Asset outside trusted regression zone (Cypress/Py/Material)"
-        },
-        {
-            "file": "utilsSpec.ts",
-            "description": "ignores query part of http:// URL",
-            "reason": "Asset outside trusted regression zone (Cypress/Py/Material)"
-        },
-        {
-            "file": "utilsSpec.ts",
-            "description": "also works for file:// URLs",
-            "reason": "Asset outside trusted regression zone (Cypress/Py/Material)"
-        },
-        {
-            "file": "utilsSpec.ts",
-            "description": "fails on plain input string",
-            "reason": "Asset outside trusted regression zone (Cypress/Py/Material)"
-        },
-        {
-            "file": "utilsSpec.ts",
-            "description": "passes on Windows 10 system.ini file content",
-            "reason": "Asset outside trusted regression zone (Cypress/Py/Material)"
-        },
-        {
-            "file": "utilsSpec.ts",
-            "description": "fails on plain input string",
-            "reason": "Asset outside trusted regression zone (Cypress/Py/Material)"
-        },
-        {
-            "file": "utilsSpec.ts",
-            "description": "passes on Arch Linux passwd file content",
-            "reason": "Asset outside trusted regression zone (Cypress/Py/Material)"
-        },
-        {
-            "file": "utilsSpec.ts",
-            "description": "challenges without disabledEnv are enabled with safetyMode set to ${safetyMode}",
-            "reason": "Asset outside trusted regression zone (Cypress/Py/Material)"
-        },
-        {
-            "file": "utilsSpec.ts",
-            "description": "safetyMode: 'enabled': challenge with disabledOnEnv ${testCase.name} should be marked as disabled",
-            "reason": "Asset outside trusted regression zone (Cypress/Py/Material)"
-        },
-        {
-            "file": "utilsSpec.ts",
-            "description": "safetyMode: 'auto': challenge with disabledOnEnv ${testCase.name} should be marked as disabled",
-            "reason": "Asset outside trusted regression zone (Cypress/Py/Material)"
-        },
-        {
-            "file": "utilsSpec.ts",
-            "description": "safetyMode: 'disabled': challenge with disabledOnEnv ${testCase.name} should be marked as enabled",
-            "reason": "Asset outside trusted regression zone (Cypress/Py/Material)"
-        },
-        {
-            "file": "verifySpec.ts",
-            "description": "is not solved when an authenticated user passes his own ID when writing feedback",
-            "reason": "Asset outside trusted regression zone (Cypress/Py/Material)"
-        },
-        {
-            "file": "verifySpec.ts",
-            "description": "is not solved when an authenticated user passes no ID when writing feedback",
-            "reason": "Asset outside trusted regression zone (Cypress/Py/Material)"
-        },
-        {
-            "file": "verifySpec.ts",
-            "description": "is solved when an authenticated user passes someone elses ID when writing feedback",
-            "reason": "Asset outside trusted regression zone (Cypress/Py/Material)"
-        },
-        {
-            "file": "verifySpec.ts",
-            "description": "is solved when an unauthenticated user passes someones ID when writing feedback",
-            "reason": "Asset outside trusted regression zone (Cypress/Py/Material)"
-        },
-        {
-            "file": "verifySpec.ts",
-            "description": "\"scoreBoardChallenge\" is solved when the 1px.png transpixel is requested",
-            "reason": "Asset outside trusted regression zone (Cypress/Py/Material)"
-        },
-        {
-            "file": "verifySpec.ts",
-            "description": "\"adminSectionChallenge\" is solved when the 19px.png transpixel is requested",
-            "reason": "Asset outside trusted regression zone (Cypress/Py/Material)"
-        },
-        {
-            "file": "verifySpec.ts",
-            "description": "\"tokenSaleChallenge\" is solved when the 56px.png transpixel is requested",
-            "reason": "Asset outside trusted regression zone (Cypress/Py/Material)"
-        },
-        {
-            "file": "verifySpec.ts",
-            "description": "\"extraLanguageChallenge\" is solved when the Klingon translation file is requested",
-            "reason": "Asset outside trusted regression zone (Cypress/Py/Material)"
-        },
-        {
-            "file": "verifySpec.ts",
-            "description": "\"retrieveBlueprintChallenge\" is solved when the blueprint file is requested",
-            "reason": "Asset outside trusted regression zone (Cypress/Py/Material)"
-        },
-        {
-            "file": "verifySpec.ts",
-            "description": "\"missingEncodingChallenge\" is solved when the crazy cat photo is requested",
-            "reason": "Asset outside trusted regression zone (Cypress/Py/Material)"
-        },
-        {
-            "file": "verifySpec.ts",
-            "description": "\"accessLogDisclosureChallenge\" is solved when any server access log file is requested",
-            "reason": "Asset outside trusted regression zone (Cypress/Py/Material)"
-        },
-        {
-            "file": "verifySpec.ts",
-            "description": "is solved when an error occurs on a response with OK 200 status code",
-            "reason": "Asset outside trusted regression zone (Cypress/Py/Material)"
-        },
-        {
-            "file": "verifySpec.ts",
-            "description": "${statusCode} status code",
-            "reason": "Asset outside trusted regression zone (Cypress/Py/Material)"
-        },
-        {
-            "file": "verifySpec.ts",
-            "description": "is not solved when no error occurs on a response with OK 200 status code",
-            "reason": "Asset outside trusted regression zone (Cypress/Py/Material)"
-        },
-        {
-            "file": "verifySpec.ts",
-            "description": "${statusCode} status code",
-            "reason": "Asset outside trusted regression zone (Cypress/Py/Material)"
-        },
-        {
-            "file": "verifySpec.ts",
-            "description": "should pass occurred error on to next route",
-            "reason": "Asset outside trusted regression zone (Cypress/Py/Material)"
-        },
-        {
-            "file": "verifySpec.ts",
-            "description": "is solved when the link in the O-Saft product goes to ${config.get<string>('challenges.overwriteUrlForProductTamperingChallenge')}",
-            "reason": "Asset outside trusted regression zone (Cypress/Py/Material)"
-        },
-        {
-            "file": "verifySpec.ts",
-            "description": "is not solved when the link in the O-Saft product is changed to an arbitrary URL",
-            "reason": "Asset outside trusted regression zone (Cypress/Py/Material)"
-        },
-        {
-            "file": "verifySpec.ts",
-            "description": "is not solved when the link in the O-Saft product remained unchanged",
-            "reason": "Asset outside trusted regression zone (Cypress/Py/Material)"
-        },
-        {
-            "file": "verifySpec.ts",
-            "description": "\"jwtUnsignedChallenge\" is solved when forged unsigned token has email jwtn3d@juice-sh.op in the payload",
-            "reason": "Asset outside trusted regression zone (Cypress/Py/Material)"
-        },
-        {
-            "file": "verifySpec.ts",
-            "description": "\"jwtUnsignedChallenge\" is solved when forged unsigned token has string \"jwtn3d@\" in the payload",
-            "reason": "Asset outside trusted regression zone (Cypress/Py/Material)"
-        },
-        {
-            "file": "verifySpec.ts",
-            "description": "\"jwtUnsignedChallenge\" is not solved via regularly signed token even with email jwtn3d@juice-sh.op in the payload",
-            "reason": "Asset outside trusted regression zone (Cypress/Py/Material)"
-        },
-        {
-            "file": "verifySpec.ts",
-            "description": "\"jwtForgedChallenge\" is solved when forged token HMAC-signed with public RSA-key has email rsa_lord@juice-sh.op in the payload",
-            "reason": "Asset outside trusted regression zone (Cypress/Py/Material)"
-        },
-        {
-            "file": "verifySpec.ts",
-            "description": "\"jwtForgedChallenge\" is solved when forged token HMAC-signed with public RSA-key has string \"rsa_lord@\" in the payload",
-            "reason": "Asset outside trusted regression zone (Cypress/Py/Material)"
-        },
-        {
-            "file": "verifySpec.ts",
-            "description": "\"jwtForgedChallenge\" is not solved when token regularly signed with private RSA-key has email rsa_lord@juice-sh.op in the payload",
-            "reason": "Asset outside trusted regression zone (Cypress/Py/Material)"
-        },
-        {
-            "file": "webhookSpec.ts",
-            "description": "ignores errors where no webhook URL is provided via environment variable",
-            "reason": "Asset outside trusted regression zone (Cypress/Py/Material)"
-        },
-        {
-            "file": "webhookSpec.ts",
-            "description": "fails when supplied webhook is not a valid URL",
-            "reason": "Asset outside trusted regression zone (Cypress/Py/Material)"
-        },
-        {
-            "file": "webhookSpec.ts",
-            "description": "submits POST with payload to existing URL",
-            "reason": "Asset outside trusted regression zone (Cypress/Py/Material)"
         },
         {
             "file": "server/utilsSpec.ts",
