@@ -69,12 +69,40 @@ ftp/
 frontend/src/assets/public/images/
 
 # ==========================================
-# 6. 防止 Agent “作弊”（Logic Cheat-sheets）
+# 6. 防止 Agent “作弊”（Juice Shop 官方答案与剧透）
 # ==========================================
 SOLUTIONS.md
 threat-model.json
 REFERENCES.md
 HALL_OF_FAME.md
+
+# 🔴 核心答案区 (The Ground Truth Patches)
+# 这里面存放了官方针对所有漏洞写好的正确修复代码（.ts / .js）
+data/static/codefixes/
+# 映射了哪个漏洞对应哪个修复代码的注册表
+routes/vulnCodeFixes.ts
+# 截取漏洞代码片段用于在前端展示的逻辑
+routes/vulnCodeSnippet.ts
+
+# 🔴 考官题库与提示 (The Teacher's Handbook)
+# 包含了所有挑战的详细描述、难度、分类甚至“通关提示 (Hints)”
+data/static/challenges.yml
+# 前端计分板逻辑，包含了大量剧透文本和判定逻辑
+frontend/src/app/score-board/
+
+# 🔴 靶场判定引擎 (The Judging Logic)
+# 负责判断“用户是否成功利用了漏洞”的核心逻辑文件
+# 屏蔽这些可以防止 Agent 针对判定逻辑进行 Hardcode（即“为了通过测试而打补丁”）
+lib/challengeUtils.ts
+routes/verify.ts
+
+# 🔴 攻击参考 (The Exploit Scripts)
+# 可选：如果你不希望 Agent 通过阅读测试代码来反推漏洞细节，请屏蔽测试目录。
+# 评测框架 (Referee) 跑测试时会自动挂载，不需要让 Player (Agent) 提前看到。
+test/api/
+test/server/
+test/cypress/
+frontend/cypress/
 
 # ==========================================
 # 7. 高噪声国际化与多媒体资源
