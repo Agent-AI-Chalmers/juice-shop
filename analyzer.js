@@ -1,112 +1,165 @@
-// analyzer.js
-// Node.js 分析脚本 - 使用 ts-morph 进行 TypeScript 语义分析
-const { Project } = require("ts-morph");
+const { Project, SyntaxKind } = require("ts-morph");
 const path = require("path");
 
-// 1. 获取命令行参数
-// usage: node analyzer.js <projectRoot> <targetFilePath> <functionName>
+// 1. 初始化环境
 const args = process.argv.slice(2);
+
 if (args.length < 3) {
-    console.error(JSON.stringify({ error: "Missing arguments. Usage: node analyzer.js <projectRoot> <targetFilePath> <functionName>" }));
+    console.error(JSON.stringify({
+        error: "Usage: node analyzer2.js <projectRoot> <FileNameKeyword> <FunctionName> [MaxDepth]"
+    }));
     process.exit(1);
 }
 
-const [projectRoot, targetFilePath, functionName] = args;
+const [projectRoot, fileKeyword, functionName, maxDepthStr = "3"] = args;
+const MAX_DEPTH = parseInt(maxDepthStr);
 
-// 2. 初始化 Project (自动读取 tsconfig.json)
+// 2. 加载项目
 const project = new Project({
     tsConfigFilePath: path.join(projectRoot, "tsconfig.json"),
-    skipAddingFilesFromTsConfig: false, // 确保加载所有文件
 });
 
+const globalVisited = new Set(); // 全局记录访问过的节点 ID
+
+/**
+ * 递归追踪函数 (带去重和结构优化)
+ */
+function traceCallers(node, depth = 1) {
+    if (depth > MAX_DEPTH) return null;
+    // 安全检查：节点必须支持 findReferences
+    if (typeof node.findReferences !== 'function') return null;
+    // 唯一标识符：文件路径 + 节点起始位置
+    const nodeId = `${node.getSourceFile().getFilePath()}:${node.getStart()}`;
+    if (globalVisited.has(nodeId)) {
+        return [{ name: "Circular/Repeated Reference", file: "N/A" }];
+    }
+    globalVisited.add(nodeId);
+
+    const callersMap = new Map(); // 用于当前层的“函数@文件”去重
+    const referencedSymbols = node.findReferences();
+
+    for (const symbol of referencedSymbols) {
+        for (const ref of symbol.getReferences()) {
+            const refNode = ref.getNode();
+
+            // 跳过 import 语句中的引用（import 不是真正的调用）
+            if (refNode.getFirstAncestorByKind(SyntaxKind.ImportDeclaration)) continue;
+
+            // 向上寻找父级环境 (函数、类方法、箭头函数、函数表达式、构造函数、变量声明)
+            const callerFunc = refNode.getFirstAncestorByKind(SyntaxKind.FunctionDeclaration)
+                || refNode.getFirstAncestorByKind(SyntaxKind.MethodDeclaration)
+                || refNode.getFirstAncestorByKind(SyntaxKind.ArrowFunction)
+                || refNode.getFirstAncestorByKind(SyntaxKind.FunctionExpression)
+                || refNode.getFirstAncestorByKind(SyntaxKind.Constructor)
+                || refNode.getFirstAncestorByKind(SyntaxKind.VariableDeclaration);
+
+            // 如果找到了父级函数/声明
+            if (callerFunc && callerFunc !== node) {
+                // 确定名称和可追踪的节点（用于递归 findReferences）
+                let name;
+                let traceableNode = callerFunc; // 默认用 callerFunc 递归
+
+                if (callerFunc.getKind() === SyntaxKind.ArrowFunction || callerFunc.getKind() === SyntaxKind.FunctionExpression) {
+                    const parentVarDecl = callerFunc.getFirstAncestorByKind(SyntaxKind.VariableDeclaration);
+                    name = parentVarDecl ? parentVarDecl.getName() : "anonymous";
+                    // ArrowFunction/FunctionExpression 自身没有 findReferences，用父级 VariableDeclaration 递归
+                    if (parentVarDecl) traceableNode = parentVarDecl;
+                } else if (callerFunc.getKind() === SyntaxKind.Constructor) {
+                    const parentClass = callerFunc.getFirstAncestorByKind(SyntaxKind.ClassDeclaration);
+                    name = parentClass ? `${parentClass.getName()}.constructor` : "constructor";
+                    // Constructor 自身没有 findReferences，用父级 ClassDeclaration 递归
+                    if (parentClass) traceableNode = parentClass;
+                } else {
+                    name = (typeof callerFunc.getName === 'function') ? callerFunc.getName() : "anonymous";
+                }
+                const filePath = path.relative(projectRoot, callerFunc.getSourceFile().getFilePath());
+
+                // 去重 Key：确保同一文件中的同一个函数不重复出现
+                const uniqueKey = `${name}@${filePath}`;
+
+                if (!callersMap.has(uniqueKey)) {
+                    callersMap.set(uniqueKey, {
+                        name: name || "anonymous",
+                        file: filePath,
+                        line: refNode.getStartLineNumber(),
+                        // 递归进入下一层（使用可追踪的节点）
+                        parentCallers: traceCallers(traceableNode, depth + 1)
+                    });
+                }
+            }
+            // Fallback: 模块顶层代码（没有任何函数/类包裹）
+            else if (!callerFunc && refNode.getSourceFile() !== node.getSourceFile()) {
+                const sourceFile = refNode.getSourceFile();
+                const filePath = path.relative(projectRoot, sourceFile.getFilePath());
+                const lineNumber = refNode.getStartLineNumber();
+                const uniqueKey = `<top-level>@${filePath}`;
+
+                if (!callersMap.has(uniqueKey)) {
+                    callersMap.set(uniqueKey, {
+                        name: "<top-level>",
+                        file: filePath,
+                        line: lineNumber,
+                        parentCallers: null // 顶层代码无法继续向上追踪
+                    });
+                }
+            }
+        }
+    }
+
+    const results = Array.from(callersMap.values());
+    return results.length > 0 ? results : null;
+}
+
+/**
+ * 辅助：生成 Markdown 风格的树状预览（方便 LLM 阅读）
+ */
+function generateTreeText(callers, indent = "") {
+    if (!callers) return "";
+    return callers.map(c => {
+        let line = `${indent}└── [${c.file}] ${c.name} (Line ${c.line})`;
+        if (c.parentCallers) {
+            line += "\n" + generateTreeText(c.parentCallers, indent + "    ");
+        }
+        return line;
+    }).join("\n");
+}
+
 try {
-    // 3. 找到目标文件
-    // 注意：ts-morph 需要标准化的路径
-    const sourceFile = project.getSourceFileOrThrow(targetFilePath);
+    // 3. 智能寻找目标文件
+    const sourceFile = project.getSourceFiles().find(f => f.getFilePath().includes(fileKeyword));
+    if (!sourceFile) throw new Error(`找不到包含 "${fileKeyword}" 的文件`);
 
-    // 4. 找到目标函数 (支持 function 声明、const 箭头函数、以及类方法)
-    // 核心：自动清洗函数名 (e.g. "res.cookie" -> "cookie", "AuthController.login" -> "login")
-    let searchName = functionName;
-    if (functionName.includes('.')) {
-        searchName = functionName.split('.').pop();
-    }
+    // 4. 寻找起始节点
+    const targetNode = sourceFile.getFunction(functionName)
+        || sourceFile.getVariableDeclaration(functionName)
+        || sourceFile.getDescendantsOfKind(SyntaxKind.MethodDeclaration).find(m => m.getName() === functionName);
 
-    // 尝试 1: Function Declaration (function foo() {})
-    let targetNode = sourceFile.getFunction(searchName);
+    if (!targetNode) throw new Error(`在 ${sourceFile.getBaseName()} 中找不到 '${functionName}'`);
 
-    if (!targetNode) {
-        // 尝试 2: Variable Declaration (const foo = () => {})
-        const variable = sourceFile.getVariableDeclaration(searchName);
-        if (variable) {
-            targetNode = variable;
-        }
-    }
+    // 5. 获取函数源码
+    const startLine = targetNode.getStartLineNumber();
+    const endLine = targetNode.getEndLineNumber();
+    const functionSource = targetNode.getText();
 
-    // 尝试 3: Class Method (class Foo { bar() {} })
-    // 如果 LLM 传入了 "AuthController.login"，split 后变成 "login"，这里能找到它
-    if (!targetNode) {
-        const classes = sourceFile.getClasses();
-        for (const cls of classes) {
-            const method = cls.getMethod(searchName);
-            if (method) {
-                targetNode = method;
-                break;
-            }
-            // 顺便支持静态方法
-            const staticMethod = cls.getStaticMethod(searchName);
-            if (staticMethod) {
-                targetNode = staticMethod;
-                break;
-            }
-        }
-    }
+    // 6. 执行追踪
+    const callTree = traceCallers(targetNode);
 
-    if (!targetNode) {
-        throw new Error(`Function or symbol '${searchName}' (origin: '${functionName}') not found in ${targetFilePath}`);
-    }
-
-    // 5. 核心魔法：查找引用 (Find References)
-    // 这就是 VS Code "Find All References" 的底层逻辑
-    const references = targetNode.findReferencesAsNodes();
-
-    const results = [];
-
-    for (const ref of references) {
-        const refSourceFile = ref.getSourceFile();
-        const filePath = refSourceFile.getFilePath();
-
-        // 排除定义本身（我们只关心谁调用了它）
-        // 如果你想包含定义本身，把这个 if 去掉
-        if (filePath === sourceFile.getFilePath() && ref.getStart() === targetNode.getNameNode().getStart()) {
-            continue;
-        }
-
-        results.push({
-            file: path.relative(projectRoot, filePath), // 转为相对路径方便阅读
-            line: ref.getStartLineNumber(),
-            column: ref.getStartLinePos(),
-            // 获取引用所在的那一行代码文本，方便预览
-            code: refSourceFile.getFullText().split('\n')[ref.getStartLineNumber() - 1].trim()
-        });
-    }
-
-    // 6. 输出 JSON 给 Python
-    console.log(JSON.stringify({
+    // 7. 输出结果
+    const finalOutput = {
         status: "success",
-        data: results,
-        summary: {
-            function: searchName, // 返回实际搜索的名称
+        meta: {
             origin: functionName,
-            file: path.relative(projectRoot, targetFilePath),
-            totalReferences: results.length
-        }
-    }));
+            file: path.relative(projectRoot, sourceFile.getFilePath()),
+            lines: `${startLine}-${endLine}`,
+            maxDepth: MAX_DEPTH
+        },
+        source: functionSource,
+        data: callTree,
+        preview: generateTreeText(callTree)
+    };
+
+    console.log(JSON.stringify(finalOutput, null, 2));
 
 } catch (error) {
-    // 捕获错误并以 JSON 格式输出，防止 Python 端解析失败
-    console.log(JSON.stringify({
-        status: "error",
-        message: error.message,
-        stack: error.stack
-    }));
+    console.log(JSON.stringify({ status: "error", message: error.message }));
 }
