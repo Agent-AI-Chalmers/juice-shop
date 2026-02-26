@@ -104,6 +104,9 @@ test/server/
 test/cypress/
 frontend/cypress/
 
+config.schema.yml
+models/challenge.ts
+
 # ==========================================
 # 7. 高噪声国际化与多媒体资源
 # ==========================================
