@@ -130,8 +130,8 @@ export class ScoreBoardComponent implements OnInit, OnDestroy {
       return { ...challenge }
     })
     this.filterAndUpdateChallenges()
-    // manually trigger angular change detection... :(
-    // unclear why this is necessary, possibly because the socket.io callback is not running inside angular
+    
+    
     this.ngZone.run(() => {})
   }
 
@@ -150,8 +150,8 @@ export class ScoreBoardComponent implements OnInit, OnDestroy {
       return { ...challenge }
     })
     this.filterAndUpdateChallenges()
-    // manually trigger angular change detection... :(
-    // unclear why this is necessary, possibly because the socket.io callback is not running inside angular
+    
+    
     this.ngZone.run(() => {})
   }
 
@@ -164,7 +164,7 @@ export class ScoreBoardComponent implements OnInit, OnDestroy {
     )
   }
 
-  // angular helper to speed up challenge rendering
+  
   getChallengeKey (index: number, challenge: EnrichedChallenge): string {
     return challenge.key
   }

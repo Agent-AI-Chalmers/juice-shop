@@ -1,7 +1,4 @@
-/*
- * Copyright (c) 2014-2026 Bjoern Kimminich & the OWASP Juice Shop contributors.
- * SPDX-License-Identifier: MIT
- */
+
 
 import {
   waitForInputToHaveValue,
@@ -19,7 +16,7 @@ export const LoginJimInstruction: ChallengeInstruction = {
         "To start this challenge, you'll have to log out first.",
       fixture: '#navbarAccount',
       unskippable: true,
-      resolved: waitForLogOut() // TODO Add check if "Login Admin" is solved and if not recommend doing that first
+      resolved: waitForLogOut() 
     },
     {
       text:

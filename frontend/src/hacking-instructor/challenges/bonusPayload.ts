@@ -1,7 +1,4 @@
-/*
- * Copyright (c) 2014-2026 Bjoern Kimminich & the OWASP Juice Shop contributors.
- * SPDX-License-Identifier: MIT
- */
+
 
 import {
   waitForInputToHaveValue,
@@ -18,7 +15,7 @@ export const BonusPayloadInstruction: ChallengeInstruction = {
         'Assuming you did the **DOM XSS** tutorial already, this one just uses a funnier payload on the _Search_ field.',
       fixture: '#product-search-fixture',
       unskippable: true,
-      resolved: waitInMs(10000) // TODO Add check if "DOM XSS" is solved and if not recommend doing that first
+      resolved: waitInMs(10000) 
     },
     {
       text: 'Enter or paste this payload into the _Search_ field: <code>&lt;iframe width=&quot;100%&quot; height=&quot;166&quot; scrolling=&quot;no&quot; frameborder=&quot;no&quot; allow=&quot;autoplay&quot; src=&quot;https://w.soundcloud.com/player/?url=https%3A//api.soundcloud.com/tracks/771984076&amp;color=%23ff5500&amp;auto&lowbar;play=true&amp;hide&lowbar;related=false&amp;show&lowbar;comments=true&amp;show&lowbar;user=true&amp;show&lowbar;reposts=false&amp;show&lowbar;teaser=true&quot;&gt;&lt;/iframe&gt;</code>.',

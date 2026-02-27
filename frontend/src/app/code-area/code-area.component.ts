@@ -49,11 +49,11 @@ export class CodeAreaComponent implements OnInit {
   }
 
   selectLines (lineNumber): void {
-    // need to get the marker from index lineNumber - 1 as the array index start at 0, while the lineNumbers start at 1
+    
     const marker = this.lineMarkers[lineNumber - 1]
     marker.marked = !marker.marked
 
-    // convert lineMarkers to array of markedLineNumber
+    
     const markedLineNumbers: number[] = []
     for (const { marked, lineNumber } of this.lineMarkers) {
       if (marked) {

@@ -111,7 +111,7 @@ const routes: Routes = [
     component: SearchResultComponent
   },
   {
-    path: 'score-board', // Must remain as is! Needed for challenge tracking!
+    path: 'score-board', 
     component: ScoreBoardComponent
   },
   {

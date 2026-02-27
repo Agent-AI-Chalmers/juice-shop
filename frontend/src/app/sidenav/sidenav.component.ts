@@ -1,7 +1,4 @@
-/*
- * Copyright (c) 2014-2026 Bjoern Kimminich & the OWASP Juice Shop contributors.
- * SPDX-License-Identifier: MIT
- */
+
 
 import { environment } from '../../environments/environment'
 import { ChallengeService } from '../Services/challenge.service'
@@ -160,7 +157,7 @@ export class SidenavComponent implements OnInit {
   startHackingInstructor () {
     this.onToggleSidenav()
     console.log('Starting instructions for challenge "Score Board"')
-    import(/* webpackChunkName: "tutorial" */ '../../hacking-instructor').then(module => {
+    import( '../../hacking-instructor').then(module => {
       module.startHackingInstructorFor('Score Board')
     })
   }

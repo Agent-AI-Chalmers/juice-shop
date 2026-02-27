@@ -60,8 +60,8 @@ describe('/profile', () => {
             '/solve/challenges/server-side?key=tRy_H4rd3r_n0thIng_iS_Imp0ssibl3'
           )
           cy.visit('/')
-          // void browser.driver.sleep(10000);
-          // void browser.waitForAngularEnabled(true);
+          
+          
           cy.expectChallengeSolved({ challenge: 'SSTi' })
         }
       })
@@ -69,11 +69,11 @@ describe('/profile', () => {
   })
 
   describe('challenge "csrf"', () => {
-    // FIXME Only works on Chrome <80 but Protractor uses latest Chrome version. Test can probably never be turned on again.
+    
     xit('should be possible to perform a CSRF attack against the user profile page', () => {
       cy.visit('http://htmledit.squarefree.com')
-      /* The script executed below is equivalent to pasting this string into http://htmledit.squarefree.com: */
-      /* <form action="http://localhost:3000/profile" method="POST"><input type="hidden" name="username" value="CSRF"/><input type="submit"/></form><script>document.forms[0].submit();</script> */
+      
+      
       let document: any
       cy.window().then(() => {
         document
@@ -89,7 +89,7 @@ describe('/profile', () => {
         </script>
         `
       })
-      // cy.expectChallengeSolved({ challenge: 'CSRF' })
+      
     })
 
     xit('should be possible to fake a CSRF attack against the user profile page', () => {
@@ -104,8 +104,8 @@ describe('/profile', () => {
           headers: {
             'Content-type': 'application/x-www-form-urlencoded',
             Authorization: `Bearer ${localStorage.getItem('token')}`,
-            Origin: 'http://htmledit.squarefree.com', // FIXME Not allowed by browser due to "unsafe header not permitted"
-            Cookie: `token=${localStorage.getItem('token')}` // FIXME Not allowed by browser due to "unsafe header not permitted"
+            Origin: 'http://htmledit.squarefree.com', 
+            Cookie: `token=${localStorage.getItem('token')}` 
           },
           body: formData
         })
@@ -113,7 +113,7 @@ describe('/profile', () => {
           console.log('Success')
         }
       })
-      // cy.expectChallengeSolved({ challenge: 'CSRF' })
+      
     })
   })
 })

@@ -1,9 +1,6 @@
-/*
- * Copyright (c) 2014-2026 Bjoern Kimminich & the OWASP Juice Shop contributors.
- * SPDX-License-Identifier: MIT
- */
 
-// @ts-expect-error FIXME due to non-existing type definitions for MarsDB
+
+// @ts-expect-error
 import * as MarsDB from 'marsdb'
 
 export const reviewsCollection = new MarsDB.Collection('posts')

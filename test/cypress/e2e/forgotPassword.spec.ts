@@ -18,7 +18,7 @@ describe('/#/forgot-password', () => {
       )
       cy.wait('@securityQuestion')
       cy.get('#securityAnswer').should('not.be.disabled').focus().type('Samuel')
-      // recordings to properly fix behavior during test
+      
       cy.get('#newPassword').focus().type('I <3 Spock')
       cy.get('#newPasswordRepeat').focus().type('I <3 Spock')
       cy.get('#resetButton').click()
@@ -37,7 +37,7 @@ describe('/#/forgot-password', () => {
       )
       cy.wait('@securityQuestion')
       cy.get('#securityAnswer').should('not.be.disabled').focus().type("Stop'n'Drop")
-      // recordings to properly fix behavior during test
+      
       cy.get('#newPassword').focus().type('Brannigan 8=o Leela')
       cy.get('#newPasswordRepeat').focus().type('Brannigan 8=o Leela')
       cy.get('#resetButton').click()
@@ -57,7 +57,7 @@ describe('/#/forgot-password', () => {
         )
         cy.wait('@securityQuestion')
         cy.get('#securityAnswer').should('not.be.disabled').focus().type('West-2082')
-        // recordings to properly fix behavior during test
+        
         cy.get('#newPassword').focus().type('monkey birthday ')
         cy.get('#newPasswordRepeat').focus().type('monkey birthday ')
         cy.get('#resetButton').click()
@@ -72,7 +72,7 @@ describe('/#/forgot-password', () => {
         cy.get('#email').type('bjoern@owasp.org')
         cy.wait('@securityQuestion')
         cy.get('#securityAnswer').should('not.be.disabled').focus().type('Zaya')
-        // recordings to properly fix behavior during test
+        
         cy.get('#newPassword').focus().type('kitten lesser pooch')
         cy.get('#newPasswordRepeat').focus().type('kitten lesser pooch')
         cy.get('#resetButton').click()
@@ -92,7 +92,7 @@ describe('/#/forgot-password', () => {
       )
       cy.wait('@securityQuestion')
       cy.get('#securityAnswer').should('not.be.disabled').focus().type('5N0wb41L')
-      // recordings to properly fix behavior during test
+      
       cy.get('#newPassword').focus().type('iBurri3dMySe1f!')
       cy.get('#newPasswordRepeat').focus().type('iBurri3dMySe1f!')
       cy.get('#resetButton').click()
@@ -111,7 +111,7 @@ describe('/#/forgot-password', () => {
       )
       cy.wait('@securityQuestion')
       cy.get('#securityAnswer').should('not.be.disabled').focus().type('Silence of the Lambs')
-      // Cypress recordings to properly fix behavior during test
+      
       cy.get('#newPassword').focus().type('ora-ora > muda-muda')
       cy.get('#newPasswordRepeat').focus().type('ora-ora > muda-muda')
       cy.get('#resetButton').click()

@@ -23,7 +23,7 @@ import { BrowserAnimationsModule } from '@angular/platform-browser/animations'
 import { provideHttpClient, withInterceptorsFromDi } from '@angular/common/http'
 import { HintService } from '../Services/hint.service'
 
-// allows to easily create a challenge with some overwrites
+
 function createChallenge (challengeOverwrites: Partial<Challenge>): Challenge {
   return {
     name: 'foobar',

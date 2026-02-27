@@ -1,10 +1,7 @@
-/*
- * Copyright (c) 2014-2026 Bjoern Kimminich & the OWASP Juice Shop contributors.
- * SPDX-License-Identifier: MIT
- */
 
-import * as frisby from 'frisby'
+
 import config from 'config'
+import * as frisby from 'frisby'
 
 const URL = 'http://localhost:3000'
 
@@ -48,7 +45,7 @@ describe('/profile', () => {
     form.append('username', 'Localhorst')
 
     return frisby.post(`${URL}/profile`, {
-      // @ts-expect-error FIXME form.getHeaders() is not found
+      // @ts-expect-error
       headers: { 'Content-Type': form.getHeaders()['content-type'], Cookie: authHeader.Cookie },
       body: form,
       redirect: 'manual'
@@ -56,12 +53,12 @@ describe('/profile', () => {
       .expect('status', 302)
   })
 
-  xit('POST update username is forbidden for unauthenticated user', () => { // FIXME runs into "socket hang up"
+  xit('POST update username is forbidden for unauthenticated user', () => { 
     const form = frisby.formData()
     form.append('username', 'Localhorst')
 
     return frisby.post(`${URL}/profile`, {
-      // @ts-expect-error FIXME form.getHeaders() is not found
+      // @ts-expect-error
       headers: { 'Content-Type': form.getHeaders()['content-type'] },
       body: form
     })

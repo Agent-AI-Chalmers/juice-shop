@@ -1,5 +1,5 @@
-// from https://github.com/sindresorhus/is-docker/tree/main MIT Licensed
-// inlined to avoid import problems in cypress
+
+
 
 import fs from 'node:fs'
 
@@ -23,7 +23,7 @@ function hasDockerCGroup () {
 }
 
 export default function isDocker () {
-  // TODO: Use `??=` when targeting Node.js 16.
+  
   if (isDockerCached === undefined) {
     isDockerCached = hasDockerEnv() || hasDockerCGroup()
   }

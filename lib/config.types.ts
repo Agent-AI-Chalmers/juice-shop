@@ -1,5 +1,5 @@
-// manually typed definitions for the config file
-// todo(@jannik.hollenbach) migrate the config schema to something which can automatically generate the types
+
+
 
 export interface ServerConfig {
   port: number

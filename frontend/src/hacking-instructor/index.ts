@@ -1,7 +1,4 @@
-/*
- * Copyright (c) 2014-2026 Bjoern Kimminich & the OWASP Juice Shop contributors.
- * SPDX-License-Identifier: MIT
- */
+
 
 import snarkdown from 'snarkdown'
 
@@ -44,28 +41,15 @@ export interface ChallengeInstruction {
 }
 
 export interface ChallengeHint {
-  /**
-   * Text in the hint box
-   * Can be formatted using markdown
-   */
+  
   text: string
-  /**
-   * Query Selector String of the Element the hint should be displayed next to.
-   */
+  
   fixture: string
-  /**
-   * Set to true if the hint should be displayed after the target
-   * Defaults to false (hint displayed before target)
-   */
+  
   fixtureAfter?: boolean
-  /**
-   * Set to true if the hint should not be able to be skipped by clicking on it.
-   * Defaults to false
-   */
+  
   unskippable?: boolean
-  /**
-   * Function declaring the condition under which the tutorial will continue.
-   */
+  
   resolved: () => Promise<void>
 }
 

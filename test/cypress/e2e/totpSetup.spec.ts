@@ -27,7 +27,7 @@ describe('/#/basket', () => {
       cy.get('#initialToken')
         .should('have.attr', 'data-test-totp-secret')
         .then(($val) => {
-          // console.log($val);
+          
           cy.get('#currentPasswordSetup').type('K1f.....................')
 
           cy.task<string>('GenerateAuthenticator', $val).then((secret: string) => {

@@ -1,7 +1,4 @@
-/*
- * Copyright (c) 2014-2026 Bjoern Kimminich & the OWASP Juice Shop contributors.
- * SPDX-License-Identifier: MIT
- */
+
 
 import {
   waitInMs, waitForElementToGetClicked, waitForAngularRouteToBeVisited
@@ -17,7 +14,7 @@ export const CodingChallengesInstruction: ChallengeInstruction = {
       fixture: 'app-navbar',
       fixtureAfter: true,
       unskippable: true,
-      resolved: waitForAngularRouteToBeVisited('score-board') // FIXME The tutorial does not progress automatically. Workaround ^^^^^^^^^^^^^^^^ instruction above should be removed when fixed.
+      resolved: waitForAngularRouteToBeVisited('score-board') 
     },
     {
       text:

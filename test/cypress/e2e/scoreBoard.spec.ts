@@ -27,7 +27,7 @@ describe('/#/score-board', () => {
   })
 })
 
-xdescribe('/#/score-board-legacy', () => { // TODO Replace with test based on new Score Board
+xdescribe('/#/score-board-legacy', () => { 
   describe('repeat notification', () => {
     beforeEach(() => {
       cy.visit('/#/score-board-legacy')

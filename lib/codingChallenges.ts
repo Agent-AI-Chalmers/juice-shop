@@ -28,7 +28,7 @@ export const findFilesWithCodeChallenges = async (paths: readonly string[]): Pro
       try {
         const code = await fs.readFile(currPath, 'utf8')
         if (
-          // strings are split so that it doesn't find itself...
+          
           code.includes('// vuln-code' + '-snippet start') ||
           code.includes('# vuln-code' + '-snippet start')
         ) {
@@ -46,7 +46,7 @@ export const findFilesWithCodeChallenges = async (paths: readonly string[]): Pro
 function getCodeChallengesFromFile (file: FileMatch) {
   const fileContent = file.content
 
-  // get all challenges which are in the file by a regex capture group
+  
   const challengeKeyRegex = /[/#]{0,2} vuln-code-snippet start (?<challenges>.*)/g
   const challenges = [...fileContent.matchAll(challengeKeyRegex)]
     .flatMap(match => match.groups?.challenges?.split(' ') ?? [])
@@ -92,7 +92,7 @@ class BrokenBoundary extends Error {
   }
 }
 
-// dont use directly, use getCodeChallenges getter
+
 let _internalCodeChallenges: Map<string, CachedCodeChallenge> | null = null
 export async function getCodeChallenges (): Promise<Map<string, CachedCodeChallenge>> {
   if (_internalCodeChallenges === null) {

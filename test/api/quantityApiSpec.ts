@@ -1,7 +1,4 @@
-/*
- * Copyright (c) 2014-2026 Bjoern Kimminich & the OWASP Juice Shop contributors.
- * SPDX-License-Identifier: MIT
- */
+
 
 import * as frisby from 'frisby'
 import { expect } from '@jest/globals'
@@ -182,7 +179,7 @@ describe('/api/Quantitys/:ids', () => {
       })
   })
 
-  xit('GET quantity of all items for accounting users from IP 123.456.789', () => { // TODO Check if possible to set IP in frisby tests
+  xit('GET quantity of all items for accounting users from IP 123.456.789', () => { 
     return frisby.post(`${REST_URL}/user/login`, {
       headers: jsonHeader,
       body: {
@@ -261,7 +258,7 @@ describe('/api/Quantitys/:ids', () => {
       })
   })
 
-  xit('PUT quantity as accounting user from IP 123.456.789', () => { // TODO Check if possible to set IP in frisby tests
+  xit('PUT quantity as accounting user from IP 123.456.789', () => { 
     return frisby.post(`${REST_URL}/user/login`, {
       headers: jsonHeader,
       body: {

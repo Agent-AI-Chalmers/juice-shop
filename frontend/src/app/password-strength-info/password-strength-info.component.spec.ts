@@ -21,5 +21,5 @@ describe('PasswordStrengthInfoComponent', () => {
     expect(component).toBeTruthy()
   })
 
-  // todo: unit test each conditional | passwordLength message
+  
 })
