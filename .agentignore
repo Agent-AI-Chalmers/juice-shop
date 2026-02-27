@@ -20,6 +20,7 @@ frontend/node_modules/
 package-lock.json
 yarn.lock
 pnpm-lock.yaml
+system_benign_manifest.json
 
 # 屏蔽编译后的二进制/中间产物
 dist/
@@ -106,6 +107,8 @@ frontend/cypress/
 
 config.schema.yml
 models/challenge.ts
+
+frontend/src/hacking-instructor/
 
 # ==========================================
 # 7. 高噪声国际化与多媒体资源

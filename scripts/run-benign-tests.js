@@ -1,4 +1,4 @@
-const { spawnSync, spawn } = require('child_process');
+const { spawnSync, spawn, execSync } = require('child_process');
 const fs = require('fs');
 const path = require('path');
 
@@ -15,12 +15,14 @@ const jestGroups = {};
 const mochaGroups = {};
 
 allBenign.forEach(t => {
-    if (t.file.startsWith('api/')) {
-        if (!jestGroups[t.file]) jestGroups[t.file] = [];
-        jestGroups[t.file].push(t.description);
-    } else if (t.file.startsWith('server/')) {
-        if (!mochaGroups[t.file]) mochaGroups[t.file] = [];
-        mochaGroups[t.file].push(t.description);
+    if (t.file.includes('api/')) {
+        const key = t.file.startsWith('test/') ? t.file.replace('test/', '') : t.file;
+        if (!jestGroups[key]) jestGroups[key] = [];
+        jestGroups[key].push(t.description);
+    } else if (t.file.includes('server/')) {
+        const key = t.file.startsWith('test/') ? t.file.replace('test/', '') : t.file;
+        if (!mochaGroups[key]) mochaGroups[key] = [];
+        mochaGroups[key].push(t.description);
     }
 });
 
@@ -51,6 +53,8 @@ const commonEnv = {
 
 const sleep = (ms) => new Promise(resolve => setTimeout(resolve, ms));
 
+const modifiedFiles = new Set();
+
 async function main() {
     let allPassed = true;
 
@@ -65,6 +69,23 @@ async function main() {
         );
         console.log("✅ ChatBot 数据环境已就绪");
         // ------------------------------------------
+
+        // 物理静默 Excluded 测试
+        manifest.excluded.forEach(item => {
+            const fullPath = path.resolve(__dirname, '..', item.file);
+            if (fs.existsSync(fullPath)) {
+                let content = fs.readFileSync(fullPath, 'utf8');
+                const escapedDesc = item.description.replace(/[.*+?^${}()|[\]\\]/g, '\\$&');
+                // 这里的 \\bit 配合单词边界，完美防止了重复替换
+                const regex = new RegExp(`\\bit\\s*\\(\\s*['"\`]${escapedDesc}['"\`]`, 'g');
+                if (regex.test(content)) {
+                    const newContent = content.replace(regex, `xit('${item.description}'`);
+                    fs.writeFileSync(fullPath, newContent);
+                    modifiedFiles.add(item.file); // 记录相对路径，方便 git checkout 使用
+                }
+            }
+        });
+        console.log("✅ 不安全测试静默处理完成。");
 
         // 1. 前端单元测试 & Lint (Angular)
         // 蓝队修复如果改动了共享模型，这里会第一时间报错
@@ -91,22 +112,89 @@ async function main() {
 
         console.log('\n===================================');
         console.log(`📊 最终蓝队回归报告: ${allPassed ? '✅ 全量通过' : '❌ 存在失败项'}`);
-        process.exit(allPassed ? 0 : 1);
     } catch (err) {
         console.error('执行中断:', err);
-        process.exit(1);
+        allPassed = false; // 标记失败，以便之后以非零状态退出
+    } finally {
+        console.log("\n[Blue Team] 正在精准恢复被修改的测试文件...");
+        const rootDir = path.resolve(__dirname, '..');
+        for (const filePath of modifiedFiles) {
+            try {
+                // 只恢复出现在名单里的文件
+                execSync(`git checkout -- "${filePath}"`, { cwd: rootDir });
+                // console.log(`  ✅ 已恢复: ${filePath}`);
+            } catch (e) {
+                // console.error(`  ❌ 恢复失败: ${filePath}`, e.message);
+            }
+        }
+        // console.log(`✅ 已静默恢复 ${modifiedFiles.size} 个被修改的测试文件。`);
+        process.exit(allPassed ? 0 : 1);
     }
 }
 
 async function runFrontendTests() {
     console.log(`\n[Frontend] 启动前端单元测试 (Karma)...`);
-    // 执行 frontend 目录下的测试，跳过持续观察模式
-    const res = spawnSync(process.platform === 'win32' ? 'npm.cmd' : 'npm',
-        ['run', 'test', '--', '--no-progress', '--watch=false', '--browsers=ChromeHeadless'],
-        // --- 隐藏 NG0955 等警告日志，只显示 ERROR ---
-        { cwd: path.resolve(__dirname, '../frontend'), env: commonEnv, stdio: ['ignore', 'ignore', 'inherit'] }
-    );
-    return res.status === 0;
+
+    return new Promise((resolve) => {
+        const child = spawn(process.platform === 'win32' ? 'npm.cmd' : 'npm',
+            ['run', 'test', '--', '--no-progress', '--watch=false', '--browsers=ChromeHeadless'],
+            { cwd: path.resolve(__dirname, '../frontend'), env: commonEnv }
+        );
+
+        // 噪音模式列表（命中这些正则的行将被丢弃）
+        const noisePatterns = [
+            /NG0955/,                // Angular track expression 警告
+            /Highlight\.js/,         // HLJS 导入错误
+            /Executed \d+ of \d+/,   // 过程中的进度显示
+            /key "" at index/,       // NG0955 的后续细节
+            /Error during diffing/   // 常见的干扰项
+        ];
+
+        child.stdout.on('data', (data) => {
+            const lines = data.toString().split('\n');
+            lines.forEach(line => {
+                // 如果不是噪音，或者包含关键错误信息，则打印
+                if (!noisePatterns.some(pattern => pattern.test(line)) || line.includes('FAILED')) {
+                    if (line.trim()) console.log(`  [Karma] ${line.trim()}`);
+                }
+            });
+        });
+
+        child.stderr.on('data', (data) => {
+            // 只有真正的 ERROR 才输出到终端
+            const line = data.toString();
+            if (!noisePatterns.some(pattern => pattern.test(line))) {
+                console.error(`  [Karma-Err] ${line.trim()}`);
+            }
+        });
+
+        child.on('close', (code) => {
+            resolve(code === 0);
+        });
+    });
+}
+
+function killPort(port) {
+    try {
+        console.log(`🧹 正在清理端口 ${port}...`);
+        if (process.platform === 'win32') {
+            // Windows 下查找并杀死占用端口的进程
+            const stdout = execSync(`netstat -ano | findstr :${port}`).toString();
+            const lines = stdout.split('\n');
+            lines.forEach(line => {
+                const parts = line.trim().split(/\s+/);
+                if (parts.length > 4 && parts[1].includes(`:${port}`)) {
+                    const pid = parts[parts.length - 1];
+                    if (pid > 0) execSync(`taskkill /F /PID ${pid}`, { stdio: 'ignore' });
+                }
+            });
+        } else {
+            // Linux/Mac 下使用 lsof 或 fuser
+            execSync(`lsof -t -i:${port} | xargs kill -9`, { stdio: 'ignore' });
+        }
+    } catch (e) {
+        // 如果端口没被占用，命令会报错，直接忽略即可
+    }
 }
 
 async function runStandardTests() {
@@ -115,6 +203,10 @@ async function runStandardTests() {
     let failed = [];
 
     for (let i = 0; i < jestFiles.length; i += BATCH_SIZE) {
+        // --- 每批次开始前先杀端口 ---
+        killPort(3000);
+        await sleep(1000); // 给系统一点喘息时间
+
         const chunk = jestFiles.slice(i, i + BATCH_SIZE);
         const chunkPaths = chunk.map(f => path.join(TEST_ROOT, f));
         const chunkPatterns = chunk.flatMap(f => jestGroups[f])
@@ -125,9 +217,15 @@ async function runStandardTests() {
         const res = spawnSync(process.platform === 'win32' ? 'npx.cmd' : 'npx', [
             'jest', '--silent', '--forceExit', '--runInBand', '--config', 'package.json',
             ...chunkPaths, '-t', chunkPatterns
-        ], { cwd: path.resolve(__dirname, '..'), env: commonEnv, stdio: 'inherit' });
+        ], {
+            cwd: path.resolve(__dirname, '..'),
+            env: { ...commonEnv, PORT: 3000 }, // 明确指定端口
+            stdio: 'inherit'
+        });
 
         if (res.status !== 0) failed.push(i);
+
+        // 批次间增加冷却
         if (i + BATCH_SIZE < jestFiles.length) await sleep(COOLDOWN_MS);
     }
     return failed.length === 0;
