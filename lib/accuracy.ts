@@ -1,5 +1,3 @@
-
-
 import { type ChallengeKey } from 'models/challenge'
 import logger from './logger'
 import colors from 'colors/safe'

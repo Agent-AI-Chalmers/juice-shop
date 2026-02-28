@@ -28,7 +28,7 @@ export const findFilesWithCodeChallenges = async (paths: readonly string[]): Pro
       try {
         const code = await fs.readFile(currPath, 'utf8')
         if (
-          
+
           code.includes('// vuln-code' + '-snippet start') ||
           code.includes('# vuln-code' + '-snippet start')
         ) {
@@ -46,7 +46,6 @@ export const findFilesWithCodeChallenges = async (paths: readonly string[]): Pro
 function getCodeChallengesFromFile (file: FileMatch) {
   const fileContent = file.content
 
-  
   const challengeKeyRegex = /[/#]{0,2} vuln-code-snippet start (?<challenges>.*)/g
   const challenges = [...fileContent.matchAll(challengeKeyRegex)]
     .flatMap(match => match.groups?.challenges?.split(' ') ?? [])
@@ -60,7 +59,7 @@ function getCodingChallengeFromFileContent (source: string, challengeKey: string
   if (snippets == null) {
     throw new BrokenBoundary('Broken code snippet boundaries for: ' + challengeKey)
   }
-  let snippet = snippets[0] 
+  let snippet = snippets[0]
   snippet = snippet.replace(/\s?[/#]{0,2} vuln-code-snippet start.*[\r\n]{0,2}/g, '')
   snippet = snippet.replace(/\s?[/#]{0,2} vuln-code-snippet end.*/g, '')
   snippet = snippet.replace(/.*[/#]{0,2} vuln-code-snippet hide-line[\r\n]{0,2}/g, '')
@@ -91,7 +90,6 @@ class BrokenBoundary extends Error {
     this.message = message
   }
 }
-
 
 let _internalCodeChallenges: Map<string, CachedCodeChallenge> | null = null
 export async function getCodeChallenges (): Promise<Map<string, CachedCodeChallenge>> {

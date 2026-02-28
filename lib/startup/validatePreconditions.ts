@@ -1,5 +1,3 @@
-
-
 import pjson from '../../package.json'
 import config from 'config'
 import logger from '../logger'
@@ -88,7 +86,7 @@ export const checkIfDomainReachable = async (domain: string) => {
       domainDependencies[domain].forEach((dependency: string) => {
         logger.warn(`${colors.italic(dependency)} will not work as intended without access to ${colors.bold(domain)}`)
       })
-      return true 
+      return true
     })
 }
 

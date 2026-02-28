@@ -1,5 +1,3 @@
-
-
 import config from 'config'
 import { type Request, type Response } from 'express'
 import { BasketModel } from '../models/basket'
@@ -11,8 +9,7 @@ import * as otplib from 'otplib'
 import * as security from '../lib/insecurity'
 
 otplib.authenticator.options = {
-  
-  
+
   window: 1
 }
 
@@ -44,7 +41,7 @@ export async function verify (req: Request, res: Response) {
 
     const token = security.authorize(plainUser)
     // @ts-expect-error FIXME set new property for original basket
-    plainUser.bid = basket.id 
+    plainUser.bid = basket.id
     security.authenticatedUsers.put(token, plainUser)
 
     res.json({ authentication: { token, bid: basket.id, umail: user.email } })
@@ -52,7 +49,6 @@ export async function verify (req: Request, res: Response) {
     res.status(401).send()
   }
 }
-
 
 export async function status (req: Request, res: Response) {
   try {
@@ -84,7 +80,6 @@ export async function status (req: Request, res: Response) {
   }
 }
 
-
 export async function setup (req: Request, res: Response) {
   try {
     const data = security.authenticatedUsers.from(req)
@@ -111,7 +106,6 @@ export async function setup (req: Request, res: Response) {
       throw new Error('Initial token doesnt match the secret from the setupToken')
     }
 
-    
     const userModel = await UserModel.findByPk(user.id)
     if (userModel == null) {
       throw new Error('No such user found!')
@@ -127,7 +121,6 @@ export async function setup (req: Request, res: Response) {
   }
 }
 
-
 export async function disable (req: Request, res: Response) {
   try {
     const data = security.authenticatedUsers.from(req)
@@ -142,7 +135,6 @@ export async function disable (req: Request, res: Response) {
       throw new Error('Password doesnt match stored password')
     }
 
-    
     const userModel = await UserModel.findByPk(user.id)
     if (userModel == null) {
       throw new Error('No such user found!')

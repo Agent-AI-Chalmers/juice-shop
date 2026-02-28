@@ -1,5 +1,3 @@
-
-
 import * as frisby from 'frisby'
 import { expect } from '@jest/globals'
 import config from 'config'
@@ -179,7 +177,7 @@ describe('/api/Quantitys/:ids', () => {
       })
   })
 
-  xit('GET quantity of all items for accounting users from IP 123.456.789', () => { 
+  xit('GET quantity of all items for accounting users from IP 123.456.789', () => {
     return frisby.post(`${REST_URL}/user/login`, {
       headers: jsonHeader,
       body: {
@@ -258,7 +256,7 @@ describe('/api/Quantitys/:ids', () => {
       })
   })
 
-  xit('PUT quantity as accounting user from IP 123.456.789', () => { 
+  xit('PUT quantity as accounting user from IP 123.456.789', () => {
     return frisby.post(`${REST_URL}/user/login`, {
       headers: jsonHeader,
       body: {

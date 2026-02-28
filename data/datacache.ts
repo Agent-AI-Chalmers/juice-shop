@@ -1,5 +1,3 @@
-
-
 import type { BasketItemModel } from 'models/basketitem'
 import type { ChallengeKey, ChallengeModel } from 'models/challenge'
 import type { ComplaintModel } from 'models/complaint'
@@ -8,8 +6,7 @@ import type { ProductModel } from 'models/product'
 import type { BasketModel } from 'models/basket'
 import type { UserModel } from 'models/user'
 
-
-export const challenges: Record<ChallengeKey, ChallengeModel> = {} as unknown as Record<ChallengeKey, ChallengeModel> 
+export const challenges: Record<ChallengeKey, ChallengeModel> = {} as unknown as Record<ChallengeKey, ChallengeModel>
 export const users: Record<string, UserModel> = {}
 export const products: Record<string, ProductModel> = {}
 export const feedback: Record<string, FeedbackModel> = {}

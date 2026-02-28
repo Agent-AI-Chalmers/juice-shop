@@ -1,5 +1,3 @@
-
-
 import { type Request, type Response, type NextFunction } from 'express'
 
 import * as challengeUtils from '../lib/challengeUtils'
@@ -9,10 +7,8 @@ import { type Review } from 'data/types'
 import * as db from '../data/mongodb'
 import * as utils from '../lib/utils'
 
-
 // @ts-expect-error FIXME Type safety broken for global object
 global.sleep = (time: number) => {
-  
   if (time > 2000) {
     time = 2000
   }
@@ -24,10 +20,8 @@ global.sleep = (time: number) => {
 
 export function showProductReviews () {
   return (req: Request, res: Response, next: NextFunction) => {
-    
     const id = !utils.isChallengeEnabled(challenges.noSqlCommandChallenge) ? Number(req.params.id) : utils.trunc(req.params.id, 40)
 
-    
     const t0 = new Date().getTime()
 
     db.reviewsCollection.find({ $where: 'this.product == ' + id }).then((reviews: Review[]) => {

@@ -1,5 +1,3 @@
-
-
 import { retrieveChallengesWithCodeSnippet } from './vulnCodeSnippet'
 import { type Request, type Response, type NextFunction } from 'express'
 import { ChallengeModel } from '../models/challenge'
@@ -151,7 +149,6 @@ export function observeMetrics () {
       for (const { difficulty, category, solved } of Object.values<ChallengeModel>(challenges)) {
         const key = `${difficulty}:${category}`
 
-        
         challengeStatuses.set(key, (challengeStatuses.get(key) || 0) + (solved ? 1 : 0))
         challengeCount.set(key, (challengeCount.get(key) || 0) + 1)
       }

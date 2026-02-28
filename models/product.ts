@@ -1,6 +1,3 @@
-
-
-
 import * as utils from '../lib/utils'
 import * as challengeUtils from '../lib/challengeUtils'
 import {
@@ -25,7 +22,7 @@ InferCreationAttributes<Product>
   declare price: number
   declare deluxePrice: number
   declare image: string
-  declare BasketItem?: CreationOptional<BasketItemModel> 
+  declare BasketItem?: CreationOptional<BasketItemModel>
 }
 
 const ProductModelInit = (sequelize: Sequelize) => {

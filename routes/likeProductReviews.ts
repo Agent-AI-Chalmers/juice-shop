@@ -1,5 +1,3 @@
-
-
 import { type Request, type Response, type NextFunction } from 'express'
 
 import * as challengeUtils from '../lib/challengeUtils'
@@ -34,7 +32,6 @@ export function likeProductReviews () {
         { $inc: { likesCount: 1 } }
       )
 
-      
       await sleep(150)
       try {
         const updatedReview: Review = await db.reviewsCollection.findOne({ _id: id })

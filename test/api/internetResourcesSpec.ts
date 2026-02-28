@@ -1,8 +1,6 @@
-
-
 import * as frisby from 'frisby'
 
-xdescribe('Required Internet resource', () => { 
+xdescribe('Required Internet resource', () => {
   describe('PasteBin paste for "Leaked Unsafe Product" challenge available', () => {
     it('for default configuration (https://pastebin.com/90dUgd7s)', () => {
       return frisby.get('https://pastebin.com/90dUgd7s')
@@ -11,7 +9,7 @@ xdescribe('Required Internet resource', () => {
         .expect('bodyContains', 'this coupled with Eurogium Edule was sometimes found fatal')
     })
 
-    xit('for 7MS configuration (https://pastebin.com/8SMbWPxc)', () => { 
+    xit('for 7MS configuration (https://pastebin.com/8SMbWPxc)', () => {
       return frisby.get('https://pastebin.com/8SMbWPxc')
         .expect('status', 200)
         .expect('bodyContains', 'TAYLOR SWIFT')
@@ -28,7 +26,7 @@ xdescribe('Required Internet resource', () => {
         .expect('bodyContains', 'Note to self: Option (1) and (3) of the above should not be combined.')
     })
 
-    xit('for Mozilla configuration (https://pastebin.com/t8jqE1y7)', () => { 
+    xit('for Mozilla configuration (https://pastebin.com/t8jqE1y7)', () => {
       return frisby.get('https://pastebin.com/t8jqE1y7')
         .expect('status', 200)
         .expect('bodyContains', 'Fixed a bug that, when this plugin was installed together with both the')

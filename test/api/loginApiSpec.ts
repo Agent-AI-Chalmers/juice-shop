@@ -1,5 +1,3 @@
-
-
 import * as frisby from 'frisby'
 import config from 'config'
 const Joi = frisby.Joi
@@ -255,7 +253,7 @@ describe('/rest/saveLoginIp', () => {
       })
   })
 
-  xit('GET last login IP will be saved as remote IP when True-Client-IP is not present', () => { 
+  xit('GET last login IP will be saved as remote IP when True-Client-IP is not present', () => {
     return frisby.post(REST_URL + '/user/login', {
       headers: jsonHeader,
       body: {

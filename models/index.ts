@@ -1,5 +1,3 @@
-
-
 import { AddressModelInit } from './address'
 import { BasketModelInit } from './basket'
 import { BasketItemModelInit } from './basketitem'
@@ -22,7 +20,6 @@ import { SecurityQuestionModelInit } from './securityQuestion'
 import { UserModelInit } from './user'
 import { WalletModelInit } from './wallet'
 import { Sequelize, Transaction } from 'sequelize'
-
 
 const sequelize = new Sequelize('database', 'username', 'password', {
   dialect: 'sqlite',

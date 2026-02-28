@@ -1,5 +1,3 @@
-
-
 import { type NextFunction, type Request, type Response } from 'express'
 import yaml from 'js-yaml'
 import fs from 'node:fs'
@@ -93,7 +91,7 @@ export const checkVulnLines = () => async (req: Request<Record<string, unknown>,
           hint = res.__('Lines {{vulnLines}} are responsible for this vulnerability or security flaw. Select them and submit to proceed.', { vulnLines: vulnLines.toString() })
         }
       } else {
-        const nextHint = codingChallengeInfos.hints[accuracy.getFindItAttempts(key) - 1] 
+        const nextHint = codingChallengeInfos.hints[accuracy.getFindItAttempts(key) - 1]
         if (nextHint) hint = res.__(nextHint)
       }
     }

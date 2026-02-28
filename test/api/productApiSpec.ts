@@ -1,5 +1,3 @@
-
-
 import * as frisby from 'frisby'
 import config from 'config'
 
@@ -9,7 +7,6 @@ import * as security from '../../lib/insecurity'
 import * as utils from '../../lib/utils'
 
 const Joi = frisby.Joi
-
 
 const tamperingProductId = config.get<ProductConfig[]>('products').findIndex((product) => !!product.urlForProductTamperingChallenge) + 1
 
@@ -97,7 +94,7 @@ describe('/api/Products/:id', () => {
       .expect('json', 'data', { description: '<a href="http://kimminich.de" target="_blank">More...</a>' })
   })
 
-  xit('PUT update existing product does not filter XSS attacks', () => { 
+  xit('PUT update existing product does not filter XSS attacks', () => {
     return frisby.put(API_URL + '/Products/1', {
       header: jsonHeader,
       body: {

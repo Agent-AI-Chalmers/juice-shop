@@ -1,5 +1,3 @@
-
-
 import * as utils from '../lib/utils'
 import * as challengeUtils from '../lib/challengeUtils'
 import { type Request, type Response } from 'express'
@@ -8,7 +6,6 @@ import { challenges } from '../data/datacache'
 
 export function trackOrder () {
   return (req: Request, res: Response) => {
-    
     const id = !utils.isChallengeEnabled(challenges.reflectedXssChallenge) ? String(req.params.id).replace(/[^\w-]+/g, '') : utils.trunc(req.params.id, 60)
 
     challengeUtils.solveIf(challenges.reflectedXssChallenge, () => { return utils.contains(id, '<iframe src="javascript:alert(`xss`)">') })

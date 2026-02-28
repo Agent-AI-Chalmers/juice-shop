@@ -1,5 +1,3 @@
-
-
 import * as frisby from 'frisby'
 import config from 'config'
 import path from 'node:path'
@@ -13,7 +11,7 @@ describe('/profile/image/file', () => {
   it('POST profile image file valid for JPG format', () => {
     const file = path.resolve(__dirname, '../files/validProfileImage.jpg')
     const form = frisby.formData()
-    form.append('file', fs.createReadStream(file) as unknown as Blob) 
+    form.append('file', fs.createReadStream(file) as unknown as Blob)
 
     return frisby.post(`${REST_URL}/user/login`, {
       headers: jsonHeader,
@@ -40,7 +38,7 @@ describe('/profile/image/file', () => {
   it('POST profile image file invalid type', () => {
     const file = path.resolve(__dirname, '../files/invalidProfileImageType.docx')
     const form = frisby.formData()
-    form.append('file', fs.createReadStream(file) as unknown as Blob) 
+    form.append('file', fs.createReadStream(file) as unknown as Blob)
 
     return frisby.post(`${REST_URL}/user/login`, {
       headers: jsonHeader,
@@ -69,7 +67,7 @@ describe('/profile/image/file', () => {
   it('POST profile image file forbidden for anonymous user', () => {
     const file = path.resolve(__dirname, '../files/validProfileImage.jpg')
     const form = frisby.formData()
-    form.append('file', fs.createReadStream(file) as unknown as Blob) 
+    form.append('file', fs.createReadStream(file) as unknown as Blob)
 
     return frisby.post(`${URL}/profile/image/file`, {
       // @ts-expect-error FIXME form.getHeaders() is not found
@@ -135,7 +133,7 @@ describe('/profile/image/url', () => {
       })
   })
 
-  xit('POST profile image URL forbidden for anonymous user', () => { 
+  xit('POST profile image URL forbidden for anonymous user', () => {
     const form = frisby.formData()
     form.append('imageUrl', 'cataas.com/cat')
 
@@ -149,10 +147,10 @@ describe('/profile/image/url', () => {
       .expect('bodyContains', 'Error: Blocked illegal activity')
   })
 
-  xit('POST valid image with tampered content length', () => { 
+  xit('POST valid image with tampered content length', () => {
     const file = path.resolve(__dirname, '../files/validProfileImage.jpg')
     const form = frisby.formData()
-    form.append('file', fs.createReadStream(file) as unknown as Blob) 
+    form.append('file', fs.createReadStream(file) as unknown as Blob)
 
     return frisby.post(`${REST_URL}/user/login`, {
       headers: jsonHeader,

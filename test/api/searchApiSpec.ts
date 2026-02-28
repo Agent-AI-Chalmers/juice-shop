@@ -1,5 +1,3 @@
-
-
 import * as frisby from 'frisby'
 import { expect } from '@jest/globals'
 import * as security from '../../lib/insecurity'
@@ -96,7 +94,7 @@ describe('/rest/products/search', () => {
       .expect('json', 'data.?', {
         id: 3,
         price: `bender@${config.get<string>('application.domain')}`
-        
+
       })
       .expect('json', 'data.?', {
         id: 4,

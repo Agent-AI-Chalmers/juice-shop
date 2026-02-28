@@ -1,7 +1,3 @@
-
-
-
-
 import {
   Model,
   type InferAttributes,

@@ -1,6 +1,3 @@
-
-
-
 import * as utils from '../lib/utils'
 import * as challengeUtils from '../lib/challengeUtils'
 import {

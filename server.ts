@@ -1,4 +1,3 @@
-
 import i18n from 'i18n'
 import cors from 'cors'
 import fs from 'node:fs'
@@ -52,7 +51,7 @@ import * as antiCheat from './lib/antiCheat'
 import * as security from './lib/insecurity'
 import validateConfig from './lib/startup/validateConfig'
 import cleanupFtpFolder from './lib/startup/cleanupFtpFolder'
-import customizeEasterEgg from './lib/startup/customizeEasterEgg' 
+import customizeEasterEgg from './lib/startup/customizeEasterEgg'
 import customizeApplication from './lib/startup/customizeApplication'
 import validatePreconditions from './lib/startup/validatePreconditions'
 import registerWebsocketEvents from './lib/startup/registerWebsocketEvents'
@@ -126,7 +125,6 @@ import { ensureFileIsPassed, handleZipFileUpload, checkUploadSize, checkFileType
 const app = express()
 const server = new http.Server(app)
 
-
 const errorhandler = require('errorhandler')
 
 const startTime = Date.now()
@@ -139,7 +137,6 @@ const startupGauge = new Prometheus.Gauge({
   help: `Duration ${appName} required to perform a certain task during startup`,
   labelNames: ['task']
 })
-
 
 const collectDurationPromise = (name: string, func: (...args: any) => Promise<any>) => {
   return async (...args: any) => {
@@ -155,33 +152,27 @@ const collectDurationPromise = (name: string, func: (...args: any) => Promise<an
   }
 }
 
-
 app.set('view engine', 'hbs')
 
 void collectDurationPromise('validatePreconditions', validatePreconditions)()
 void collectDurationPromise('cleanupFtpFolder', cleanupFtpFolder)()
 void collectDurationPromise('validateConfig', validateConfig)({})
 
-
 restoreOverwrittenFilesWithOriginals().then(() => {
-  
   app.locals.captchaId = 0
   app.locals.captchaReqId = 1
   app.locals.captchaBypassReqTimes = []
   app.locals.abused_ssti_bug = false
   app.locals.abused_ssrf_bug = false
 
-  
   app.use(compression())
 
-  
   app.options('*', cors())
   app.use(cors())
 
-  
   app.use(helmet.noSniff())
   app.use(helmet.frameguard())
-  
+
   app.disable('x-powered-by')
   app.use(featurePolicy({
     features: {
@@ -189,22 +180,18 @@ restoreOverwrittenFilesWithOriginals().then(() => {
     }
   }))
 
-  
   app.use((req: Request, res: Response, next: NextFunction) => {
     res.append('X-Recruiting', config.get('application.securityTxt.hiring'))
     next()
   })
 
-  
   app.use((req: Request, res: Response, next: NextFunction) => {
     req.url = req.url.replace(/[/]+/g, '/')
     next()
   })
 
-  
   app.use(metrics.observeRequestMetricsMiddleware())
 
-  
   const securityTxtExpiration = new Date()
   securityTxtExpiration.setFullYear(securityTxtExpiration.getFullYear() + 1)
   app.get(['/.well-known/security.txt', '/security.txt'], verify.accessControlChallenges())
@@ -218,22 +205,17 @@ restoreOverwrittenFilesWithOriginals().then(() => {
     expires: securityTxtExpiration.toUTCString()
   }))
 
-  
   app.use(robots({ UserAgent: '*', Disallow: '/ftp' }))
 
-  
   app.use(antiCheat.checkForPreSolveInteractions())
 
-  
   app.use('/assets/public/images/padding', verify.accessControlChallenges())
   app.use('/assets/public/images/products', verify.accessControlChallenges())
   app.use('/assets/public/images/uploads', verify.accessControlChallenges())
   app.use('/assets/i18n', verify.accessControlChallenges())
 
-  
   app.use('/solve/challenges/server-side', verify.serverSideChallenges())
 
-  
   const serveIndexMiddleware = (req: Request, res: Response, next: NextFunction) => {
     // eslint-disable-next-line @typescript-eslint/unbound-method
     const origEnd = res.end
@@ -261,32 +243,25 @@ restoreOverwrittenFilesWithOriginals().then(() => {
     next()
   }
 
-  
-   
-  app.use('/ftp', serveIndexMiddleware, serveIndex('ftp', { icons: true })) 
-  app.use('/ftp(?!/quarantine)/:file', servePublicFiles()) 
-  app.use('/ftp/quarantine/:file', serveQuarantineFiles()) 
+  app.use('/ftp', serveIndexMiddleware, serveIndex('ftp', { icons: true }))
+  app.use('/ftp(?!/quarantine)/:file', servePublicFiles())
+  app.use('/ftp/quarantine/:file', serveQuarantineFiles())
 
   app.use('/.well-known', serveIndexMiddleware, serveIndex('.well-known', { icons: true, view: 'details' }))
   app.use('/.well-known', express.static('.well-known'))
 
-  
   app.use('/encryptionkeys', serveIndexMiddleware, serveIndex('encryptionkeys', { icons: true, view: 'details' }))
   app.use('/encryptionkeys/:file', serveKeyFiles())
 
-   
-  app.use('/support/logs', serveIndexMiddleware, serveIndex('logs', { icons: true, view: 'details' })) 
-  app.use('/support/logs', verify.accessControlChallenges()) 
-  app.use('/support/logs/:file', serveLogFiles()) 
+  app.use('/support/logs', serveIndexMiddleware, serveIndex('logs', { icons: true, view: 'details' }))
+  app.use('/support/logs', verify.accessControlChallenges())
+  app.use('/support/logs/:file', serveLogFiles())
 
-  
   app.use('/api-docs', swaggerUi.serve, swaggerUi.setup(swaggerDocument))
 
   app.use(express.static(path.resolve('frontend/dist/frontend')))
   app.use(cookieParser('kekse'))
-  
 
-  
   i18n.configure({
     locales: locales.map((locale: { key: string }) => locale.key),
     directory: path.resolve('i18n'),
@@ -297,7 +272,7 @@ restoreOverwrittenFilesWithOriginals().then(() => {
   app.use(i18n.init)
 
   app.use(bodyParser.urlencoded({ extended: true }))
-  
+
   app.post('/file-upload', uploadToMemory.single('file'), ensureFileIsPassed, metrics.observeFileUploadMetricsMiddleware(), checkUploadSize, checkFileType, handleZipFileUpload, handleXmlUpload, handleYamlUpload)
   app.post('/profile/image/file', uploadToMemory.single('file'), ensureFileIsPassed, metrics.observeFileUploadMetricsMiddleware(), profileImageFileUpload())
   app.post('/profile/image/url', uploadToMemory.single('file'), profileImageUrlUpload())
@@ -318,7 +293,6 @@ restoreOverwrittenFilesWithOriginals().then(() => {
     next()
   })
 
-  
   const accessLogStream = getStream({
     filename: path.resolve('logs/access.log.%DATE%'),
     date_format: 'YYYY-MM-DD',
@@ -329,73 +303,67 @@ restoreOverwrittenFilesWithOriginals().then(() => {
   })
   app.use(morgan('combined', { stream: accessLogStream }))
 
-  
-  
   app.enable('trust proxy')
   app.use('/rest/user/reset-password', rateLimit({
     windowMs: 5 * 60 * 1000,
     max: 100,
-    keyGenerator ({ headers, ip }: { headers: any, ip: any }) { return headers['X-Forwarded-For'] ?? ip } 
+    keyGenerator ({ headers, ip }: { headers: any, ip: any }) { return headers['X-Forwarded-For'] ?? ip }
   }))
-  
 
-  
-  
-   
-  app.use(verify.jwtChallenges()) 
-  
+  app.use(verify.jwtChallenges())
+
   app.use('/rest/basket', security.isAuthorized(), security.appendUserId())
-  
+
   app.use('/api/BasketItems', security.isAuthorized())
   app.use('/api/BasketItems/:id', security.isAuthorized())
-  
+
   app.use('/api/Feedbacks/:id', security.isAuthorized())
-  
+
   app.get('/api/Users', security.isAuthorized())
   app.route('/api/Users/:id')
     .get(security.isAuthorized())
     .put(security.denyAll())
     .delete(security.denyAll())
-   
-  app.post('/api/Products', security.isAuthorized()) 
-  
+
+  app.post('/api/Products', security.isAuthorized())
+
   app.delete('/api/Products/:id', security.denyAll())
-  
+
   app.post('/api/Challenges', security.denyAll())
   app.use('/api/Challenges/:id', security.denyAll())
-  
+
   app.post('/api/Hints', security.denyAll())
   app.route('/api/Hints/:id')
     .get(security.denyAll())
     .delete(security.denyAll())
-  
+
   app.get('/api/Complaints', security.isAuthorized())
   app.post('/api/Complaints', security.isAuthorized())
   app.use('/api/Complaints/:id', security.denyAll())
-  
+
   app.get('/api/Recycles', recycles.blockRecycleItems())
   app.post('/api/Recycles', security.isAuthorized())
-  
+
   app.get('/api/Recycles/:id', recycles.getRecycleItem())
   app.put('/api/Recycles/:id', security.denyAll())
   app.delete('/api/Recycles/:id', security.denyAll())
-  
+
   app.post('/api/SecurityQuestions', security.denyAll())
   app.use('/api/SecurityQuestions/:id', security.denyAll())
-  
+
   app.get('/api/SecurityAnswers', security.denyAll())
   app.use('/api/SecurityAnswers/:id', security.denyAll())
-  
+
   app.use('/rest/user/authentication-details', security.isAuthorized())
   app.use('/rest/basket/:id', security.isAuthorized())
   app.use('/rest/basket/:id/order', security.isAuthorized())
-   
+
   app.post('/api/Feedbacks', verify.forgedFeedbackChallenge())
-  
+
   app.post('/api/Feedbacks', verifyCaptcha())
-  
+
   app.post('/api/Feedbacks', verify.captchaBypassChallenge())
-  
+
   app.post('/api/Users', (req: Request, res: Response, next: NextFunction) => {
     if (req.body.email !== undefined && req.body.password !== undefined && req.body.passwordRepeat !== undefined) {
       if (req.body.email.length !== 0 && req.body.password.length !== 0) {
@@ -409,29 +377,29 @@ restoreOverwrittenFilesWithOriginals().then(() => {
     next()
   })
   app.post('/api/Users', verify.registerAdminChallenge())
-  app.post('/api/Users', verify.passwordRepeatChallenge()) 
+  app.post('/api/Users', verify.passwordRepeatChallenge())
   app.post('/api/Users', verify.emptyUserRegistration())
-  
+
   app.use('/b2b/v2', security.isAuthorized())
-  
+
   app.put('/api/BasketItems/:id', security.appendUserId(), basketItems.quantityCheckBeforeBasketItemUpdate())
   app.post('/api/BasketItems', security.appendUserId(), basketItems.quantityCheckBeforeBasketItemAddition(), basketItems.addBasketItem())
-  
+
   app.delete('/api/Quantitys/:id', security.denyAll())
   app.post('/api/Quantitys', security.denyAll())
   app.use('/api/Quantitys/:id', security.isAccounting(), IpFilter(['123.456.789'], { mode: 'allow' }))
-  
+
   app.put('/api/Feedbacks/:id', security.denyAll())
-  
+
   app.use('/api/PrivacyRequests', security.isAuthorized())
   app.use('/api/PrivacyRequests/:id', security.isAuthorized())
-  
+
   app.post('/api/Cards', security.appendUserId())
   app.get('/api/Cards', security.appendUserId(), payment.getPaymentMethods())
   app.put('/api/Cards/:id', security.denyAll())
   app.delete('/api/Cards/:id', security.appendUserId(), payment.delPaymentMethodById())
   app.get('/api/Cards/:id', security.appendUserId(), payment.getPaymentMethodById())
-  
+
   app.post('/api/PrivacyRequests', security.isAuthorized())
   app.get('/api/PrivacyRequests', security.denyAll())
   app.use('/api/PrivacyRequests/:id', security.denyAll())
@@ -443,32 +411,28 @@ restoreOverwrittenFilesWithOriginals().then(() => {
   app.get('/api/Addresss/:id', security.appendUserId(), address.getAddressById())
   app.get('/api/Deliverys', delivery.getDeliveryMethods())
   app.get('/api/Deliverys/:id', delivery.getDeliveryMethod())
-  
 
-  
   app.post('/rest/2fa/verify',
     rateLimit({ windowMs: 5 * 60 * 1000, max: 100, validate: false }),
     twoFactorAuth.verify
   )
-  
+
   app.get('/rest/2fa/status', security.isAuthorized(), twoFactorAuth.status)
-  
+
   app.post('/rest/2fa/setup',
     rateLimit({ windowMs: 5 * 60 * 1000, max: 100, validate: false }),
     security.isAuthorized(),
     twoFactorAuth.setup
   )
-  
+
   app.post('/rest/2fa/disable',
     rateLimit({ windowMs: 5 * 60 * 1000, max: 100, validate: false }),
     security.isAuthorized(),
     twoFactorAuth.disable
   )
-  
+
   app.use(verify.databaseRelatedChallenges())
 
-  
-  
   finale.initialize({ app, sequelize })
 
   const autoModels = [
@@ -496,18 +460,15 @@ restoreOverwrittenFilesWithOriginals().then(() => {
       pagination: false
     })
 
-    
-    if (name === 'User') { 
-      resource.create.send.before((req: Request, res: Response, context: { instance: { id: any }, continue: any }) => { 
+    if (name === 'User') {
+      resource.create.send.before((req: Request, res: Response, context: { instance: { id: any }, continue: any }) => {
         WalletModel.create({ UserId: context.instance.id }).catch((err: unknown) => {
           console.log(err)
         })
-        return context.continue 
-      }) 
-    } 
-    
+        return context.continue
+      })
+    }
 
-    
     if (name === 'Challenge') {
       resource.list.fetch.after((req: Request, res: Response, context: { instance: string | any[], continue: any }) => {
         for (let i = 0; i < context.instance.length; i++) {
@@ -528,7 +489,6 @@ restoreOverwrittenFilesWithOriginals().then(() => {
       })
     }
 
-    
     if (name === 'SecurityQuestion') {
       resource.list.fetch.after((req: Request, res: Response, context: { instance: string | any[], continue: any }) => {
         for (let i = 0; i < context.instance.length; i++) {
@@ -542,7 +502,6 @@ restoreOverwrittenFilesWithOriginals().then(() => {
       })
     }
 
-    
     if (name === 'Hint') {
       resource.list.fetch.after((req: Request, res: Response, context: { instance: string | any[], continue: any }) => {
         for (let i = 0; i < context.instance.length; i++) {
@@ -556,7 +515,6 @@ restoreOverwrittenFilesWithOriginals().then(() => {
       })
     }
 
-    
     if (name === 'Product') {
       resource.list.fetch.after((req: Request, res: Response, context: { instance: any[], continue: any }) => {
         for (let i = 0; i < context.instance.length; i++) {
@@ -572,7 +530,6 @@ restoreOverwrittenFilesWithOriginals().then(() => {
       })
     }
 
-    
     resource.all.send.before((req: Request, res: Response, context: { instance: { status: string, data: any }, continue: any }) => {
       context.instance = {
         status: 'success',
@@ -582,7 +539,6 @@ restoreOverwrittenFilesWithOriginals().then(() => {
     })
   }
 
-  
   app.post('/rest/user/login', login())
   app.get('/rest/user/change-password', changePassword())
   app.post('/rest/user/reset-password', resetPassword())
@@ -620,42 +576,34 @@ restoreOverwrittenFilesWithOriginals().then(() => {
   app.get('/rest/memories', getMemories())
   app.get('/rest/chatbot/status', chatbot.status())
   app.post('/rest/chatbot/respond', chatbot.process())
-  
+
   app.get('/rest/products/:id/reviews', showProductReviews())
   app.put('/rest/products/:id/reviews', createProductReviews())
   app.patch('/rest/products/reviews', security.isAuthorized(), updateProductReviews())
   app.post('/rest/products/reviews', security.isAuthorized(), likeProductReviews())
 
-  
   app.post('/rest/web3/submitKey', checkKeys())
   app.get('/rest/web3/nftUnlocked', nftUnlocked())
   app.get('/rest/web3/nftMintListen', nftMintListener())
   app.post('/rest/web3/walletNFTVerify', walletNFTVerify())
   app.post('/rest/web3/walletExploitAddress', contractExploitListener())
 
-  
   app.post('/b2b/v2/orders', b2bOrder())
 
-  
   app.get('/the/devs/are/so/funny/they/hid/an/easter/egg/within/the/easter/egg', serveEasterEgg())
   app.get('/this/page/is/hidden/behind/an/incredibly/high/paywall/that/could/only/be/unlocked/by/sending/1btc/to/us', servePremiumContent())
   app.get('/we/may/also/instruct/you/to/refuse/all/reasonably/necessary/responsibility', servePrivacyPolicyProof())
 
-  
   app.use('/dataerasure', dataErasure)
 
-  
   app.get('/redirect', performRedirect())
 
-  
   app.get('/promotion', promotionVideo())
   app.get('/video', getVideo())
 
-  
   app.get('/profile', security.updateAuthenticatedUsers(), getUserProfile())
   app.post('/profile', updateUserProfile())
 
-  
   app.get('/snippets/:challenge', serveCodeSnippet())
   app.post('/snippets/verdict', checkVulnLines())
   app.get('/snippets/fixes/:key', serveCodeFixes())
@@ -663,7 +611,6 @@ restoreOverwrittenFilesWithOriginals().then(() => {
 
   app.use(serveAngularClient())
 
-  
   app.use(verify.errorHandlingChallenge())
   app.use(errorhandler())
 }).catch((err) => {
@@ -703,11 +650,9 @@ while (!expectedModels.every(model => Object.keys(sequelize.models).includes(mod
 }
 logger.info(`Entity models ${colors.bold(Object.keys(sequelize.models).length.toString())} of ${colors.bold(expectedModels.length.toString())} are initialized (${colors.green('OK')})`)
 
-
-
 let metricsUpdateLoop: any
-const Metrics = metrics.observeMetrics() 
-app.get('/metrics', metrics.serveMetrics()) 
+const Metrics = metrics.observeMetrics()
+app.get('/metrics', metrics.serveMetrics())
 errorhandler.title = `${config.get<string>('application.name')} (Express ${utils.version('express')})`
 
 export async function start (readyCallback?: () => void) {
@@ -718,7 +663,7 @@ export async function start (readyCallback?: () => void) {
   const port = process.env.PORT ?? config.get('server.port')
   process.env.BASE_PATH = process.env.BASE_PATH ?? config.get('server.basePath')
 
-  metricsUpdateLoop = Metrics.updateLoop() 
+  metricsUpdateLoop = Metrics.updateLoop()
 
   server.listen(port, () => {
     logger.info(colors.cyan(`Server listening on port ${colors.bold(`${port}`)}`))
@@ -732,8 +677,8 @@ export async function start (readyCallback?: () => void) {
     }
   })
 
-  void collectDurationPromise('customizeApplication', customizeApplication)() 
-  void collectDurationPromise('customizeEasterEgg', customizeEasterEgg)() 
+  void collectDurationPromise('customizeApplication', customizeApplication)()
+  void collectDurationPromise('customizeEasterEgg', customizeEasterEgg)()
 }
 
 export function close (exitCode: number | undefined) {
@@ -745,8 +690,6 @@ export function close (exitCode: number | undefined) {
     process.exit(exitCode)
   }
 }
-
-
 
 process.on('SIGINT', () => { close(0) })
 process.on('SIGTERM', () => { close(0) })

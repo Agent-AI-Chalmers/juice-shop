@@ -1,4 +1,3 @@
-
 import { type Model, type ValidationErrorItemType } from 'sequelize/types'
 import { type ValidationOptions } from 'sequelize/types/instance-validator'
 // @ts-expect-error FIXME due to non-existing type definitions for sequelize/lib/errors

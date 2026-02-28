@@ -1,5 +1,3 @@
-
-
 import { type Request, type Response, type NextFunction } from 'express'
 import { BasketItemModel } from '../models/basketitem'
 import { QuantityModel } from '../models/quantity'
@@ -84,9 +82,8 @@ async function quantityCheck (req: Request, res: Response, next: NextFunction, i
     throw new Error('No such product found!')
   }
 
-  
   if (!product.limitPerUser || (product.limitPerUser && product.limitPerUser >= quantity) || security.isDeluxe(req)) {
-    if (product.quantity >= quantity) { 
+    if (product.quantity >= quantity) {
       next()
     } else {
       res.status(400).json({ error: res.__('We are out of stock! Sorry for the inconvenience.') })

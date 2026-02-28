@@ -1,5 +1,3 @@
-
-
 import { type IncomingMessage } from 'node:http'
 import * as frisby from 'frisby'
 import http from 'node:http'
@@ -143,7 +141,6 @@ describe('/rest/products/reviews', () => {
   })
 
   it('PATCH multiple product review via injection', () => {
-    
     const totalReviews = config.get<Product[]>('products').reduce((sum: number, { reviews = [] }: any) => sum + reviews.length, 1)
 
     return frisby.patch(`${REST_URL}/products/reviews`, {

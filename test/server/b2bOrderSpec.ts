@@ -1,5 +1,3 @@
-
-
 import sinon from 'sinon'
 import chai from 'chai'
 import sinonChai from 'sinon-chai'
@@ -25,7 +23,7 @@ describe('b2bOrder', () => {
     challenges.rceChallenge = { solved: false, save } as unknown as Challenge
   })
 
-  xit('infinite loop payload does not succeed but solves "rceChallenge"', () => { 
+  xit('infinite loop payload does not succeed but solves "rceChallenge"', () => {
     req.body.orderLinesData = '(function dos() { while(true); })()'
 
     b2bOrder()(req, res, next)
@@ -33,7 +31,6 @@ describe('b2bOrder', () => {
     expect(challenges.rceChallenge.solved).to.equal(true)
   })
 
-  
   xit('timeout after 2 seconds solves "rceOccupyChallenge"', () => {
     req.body.orderLinesData = '/((a+)+)b/.test("aaaaaaaaaaaaaaaaaaaaaaaaaaaaa")'
 

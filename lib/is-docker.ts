@@ -1,6 +1,3 @@
-
-
-
 import fs from 'node:fs'
 
 let isDockerCached: boolean | undefined
@@ -23,7 +20,6 @@ function hasDockerCGroup () {
 }
 
 export default function isDocker () {
-  
   if (isDockerCached === undefined) {
     isDockerCached = hasDockerEnv() || hasDockerCGroup()
   }

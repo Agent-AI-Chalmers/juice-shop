@@ -48,7 +48,7 @@ describe('blueprint', () => {
             pathToImage = path.resolve('frontend/src', pathToImage, product.image)
           }
 
-          if (product.exifForBlueprintChallenge?.[0]) { 
+          if (product.exifForBlueprintChallenge?.[0]) {
             try {
               const exifData = await parseExifData(pathToImage)
               const properties = Object.values(exifData.image)

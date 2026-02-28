@@ -1,7 +1,3 @@
-
-
-
-
 const validateIfDependencyCheckerIsInstalled = async () => {
   try {
     // @ts-expect-error FIXME due to non-existing type definitions for check-dependencies

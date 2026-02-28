@@ -64,7 +64,7 @@ const relationsInit = (_sequelize: Sequelize) => {
     foreignKey: {
       name: 'UserId'
     }
-  }) 
+  })
 
   ImageCaptchaModel.belongsTo(UserModel, {
     foreignKey: {

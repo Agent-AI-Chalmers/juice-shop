@@ -1,6 +1,3 @@
-
-
-
 import config from 'config'
 import {
   type InferAttributes,
@@ -31,9 +28,9 @@ InferCreationAttributes<User>
   declare isActive: CreationOptional<boolean>
 }
 
-const UserModelInit = (sequelize: Sequelize) => { 
+const UserModelInit = (sequelize: Sequelize) => {
   User.init(
-    { 
+    {
       id: {
         type: DataTypes.INTEGER,
         primaryKey: true,
@@ -67,13 +64,13 @@ const UserModelInit = (sequelize: Sequelize) => {
           }
           this.setDataValue('email', email)
         }
-      }, 
+      },
       password: {
         type: DataTypes.STRING,
         set (clearTextPassword: string) {
-          this.setDataValue('password', security.hash(clearTextPassword)) 
+          this.setDataValue('password', security.hash(clearTextPassword))
         }
-      }, 
+      },
       role: {
         type: DataTypes.STRING,
         defaultValue: 'customer',

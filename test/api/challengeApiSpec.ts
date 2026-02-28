@@ -1,5 +1,3 @@
-
-
 import * as frisby from 'frisby'
 import * as security from '../../lib/insecurity'
 const Joi = frisby.Joi
@@ -78,7 +76,7 @@ describe('/rest/continue-code', () => {
       .expect('status', 404)
   })
 
-  it('PUT continue code for more than one challenge is accepted', () => { 
+  it('PUT continue code for more than one challenge is accepted', () => {
     return frisby.put(REST_URL + '/continue-code/apply/yXjv6Z5jWJnzD6a3YvmwPRXK7roAyzHDde2Og19yEN84plqxkMBbLVQrDeoY')
       .expect('status', 200)
   })
@@ -105,7 +103,7 @@ describe('/rest/continue-code-findIt', () => {
       .expect('status', 404)
   })
 
-  it('PUT continue code for more than one challenge is accepted', () => { 
+  it('PUT continue code for more than one challenge is accepted', () => {
     return frisby.put(REST_URL + '/continue-code-findIt/apply/Xg9oK0VdbW5g1KX9G7JYnqLpz3rAPBh6p4eRlkDM6EaBON2QoPmxjyvwMrP6')
       .expect('status', 200)
   })
@@ -127,7 +125,7 @@ describe('/rest/continue-code-fixIt', () => {
       .expect('status', 404)
   })
 
-  it('PUT continue code for more than one challenge is accepted', () => { 
+  it('PUT continue code for more than one challenge is accepted', () => {
     return frisby.put(REST_URL + '/continue-code-fixIt/apply/y28BEPE2k3yRrdz5p6DGqJONnj41n5UEWawYWgBMoVmL79bKZ8Qve0Xl5QLW')
       .expect('status', 200)
   })

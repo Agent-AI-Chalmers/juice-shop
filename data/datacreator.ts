@@ -1,6 +1,3 @@
-
-
-
 import { AddressModel } from '../models/address'
 import { BasketModel } from '../models/basket'
 import { BasketItemModel } from '../models/basketitem'
@@ -70,7 +67,6 @@ async function createChallenges () {
 
   await Promise.all(
     challenges.map(async ({ name, category, description, difficulty, hints, mitigationUrl, key, disabledEnv, tutorial, tags }) => {
-      
       // eslint-disable-next-line @typescript-eslint/consistent-type-assertions
       const { enabled: isChallengeEnabled, disabledBecause } = utils.getChallengeEnablementStatus({ disabledEnv: disabledEnv?.join(';') ?? '' } as ChallengeModel)
       description = description.replace('juice-sh.op', config.get<string>('application.domain'))
@@ -87,7 +83,7 @@ async function createChallenges () {
           name,
           category,
           tags: (tags != null) ? tags.join(',') : undefined,
-          
+
           description: isChallengeEnabled ? description : (description + ' <em>(This challenge is <strong>potentially harmful</strong> on ' + disabledBecause + '!)</em>'),
           difficulty,
           solved: false,
@@ -321,7 +317,6 @@ async function createProducts () {
     product.deluxePrice = product.deluxePrice ?? product.price
     product.description = product.description || 'Lorem ipsum dolor sit amet, consectetuer adipiscing elit.'
 
-    
     product.image = product.image ?? 'undefined.png'
     if (utils.isUrl(product.image)) {
       const imageUrl = product.image
@@ -331,7 +326,6 @@ async function createProducts () {
     return product
   })
 
-  
   const christmasChallengeProduct = products.find(({ useForChristmasSpecialChallenge }) => useForChristmasSpecialChallenge)
   const pastebinLeakChallengeProduct = products.find(({ keywordsForPastebinDataLeakChallenge }) => keywordsForPastebinDataLeakChallenge)
   const tamperingChallengeProduct = products.find(({ urlForProductTamperingChallenge }) => urlForProductTamperingChallenge)
@@ -385,7 +379,7 @@ async function createProducts () {
                   persistedProduct)
               })
             }
-            if (deletedDate) void deleteProduct(persistedProduct.id) 
+            if (deletedDate) void deleteProduct(persistedProduct.id)
           } else {
             throw new Error('No persisted product found!')
           }
