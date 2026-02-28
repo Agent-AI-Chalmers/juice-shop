@@ -60,14 +60,20 @@ async function main() {
 
     try {
         // --- Fix ChatBot JSON crash ---
-        const cbDir = path.resolve(__dirname, '../data/chatbot');
-        if (!fs.existsSync(cbDir)) fs.mkdirSync(cbDir, { recursive: true });
-        // Force sync data from static to runtime directory
-        fs.writeFileSync(
-            path.join(cbDir, 'botDefaultTrainingData.json'),
-            fs.readFileSync(path.resolve(__dirname, '../data/static/botDefaultTrainingData.json'))
-        );
-        console.log("✅ ChatBot data environment is ready");
+        const projectRoot = path.resolve(__dirname, '..');
+        const staticPath = path.join(projectRoot, 'data/static/botDefaultTrainingData.json');
+        const runtimeDir = path.join(projectRoot, 'data/chatbot');
+        const runtimePath = path.join(runtimeDir, 'botDefaultTrainingData.json');
+
+        if (!fs.existsSync(runtimeDir)) fs.mkdirSync(runtimeDir, { recursive: true });
+        if (fs.existsSync(staticPath)) {
+            // Use atomic copyFileSync to avoid partial reads causing "Unexpected end of JSON"
+            fs.copyFileSync(staticPath, runtimePath);
+            console.log("✅ ChatBot data environment ready (Verified)");
+        } else {
+            console.error("❌ Source data file not found:", staticPath);
+            process.exit(1); // Without the source file, tests will fail; exit early
+        }
         // ------------------------------------------
 
         // Physically mute excluded tests
@@ -116,18 +122,18 @@ async function main() {
         console.error('Execution interrupted:', err);
         allPassed = false; // Mark failure to exit with non-zero status
     } finally {
-        console.log("\n[Blue Team] Restoring modified test files...");
+        // console.log("\n[Blue Team] Restoring modified test files...");
         const rootDir = path.resolve(__dirname, '..');
         for (const filePath of modifiedFiles) {
             try {
                 // Only restore files on the list
                 execSync(`git checkout -- "${filePath}"`, { cwd: rootDir });
-                // console.log(`  ✅ 已恢复: ${filePath}`);
+                // console.log(`  ✅ Restored: ${filePath}`);
             } catch (e) {
-                // console.error(`  ❌ 恢复失败: ${filePath}`, e.message);
+                // console.error(`  ❌ Restore failed: ${filePath}`, e.message);
             }
         }
-        // console.log(`✅ 已静默恢复 ${modifiedFiles.size} 个被修改的测试文件。`);
+        // console.log(`✅ Silently restored ${modifiedFiles.size} modified test files.`);
         process.exit(allPassed ? 0 : 1);
     }
 }
