@@ -11,12 +11,11 @@ const COOLDOWN_MS = 4000; // Cool down 4 seconds between batches
 const manifest = JSON.parse(fs.readFileSync(MANIFEST_PATH, 'utf8'));
 const allBenign = manifest.benign || [];
 
-// Result tracking
+// Result tracker
 const report = {
-    env: { status: 'Pending', msg: '' },
     frontend: { status: 'Skipped', msg: '' },
     backend: { status: 'Skipped', msg: '' },
-    cypress: { status: 'Skipped', msg: '' }
+    cypress: { status: 'N/A', msg: 'No E2E tests in manifest' }
 };
 
 const jestGroups = {};
@@ -59,7 +58,7 @@ function applyTestExclusions(excludedTests, rootDir) {
         return acc;
     }, {});
 
-    console.log("🛡️ Applying physical patch (Enhanced Matching)...");
+    console.log("🛡️ Applying physical patch to mute tests...");
 
     for (let [relPath, descriptions] of Object.entries(fileMap)) {
         let fullPath = path.resolve(rootDir, relPath);
@@ -76,8 +75,6 @@ function applyTestExclusions(excludedTests, rootDir) {
             descriptions.forEach(fullDesc => {
                 const words = fullDesc.split(' ').filter(w => w.length > 2);
                 const lastWords = words.slice(-3);
-
-                // transfer the words first, then join with wildcard
                 const escapedWords = lastWords.map(w => w.replace(/[.*+?^${}()|[\]\\]/g, '\\$&'));
                 const pattern = escapedWords.join('.*?');
 
@@ -109,17 +106,27 @@ function restoreTestFiles(modifiedFiles, rootDir) {
 }
 
 async function prepareChatBotEnvironment(projectRoot) {
-    const staticPath = path.join(projectRoot, 'data/static/botDefaultTrainingData.json');
+    console.log("🛠️ Preparing ChatBot environment...");
     const runtimeDir = path.join(projectRoot, 'data/chatbot');
+    const staticPath = path.join(projectRoot, 'data/static/botDefaultTrainingData.json');
     const runtimePath = path.join(runtimeDir, 'botDefaultTrainingData.json');
 
     if (!fs.existsSync(runtimeDir)) fs.mkdirSync(runtimeDir, { recursive: true });
+
     if (fs.existsSync(staticPath)) {
-        fs.writeFileSync(runtimePath, fs.readFileSync(staticPath));
+        const content = fs.readFileSync(staticPath);
+        // Use synchronous write and force flush to physical disk to ensure backend can read it immediately
+        const fd = fs.openSync(runtimePath, 'w');
+        fs.writeSync(fd, content, 0, content.length);
+        fs.fsyncSync(fd);
+        fs.closeSync(fd);
+
         const stats = fs.statSync(runtimePath);
-        if (stats.size === 0) throw new Error("Empty ChatBot data");
-        console.log("✅ ChatBot data verified.");
-        await sleep(500);
+        if (stats.size === 0) throw new Error("CRITICAL: ChatBot data file is empty!");
+
+        console.log(`✅ ChatBot data ready (${stats.size} bytes). Giving it extra time to settle...`);
+        // Give extra time to ensure backend can read the file without hitting a locked state
+        await sleep(2000);
     }
 }
 
@@ -170,7 +177,6 @@ async function runStandardTests() {
             .map(d => d.replace(/\\'/g, "'").replace(/[.*+?^${}()|[\]\\]/g, '\\$&'))
             .join('|');
 
-        console.log(`[Jest] Batch ${Math.floor(i / BATCH_SIZE) + 1}/${Math.ceil(jestFiles.length / BATCH_SIZE)}...`);
         const res = spawnSync(process.platform === 'win32' ? 'npx.cmd' : 'npx', [
             'jest', '--silent', '--forceExit', '--runInBand', ...chunkPaths, '-t', chunkPatterns
         ], { cwd: path.resolve(__dirname, '..'), env: { ...commonEnv, PORT: 3000 }, stdio: 'inherit' });
@@ -181,6 +187,37 @@ async function runStandardTests() {
     return allPassed;
 }
 
+async function runCypressWithServer(cypressFiles) {
+    const projectRoot = path.resolve(__dirname, '..');
+    const cleanSpecs = cypressFiles.map(f => f.startsWith('test/') ? f : path.join('test', f));
+
+    console.log(`\n[Cypress] Starting server for E2E tests...`);
+    const serverProcess = spawn('node', ['build/app'], { cwd: projectRoot, env: commonEnv });
+
+    let isReady = false;
+    for (let i = 0; i < 15; i++) {
+        try {
+            const res = spawnSync('node', ['-e', "require('http').get('http://localhost:3000', r => process.exit(r.statusCode===200?0:1)).on('error', ()=>process.exit(1))"]);
+            if (res.status === 0) { isReady = true; break; }
+        } catch (e) { }
+        await sleep(1000);
+    }
+
+    if (!isReady) {
+        console.error("❌ Cypress: Server failed to start on port 3000.");
+        serverProcess.kill();
+        return false;
+    }
+
+    console.log("✅ Server ready, running Cypress...");
+    const res = spawnSync(process.platform === 'win32' ? 'npx.cmd' : 'npx', [
+        'cypress', 'run', '--browser', chromePath || 'electron', '--headless', '--spec', cleanSpecs.join(',')
+    ], { cwd: projectRoot, env: commonEnv, stdio: 'inherit' });
+
+    serverProcess.kill();
+    return res.status === 0;
+}
+
 // ================= Main Flow =================
 
 async function main() {
@@ -188,53 +225,50 @@ async function main() {
     const projectRoot = path.resolve(__dirname, '..');
 
     try {
-        // 1. Prepare environment (ChatBot data)
-        try {
-            await prepareChatBotEnvironment(projectRoot);
-            report.env = { status: '✅ Passed', msg: 'ChatBot data ready' };
-        } catch (e) {
-            report.env = { status: '❌ Failed', msg: e.message };
-            throw e;
-        }
+        await prepareChatBotEnvironment(projectRoot);
 
-        // 2. Frontend tests
+        // 1. Frontend
         let modifiedFiles = new Set();
         try {
             modifiedFiles = applyTestExclusions(manifest.excluded || [], projectRoot);
             const frontendPassed = await runFrontendTests();
             report.frontend = frontendPassed
-                ? { status: '✅ Passed', msg: 'Karma suite success' }
-                : { status: '❌ Failed', msg: 'Regression detected' };
+                ? { status: '✅ Passed', msg: '' }
+                : { status: '❌ Failed', msg: 'Frontend Regressions found' };
             if (!frontendPassed) allPassed = false;
         } finally {
             restoreTestFiles(modifiedFiles, projectRoot);
         }
 
-        // 3. Backend API tests
+        // 2. Backend
         const apiPassed = await runStandardTests();
         report.backend = apiPassed
-            ? { status: '✅ Passed', msg: 'Jest batches success' }
-            : { status: '❌ Failed', msg: 'API failures detected' };
+            ? { status: '✅ Passed', msg: '' }
+            : { status: '❌ Failed', msg: 'Backend API Regressions found' };
         if (!apiPassed) allPassed = false;
 
-        // 4. Cypress
+        // 3. Cypress
         const cypressFiles = [...new Set(allBenign.filter(t => t.file.startsWith('cypress/')).map(t => t.file))];
         if (allPassed && cypressFiles.length > 0) {
             const cypressPassed = await runCypressWithServer(cypressFiles);
-            report.cypress = cypressPassed ? {status:'✅ Passed'} : {status:'❌ Failed'};
+            report.cypress = cypressPassed
+                ? { status: '✅ Passed', msg: '' }
+                : { status: '❌ Failed', msg: 'E2E failures' };
+            if (!cypressPassed) allPassed = false;
+        } else if (cypressFiles.length > 0 && !allPassed) {
+            report.cypress = { status: '🚫 Skipped', msg: 'Previous stages failed' };
         }
 
     } catch (err) {
-        console.error('\n🚀 Critical Error during execution:', err.message);
+        console.error('\n🚀 Critical Error:', err.message);
         allPassed = false;
     } finally {
         console.log('\n' + '='.repeat(50));
         console.log('📊 BLUE TEAM REGRESSION REPORT');
         console.log('='.repeat(50));
-        console.log(`1. Environment : ${report.env.status} (${report.env.msg})`);
-        console.log(`2. Frontend    : ${report.frontend.status} ${report.frontend.msg}`);
-        console.log(`3. Backend API : ${report.backend.status} ${report.backend.msg}`);
-        console.log(`4. Cypress E2E : ${report.cypress.status} ${report.cypress.msg}`);
+        console.log(`Frontend    : ${report.frontend.status} ${report.frontend.msg}`);
+        console.log(`Backend API : ${report.backend.status} ${report.backend.msg}`);
+        console.log(`Cypress E2E : ${report.cypress.status} ${report.cypress.msg}`);
         console.log('='.repeat(50));
         console.log(`OVERALL RESULT: ${allPassed ? '✅ SUCCESS' : '❌ FAILURE'}`);
         console.log('='.repeat(50) + '\n');
