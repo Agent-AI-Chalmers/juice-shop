@@ -113,7 +113,7 @@ frontend/src/hacking-instructor/
 # ==========================================
 # 7. 高噪声国际化与多媒体资源
 # ==========================================
-i18n/*.json
+i18n/
 screenshots/
 views/themes/
 frontend/src/assets/
