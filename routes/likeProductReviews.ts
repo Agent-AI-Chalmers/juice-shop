@@ -1,7 +1,4 @@
-/*
- * Copyright (c) 2014-2026 Bjoern Kimminich & the OWASP Juice Shop contributors.
- * SPDX-License-Identifier: MIT
- */
+
 
 import { type Request, type Response, type NextFunction } from 'express'
 
@@ -37,7 +34,7 @@ export function likeProductReviews () {
         { $inc: { likesCount: 1 } }
       )
 
-      // Artificial wait for timing attack challenge
+      
       await sleep(150)
       try {
         const updatedReview: Review = await db.reviewsCollection.findOne({ _id: id })

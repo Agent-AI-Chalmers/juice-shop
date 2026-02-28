@@ -31,8 +31,8 @@ export class CodingChallengeProgressScoreCardComponent implements OnInit, OnChan
 
     this.solvedCodingChallenges = availableCodingChallenges
       .map((challenge) => challenge.codingChallengeStatus)
-      .reduce((a, b) => a + b, 0) // sum up the scores
-    // multiply by 2 because each coding challenge has 2 parts (find it and fix it)
+      .reduce((a, b) => a + b, 0) 
+    
     this.availableCodingChallenges = availableCodingChallenges.length * 2
   }
 }

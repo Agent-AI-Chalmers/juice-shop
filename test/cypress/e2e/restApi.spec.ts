@@ -4,8 +4,8 @@ describe('/api', () => {
       cy.login({ email: 'admin', password: 'admin123' })
     })
 
-    // Cypress alert bug
-    // The challenge also passes but its just that cypress freezes and is unable to perform any action
+    
+    
     xit('should be possible to create a new product when logged in', () => {
       cy.task('isDocker').then((isDocker) => {
         if (!isDocker) {
@@ -102,7 +102,7 @@ describe('/rest/saveLoginIp', () => {
               console.log('Success')
             }
           })
-          cy.expectChallengeSolved({ challenge: 'HTTP-Header XSS' }) // TODO Add missing check for alert presence
+          cy.expectChallengeSolved({ challenge: 'HTTP-Header XSS' }) 
         }
       })
     })

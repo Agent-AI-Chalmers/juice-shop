@@ -1,7 +1,4 @@
-/*
- * Copyright (c) 2014-2026 Bjoern Kimminich & the OWASP Juice Shop contributors.
- * SPDX-License-Identifier: MIT
- */
+
 
 import { type Request, type Response, type NextFunction } from 'express'
 import { BasketItemModel } from '../models/basketitem'
@@ -87,9 +84,9 @@ async function quantityCheck (req: Request, res: Response, next: NextFunction, i
     throw new Error('No such product found!')
   }
 
-  // is product limited per user and order, except if user is deluxe?
+  
   if (!product.limitPerUser || (product.limitPerUser && product.limitPerUser >= quantity) || security.isDeluxe(req)) {
-    if (product.quantity >= quantity) { // enough in stock?
+    if (product.quantity >= quantity) { 
       next()
     } else {
       res.status(400).json({ error: res.__('We are out of stock! Sorry for the inconvenience.') })

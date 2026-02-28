@@ -1,7 +1,4 @@
-/*
- * Copyright (c) 2014-2026 Bjoern Kimminich & the OWASP Juice Shop contributors.
- * SPDX-License-Identifier: MIT
- */
+
 
 import * as frisby from 'frisby'
 import { expect } from '@jest/globals'
@@ -99,7 +96,7 @@ describe('/rest/products/search', () => {
       .expect('json', 'data.?', {
         id: 3,
         price: `bender@${config.get<string>('application.domain')}`
-        // no check for Bender's password as it might have already been changed by different test
+        
       })
       .expect('json', 'data.?', {
         id: 4,

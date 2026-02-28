@@ -1,6 +1,4 @@
-/**
- * @author alteredq / http://alteredqualia.com/
- */
+
 
 THREE.MaskPass = function ( scene, camera ) {
 
@@ -21,12 +19,12 @@ THREE.MaskPass.prototype = {
 
 		var context = renderer.context;
 
-		// don't update color or depth
+		
 
 		context.colorMask( false, false, false, false );
 		context.depthMask( false );
 
-		// set up stencil
+		
 
 		var writeValue, clearValue;
 
@@ -47,19 +45,19 @@ THREE.MaskPass.prototype = {
 		context.stencilFunc( context.ALWAYS, writeValue, 0xffffffff );
 		context.clearStencil( clearValue );
 
-		// draw into the stencil buffer
+		
 
 		renderer.render( this.scene, this.camera, readBuffer, this.clear );
 		renderer.render( this.scene, this.camera, writeBuffer, this.clear );
 
-		// re-enable update of color and depth
+		
 
 		context.colorMask( true, true, true, true );
 		context.depthMask( true );
 
-		// only render where stencil is set to 1
+		
 
-		context.stencilFunc( context.EQUAL, 1, 0xffffffff );  // draw if == 1
+		context.stencilFunc( context.EQUAL, 1, 0xffffffff );  
 		context.stencilOp( context.KEEP, context.KEEP, context.KEEP );
 
 	}

@@ -1,7 +1,4 @@
-/*
- * Copyright (c) 2014-2026 Bjoern Kimminich & the OWASP Juice Shop contributors.
- * SPDX-License-Identifier: MIT
- */
+
 
 import { Component, type OnInit, inject } from '@angular/core'
 import { ConfigurationService } from '../Services/configuration.service'
@@ -39,7 +36,7 @@ export class WelcomeBannerComponent implements OnInit {
           this.message = config.application.welcomeBanner.message
         }
         this.showHackingInstructor = config?.hackingInstructor?.isEnabled
-        // Don't allow to skip the tutorials when restrictToTutorialsFirst and showHackingInstructor are enabled
+        
         if (this.showHackingInstructor && config?.challenges?.restrictToTutorialsFirst) {
           this.dialogRef.disableClose = true
           this.showDismissBtn = false
@@ -52,7 +49,7 @@ export class WelcomeBannerComponent implements OnInit {
   startHackingInstructor () {
     this.closeWelcome()
     console.log('Starting instructions for challenge "Score Board"')
-    import(/* webpackChunkName: "tutorial" */ '../../hacking-instructor').then(module => {
+    import( '../../hacking-instructor').then(module => {
       module.startHackingInstructorFor('Score Board')
     })
   }

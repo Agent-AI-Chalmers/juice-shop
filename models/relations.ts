@@ -64,7 +64,7 @@ const relationsInit = (_sequelize: Sequelize) => {
     foreignKey: {
       name: 'UserId'
     }
-  }) // no FK constraint to allow anonymous feedback posts
+  }) 
 
   ImageCaptchaModel.belongsTo(UserModel, {
     foreignKey: {

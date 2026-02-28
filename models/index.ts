@@ -1,7 +1,4 @@
-/*
- * Copyright (c) 2014-2026 Bjoern Kimminich & the OWASP Juice Shop contributors.
- * SPDX-License-Identifier: MIT
- */
+
 
 import { AddressModelInit } from './address'
 import { BasketModelInit } from './basket'
@@ -26,7 +23,7 @@ import { UserModelInit } from './user'
 import { WalletModelInit } from './wallet'
 import { Sequelize, Transaction } from 'sequelize'
 
-/* jslint node: true */
+
 const sequelize = new Sequelize('database', 'username', 'password', {
   dialect: 'sqlite',
   retry: {

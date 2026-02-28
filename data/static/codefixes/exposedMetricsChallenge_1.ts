@@ -1,4 +1,4 @@
-/* Serve metrics */
+
 let metricsUpdateLoop: any
 const Metrics = metrics.observeMetrics()
 app.get('/metrics', security.denyAll(), metrics.serveMetrics())

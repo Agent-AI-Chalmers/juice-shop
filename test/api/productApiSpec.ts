@@ -1,7 +1,4 @@
-/*
- * Copyright (c) 2014-2026 Bjoern Kimminich & the OWASP Juice Shop contributors.
- * SPDX-License-Identifier: MIT
- */
+
 
 import * as frisby from 'frisby'
 import config from 'config'
@@ -13,7 +10,7 @@ import * as utils from '../../lib/utils'
 
 const Joi = frisby.Joi
 
-// array index of the items is incremented by one because the db id starts with 1
+
 const tamperingProductId = config.get<ProductConfig[]>('products').findIndex((product) => !!product.urlForProductTamperingChallenge) + 1
 
 const API_URL = 'http://localhost:3000/api'
@@ -100,7 +97,7 @@ describe('/api/Products/:id', () => {
       .expect('json', 'data', { description: '<a href="http://kimminich.de" target="_blank">More...</a>' })
   })
 
-  xit('PUT update existing product does not filter XSS attacks', () => { // FIXME Started to fail regularly on CI under Linux
+  xit('PUT update existing product does not filter XSS attacks', () => { 
     return frisby.put(API_URL + '/Products/1', {
       header: jsonHeader,
       body: {

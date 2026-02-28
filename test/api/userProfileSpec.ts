@@ -1,7 +1,4 @@
-/*
- * Copyright (c) 2014-2026 Bjoern Kimminich & the OWASP Juice Shop contributors.
- * SPDX-License-Identifier: MIT
- */
+
 
 import * as frisby from 'frisby'
 import config from 'config'
@@ -56,7 +53,7 @@ describe('/profile', () => {
       .expect('status', 302)
   })
 
-  xit('POST update username is forbidden for unauthenticated user', () => { // FIXME runs into "socket hang up"
+  xit('POST update username is forbidden for unauthenticated user', () => { 
     const form = frisby.formData()
     form.append('username', 'Localhorst')
 

@@ -1,9 +1,6 @@
-/*
- * Copyright (c) 2014-2026 Bjoern Kimminich & the OWASP Juice Shop contributors.
- * SPDX-License-Identifier: MIT
- */
 
-/* jslint node: true */
+
+
 import { AddressModel } from '../models/address'
 import { BasketModel } from '../models/basket'
 import { BasketItemModel } from '../models/basketitem'
@@ -73,7 +70,7 @@ async function createChallenges () {
 
   await Promise.all(
     challenges.map(async ({ name, category, description, difficulty, hints, mitigationUrl, key, disabledEnv, tutorial, tags }) => {
-      // todo(@J12934) change this to use a proper challenge model or something
+      
       // eslint-disable-next-line @typescript-eslint/consistent-type-assertions
       const { enabled: isChallengeEnabled, disabledBecause } = utils.getChallengeEnablementStatus({ disabledEnv: disabledEnv?.join(';') ?? '' } as ChallengeModel)
       description = description.replace('juice-sh.op', config.get<string>('application.domain'))
@@ -90,7 +87,7 @@ async function createChallenges () {
           name,
           category,
           tags: (tags != null) ? tags.join(',') : undefined,
-          // todo(@J12934) currently missing the 'not available' text. Needs changes to the model and utils functions
+          
           description: isChallengeEnabled ? description : (description + ' <em>(This challenge is <strong>potentially harmful</strong> on ' + disabledBecause + '!)</em>'),
           difficulty,
           solved: false,
@@ -324,7 +321,7 @@ async function createProducts () {
     product.deluxePrice = product.deluxePrice ?? product.price
     product.description = product.description || 'Lorem ipsum dolor sit amet, consectetuer adipiscing elit.'
 
-    // set default image values
+    
     product.image = product.image ?? 'undefined.png'
     if (utils.isUrl(product.image)) {
       const imageUrl = product.image
@@ -334,7 +331,7 @@ async function createProducts () {
     return product
   })
 
-  // add Challenge specific information
+  
   const christmasChallengeProduct = products.find(({ useForChristmasSpecialChallenge }) => useForChristmasSpecialChallenge)
   const pastebinLeakChallengeProduct = products.find(({ keywordsForPastebinDataLeakChallenge }) => keywordsForPastebinDataLeakChallenge)
   const tamperingChallengeProduct = products.find(({ urlForProductTamperingChallenge }) => urlForProductTamperingChallenge)
@@ -388,7 +385,7 @@ async function createProducts () {
                   persistedProduct)
               })
             }
-            if (deletedDate) void deleteProduct(persistedProduct.id) // TODO Rename into "isDeleted" or "deletedFlag" in config for v14.x release
+            if (deletedDate) void deleteProduct(persistedProduct.id) 
           } else {
             throw new Error('No persisted product found!')
           }

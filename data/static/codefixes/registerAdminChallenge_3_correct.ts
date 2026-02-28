@@ -1,4 +1,4 @@
-/* Generated API endpoints */
+
   import { HintModel } from '../../../models/hint'
 
 finale.initialize({ app, sequelize })
@@ -28,7 +28,7 @@ finale.initialize({ app, sequelize })
       pagination: false
     })
 
-    // create a wallet when a new user is registered using API
+    
     if (name === 'User') {
       resource.create.send.before((req: Request, res: Response, context: { instance: { id: any }, continue: any }) => {
         WalletModel.create({ UserId: context.instance.id }).catch((err: unknown) => {

@@ -1,4 +1,4 @@
-/* Rate limiting */
+
   app.enable('trust proxy')
   app.use('/rest/user/reset-password', rateLimit({
     windowMs: 3 * 60 * 1000,

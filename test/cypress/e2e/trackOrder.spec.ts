@@ -1,6 +1,6 @@
 describe('/#/track-order', () => {
   describe('challenge "reflectedXss"', () => {
-    // Cypress alert bug
+    
     xit('Order Id should be susceptible to reflected XSS attacks', () => {
       cy.task('isDocker').then((isDocker) => {
         if (!isDocker) {

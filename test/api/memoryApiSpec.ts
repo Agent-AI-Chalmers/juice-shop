@@ -1,7 +1,4 @@
-/*
- * Copyright (c) 2014-2026 Bjoern Kimminich & the OWASP Juice Shop contributors.
- * SPDX-License-Identifier: MIT
- */
+
 
 import * as frisby from 'frisby'
 import { expect } from '@jest/globals'
@@ -38,7 +35,7 @@ describe('/rest/memories', () => {
   it('POST new memory is forbidden via public API', () => {
     const file = path.resolve(__dirname, '../files/validProfileImage.jpg')
     const form = frisby.formData()
-    form.append('image', fs.createReadStream(file) as unknown as Blob, 'Valid Image')// casting to blob as the frisby types are wrong and wont accept the fileStream type 'Valid Image')
+    form.append('image', fs.createReadStream(file) as unknown as Blob, 'Valid Image')
     form.append('caption', 'Valid Image')
 
     return frisby.post(REST_URL + '/memories', {
@@ -54,7 +51,7 @@ describe('/rest/memories', () => {
   it('POST new memory image file invalid type', () => {
     const file = path.resolve(__dirname, '../files/invalidProfileImageType.docx')
     const form = frisby.formData()
-    form.append('image', fs.createReadStream(file) as unknown as Blob, 'Valid Image')// casting to blob as the frisby types are wrong and wont accept the fileStream type 'Valid Image')
+    form.append('image', fs.createReadStream(file) as unknown as Blob, 'Valid Image')
     form.append('caption', 'Valid Image')
 
     return frisby.post(REST_URL + '/user/login', {
@@ -132,7 +129,7 @@ describe('/rest/memories', () => {
   it('POST new memory with valid for JPG format image', () => {
     const file = path.resolve(__dirname, '../files/validProfileImage.jpg')
     const form = frisby.formData()
-    form.append('image', fs.createReadStream(file) as unknown as Blob, 'Valid Image')// casting to blob as the frisby types are wrong and wont accept the fileStream type 'Valid Image')
+    form.append('image', fs.createReadStream(file) as unknown as Blob, 'Valid Image')
     form.append('caption', 'Valid Image')
 
     return frisby.post(REST_URL + '/user/login', {

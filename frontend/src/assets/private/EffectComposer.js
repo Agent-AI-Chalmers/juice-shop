@@ -1,6 +1,4 @@
-/**
- * @author alteredq / http://alteredqualia.com/
- */
+
 
 THREE.EffectComposer = function ( renderer, renderTarget ) {
 
@@ -134,7 +132,7 @@ THREE.EffectComposer.prototype = {
 
 };
 
-// shared ortho camera
+
 
 THREE.EffectComposer.camera = new THREE.OrthographicCamera( -1, 1, 1, -1, 0, 1 );
 

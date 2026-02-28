@@ -1,7 +1,4 @@
-/*
- * Copyright (c) 2014-2024 Bjoern Kimminich & the OWASP Juice Shop contributors.
- * SPDX-License-Identifier: MIT
- */
+
 
 import { NgClass } from '@angular/common'
 import { Component, Input, OnChanges, SimpleChanges } from '@angular/core'
@@ -36,11 +33,11 @@ export class PasswordStrengthComponent implements OnChanges {
       this.containAtLeastOneSpecialChar
     ]
 
-    return checks.filter(x => x).length / checks.length * 100 // calculate percentage of checks passed
+    return checks.filter(x => x).length / checks.length * 100 
   }
 
   get progressColor (): string {
-    return this.ranges[Math.max(Math.floor(this.passwordStrength / (100 / this.ranges.length)) - 1, 0)] // map passwordStrength to value within ranges.length
+    return this.ranges[Math.max(Math.floor(this.passwordStrength / (100 / this.ranges.length)) - 1, 0)] 
   }
 
   get containAtLeastMinChars (): boolean {

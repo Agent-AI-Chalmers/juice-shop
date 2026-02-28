@@ -11,7 +11,7 @@ interface DifficultySummary {
   solvedChallenges: number
 }
 
-// interface doesn't work here
+
  
 type DifficultySummaries = Record<number, DifficultySummary>
 
@@ -34,7 +34,7 @@ export class DifficultyOverviewScoreCardComponent implements OnInit, OnChanges {
   @Input()
   public allChallenges: EnrichedChallenge[] = []
 
-  // includes hacking and coding challenges (both find it and fix it)
+  
   public totalChallenges: number
   public solvedChallenges: number
 
@@ -63,7 +63,7 @@ export class DifficultyOverviewScoreCardComponent implements OnInit, OnChanges {
 
     const codingScore = availableCodingChallenges
       .map((challenge) => challenge.codingChallengeStatus)
-      .reduce((a, b) => a + b, 0) // sum up the scores
+      .reduce((a, b) => a + b, 0) 
 
     this.difficultySummaries = DifficultyOverviewScoreCardComponent.calculateDifficultySummaries(this.allChallenges)
 

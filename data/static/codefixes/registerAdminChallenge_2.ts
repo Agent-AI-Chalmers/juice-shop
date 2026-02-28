@@ -1,4 +1,4 @@
-/* Generated API endpoints */
+
   import { HintModel } from '../../../models/hint'
 
 finale.initialize({ app, sequelize })

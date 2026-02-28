@@ -1,7 +1,4 @@
-/*
- * Copyright (c) 2014-2026 Bjoern Kimminich & the OWASP Juice Shop contributors.
- * SPDX-License-Identifier: MIT
- */
+
 
 module.exports = {
   extends: 'standard-with-typescript',
@@ -33,8 +30,8 @@ module.exports = {
       files: ['**/*.ts'],
       parser: '@typescript-eslint/parser',
       rules: {
-        'no-void': 'off', // conflicting with recommendation from @typescript-eslint/no-floating-promises
-        // FIXME warnings below this line need to be checked and fixed.
+        'no-void': 'off', 
+        
         '@typescript-eslint/explicit-function-return-type': 'off',
         '@typescript-eslint/strict-boolean-expressions': 'off',
         '@typescript-eslint/no-var-requires': 'off',

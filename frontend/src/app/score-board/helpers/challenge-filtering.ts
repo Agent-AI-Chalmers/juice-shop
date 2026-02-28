@@ -7,21 +7,21 @@ export function filterChallenges (
 ): EnrichedChallenge[] {
   return (
     challenges
-      // filter by category
+      
       .filter((challenge) => {
         if (filterSetting.categories.length === 0) {
           return true
         }
         return filterSetting.categories.includes(challenge.category)
       })
-      // filter by difficulty
+      
       .filter((challenge) => {
         if (filterSetting.difficulties.length === 0) {
           return true
         }
         return filterSetting.difficulties.includes(challenge.difficulty)
       })
-      // filter by tags
+      
       .filter((challenge) => {
         if (filterSetting.tags.length === 0) {
           return true
@@ -30,21 +30,21 @@ export function filterChallenges (
           filterSetting.tags.includes(tag)
         )
       })
-      // filter by status
+      
       .filter((challenge) => {
         if (filterSetting.status === null) {
           return true
         }
         return filterSetting.status === getCompleteChallengeStatus(challenge)
       })
-      // filter disabled challenges
+      
       .filter((challenge) => {
         if (challenge.disabledEnv === null) {
           return true
         }
         return filterSetting.showDisabledChallenges
       })
-      // filter by search query
+      
       .filter((challenge) => {
         if (filterSetting.searchQuery === null) {
           return true
@@ -58,7 +58,7 @@ export function filterChallenges (
             .includes(filterSetting.searchQuery.toLowerCase())
         )
       })
-      // filter by tutorial challenges
+      
       .filter((challenge) => {
         if (!filterSetting.restrictToTutorialChallengesFirst) {
           return true
@@ -72,11 +72,11 @@ export function filterChallenges (
         if (allTutorialChallengesSolved) {
           return true
         } else if (!allTutorialChallengesSolved && challenge.tutorialOrder === null) {
-          // there are still unsolved tutorial challenges, but this challenge is not a tutorial challenge so we don't want to show it
+          
           return false
         }
 
-        // find --include difficulty of unsolved tutorial challenges, we only want to show ones matching it or easier
+        
         const difficultiesOfUnsolvedTutorialChallenges = tutorialChallenges
           .filter((challenge) => !challenge.solved)
           .map((challenge) => challenge.difficulty)

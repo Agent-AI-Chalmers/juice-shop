@@ -48,7 +48,7 @@ describe('blueprint', () => {
             pathToImage = path.resolve('frontend/src', pathToImage, product.image)
           }
 
-          if (product.exifForBlueprintChallenge?.[0]) { // Prevents failing test for sample or custom themes where null has been explicitly set as value for "exifForBlueprintChallenge". Warning: This makes the "Retrieve Blueprint" challenge probably unsolvable unless hints are placed elsewhere.
+          if (product.exifForBlueprintChallenge?.[0]) { 
             try {
               const exifData = await parseExifData(pathToImage)
               const properties = Object.values(exifData.image)

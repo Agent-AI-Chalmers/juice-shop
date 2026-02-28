@@ -1,11 +1,4 @@
-/**
- * OWASP Juice Shop — 2FA Security Test Suite
- *
- * Tests both normal 2FA business flows and known attack paths.
- * Run against a local Juice Shop instance on port 3000.
- *
- * Usage: node test_2fa.js
- */
+
 
 const otplib = require('otplib')
 const http = require('http')
@@ -19,7 +12,7 @@ let passed = 0
 let failed = 0
 let skipped = 0
 
-// ────────────── HTTP Helpers ──────────────
+
 
 function httpRequest (method, path, body, headers = {}) {
   return new Promise((resolve, reject) => {
@@ -49,7 +42,7 @@ function httpRequest (method, path, body, headers = {}) {
 const GET = (path, headers) => httpRequest('GET', path, null, headers)
 const POST = (path, body, headers) => httpRequest('POST', path, body, headers)
 
-// ────────────── Test Runner ──────────────
+
 
 function assert (condition, testName, detail = '') {
   if (condition) {
@@ -66,7 +59,7 @@ function skip (testName, reason) {
   skipped++
 }
 
-// ────────────── Test Cases ──────────────
+
 
 async function testNormalLoginWithout2FA () {
   console.log('\n── Test Group 1: Normal Login (user without 2FA) ──')
@@ -86,7 +79,7 @@ async function testNormalLoginWithout2FA () {
 async function testNormalLoginWith2FA () {
   console.log('\n── Test Group 2: Normal Login (user with 2FA — wurstbrot) ──')
 
-  // Step 1: Password login should require 2FA
+  
   const loginRes = await POST('/rest/user/login', {
     email: WURSTBROT_EMAIL,
     password: WURSTBROT_PASSWORD
@@ -101,7 +94,7 @@ async function testNormalLoginWith2FA () {
     return null
   }
 
-  // Step 2: Submit correct TOTP
+  
   const tmpToken = loginRes.body.data.tmpToken
   const totpToken = otplib.authenticator.generate(KNOWN_SECRET)
 
@@ -150,11 +143,11 @@ async function testInvalidTmpToken () {
 async function test2FAStatusEndpoint () {
   console.log('\n── Test Group 5: 2FA Status Endpoint ──')
 
-  // Unauthenticated access
+  
   const noAuthRes = await GET('/rest/2fa/status')
   assert(noAuthRes.status === 401, 'Unauthenticated access to /rest/2fa/status returns 401')
 
-  // Authenticated access (use admin who has no 2FA)
+  
   const loginRes = await POST('/rest/user/login', {
     email: 'admin@juice-sh.op',
     password: 'admin123'
@@ -184,7 +177,7 @@ async function testWrongPasswordLogin () {
   assert(!res.body?.data?.tmpToken, 'No tmpToken issued for wrong password')
 }
 
-// ────────────── Attack Path Tests ──────────────
+
 
 async function testSQLiViaLogin () {
   console.log('\n── Attack Test 1: SQL Injection via Login Endpoint ──')
@@ -204,30 +197,30 @@ async function testSQLiViaSearch () {
   const sqliPayload = "qwert')) UNION SELECT id,email,password,totpSecret,'5','6','7','8','9' FROM Users--"
   const res = await GET(`/rest/products/search?q=${encodeURIComponent(sqliPayload)}`)
 
-  // Find wurstbrot in results
+  
   const wurstbrot = res.body?.data?.find(p => p.name && p.name.includes('wurstbrot'))
 
   if (!wurstbrot) {
-    // Search SQLi might be patched too
+    
     assert(true, 'Search SQL injection does not return user data (patched)')
     return
   }
 
-  // SQLi worked — check if the extracted secret is usable
+  
   const extractedSecret = wurstbrot.price
   console.log(`    Extracted value: ${extractedSecret?.substring(0, 40)}...`)
 
-  // Is it the plaintext secret?
+  
   const isPlaintext = extractedSecret === KNOWN_SECRET
   assert(!isPlaintext, 'Extracted totpSecret is NOT plaintext',
     isPlaintext ? 'VULNERABLE: plaintext secret exposed!' : 'Secret is encrypted or obfuscated')
 
-  // Try to use extracted secret to generate TOTP
+  
   if (extractedSecret) {
     try {
       const totpFromExtracted = otplib.authenticator.generate(extractedSecret)
 
-      // Login to get tmpToken
+      
       const loginRes = await POST('/rest/user/login', {
         email: WURSTBROT_EMAIL,
         password: WURSTBROT_PASSWORD
@@ -252,7 +245,7 @@ async function testSQLiViaSearch () {
 async function testSQLiUnionColumnEnum () {
   console.log('\n── Attack Test 3: SQL Injection Column Enumeration ──')
 
-  // Attacker tries SELECT * with different column counts
+  
   const sqliPayload = "qwert')) UNION SELECT sql,2,3,4,5,6,7,8,9 FROM sqlite_master--"
   const res = await GET(`/rest/products/search?q=${encodeURIComponent(sqliPayload)}`)
 
@@ -261,7 +254,7 @@ async function testSQLiUnionColumnEnum () {
   )
 
   if (hasSchema) {
-    // This is a separate vulnerability (dbSchemaChallenge), just note it
+    
     console.log('    ⚠️  Note: DB schema is accessible via search SQLi (separate issue)')
   }
 }
@@ -280,7 +273,7 @@ async function testBruteForce2FA () {
     return
   }
 
-  // Send 5 rapid wrong attempts
+  
   let rejectedCount = 0
   for (let i = 0; i < 5; i++) {
     const code = String(100000 + i).padStart(6, '0')
@@ -290,22 +283,22 @@ async function testBruteForce2FA () {
 
   assert(rejectedCount === 5, 'All 5 brute force attempts rejected')
 
-  // Check if we can still use the correct code (not locked out from valid use)
+  
   const correctToken = otplib.authenticator.generate(KNOWN_SECRET)
   const validRes = await POST('/rest/2fa/verify', { tmpToken, totpToken: correctToken })
 
-  // Note: current rate limit is 100/5min which is very permissive
+  
   console.log(`    ℹ️  Rate limit: /rest/2fa/verify allows 100 requests per 5 minutes`)
 }
 
-// ────────────── Main ──────────────
+
 
 async function main () {
   console.log('╔══════════════════════════════════════════════════╗')
   console.log('║   OWASP Juice Shop — 2FA Security Test Suite    ║')
   console.log('╚══════════════════════════════════════════════════╝')
 
-  // Normal business flows
+  
   await testNormalLoginWithout2FA()
   await testNormalLoginWith2FA()
   await testWrongTOTP()
@@ -313,13 +306,13 @@ async function main () {
   await test2FAStatusEndpoint()
   await testWrongPasswordLogin()
 
-  // Attack paths
+  
   await testSQLiViaLogin()
   await testSQLiViaSearch()
   await testSQLiUnionColumnEnum()
   await testBruteForce2FA()
 
-  // Summary
+  
   console.log('\n══════════════════════════════════════════════════')
   console.log(`  Results: ${passed} passed, ${failed} failed, ${skipped} skipped`)
   console.log('══════════════════════════════════════════════════')
