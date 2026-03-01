@@ -39,7 +39,6 @@ const commonEnv = {
     NODE_ENV: 'test',
     JUICE_SHOP_CONFIG: JSON.stringify({
         server: { rateLimit: 0 },
-        application: { chatBot: { name: "Juicy", trainingData: "botDefaultTrainingData.json" } }
     }),
     CHROME_BIN: chromePath
 };
@@ -102,31 +101,6 @@ function restoreTestFiles(modifiedFiles, rootDir) {
         try {
             execSync(`git checkout -- "${filePath}"`, { cwd: rootDir, stdio: 'ignore' });
         } catch (e) { }
-    }
-}
-
-async function prepareChatBotEnvironment(projectRoot) {
-    console.log("🛠️ Preparing ChatBot environment...");
-    const runtimeDir = path.join(projectRoot, 'data/chatbot');
-    const staticPath = path.join(projectRoot, 'data/static/botDefaultTrainingData.json');
-    const runtimePath = path.join(runtimeDir, 'botDefaultTrainingData.json');
-
-    if (!fs.existsSync(runtimeDir)) fs.mkdirSync(runtimeDir, { recursive: true });
-
-    if (fs.existsSync(staticPath)) {
-        const content = fs.readFileSync(staticPath);
-        // Use synchronous write and force flush to physical disk to ensure backend can read it immediately
-        const fd = fs.openSync(runtimePath, 'w');
-        fs.writeSync(fd, content, 0, content.length);
-        fs.fsyncSync(fd);
-        fs.closeSync(fd);
-
-        const stats = fs.statSync(runtimePath);
-        if (stats.size === 0) throw new Error("CRITICAL: ChatBot data file is empty!");
-
-        console.log(`✅ ChatBot data ready (${stats.size} bytes). Giving it extra time to settle...`);
-        // Give extra time to ensure backend can read the file without hitting a locked state
-        await sleep(2000);
     }
 }
 
@@ -225,8 +199,6 @@ async function main() {
     const projectRoot = path.resolve(__dirname, '..');
 
     try {
-        await prepareChatBotEnvironment(projectRoot);
-
         // 1. Frontend
         let modifiedFiles = new Set();
         try {

@@ -3171,51 +3171,6 @@
             "reason": "Verified clean business logic"
         },
         {
-            "file": "test/api/chatBotSpec.ts",
-            "description": "GET bot state for anonymous users contains log in request",
-            "reason": "Verified clean business logic"
-        },
-        {
-            "file": "test/api/chatBotSpec.ts",
-            "description": "GET bot state for authenticated users contains request for username",
-            "reason": "Verified clean business logic"
-        },
-        {
-            "file": "test/api/chatBotSpec.ts",
-            "description": "Asks for username if not defined",
-            "reason": "Verified clean business logic"
-        },
-        {
-            "file": "test/api/chatBotSpec.ts",
-            "description": "Returns greeting if username is defined",
-            "reason": "Verified clean business logic"
-        },
-        {
-            "file": "test/api/chatBotSpec.ts",
-            "description": "Returns proper response for registered user",
-            "reason": "Verified clean business logic"
-        },
-        {
-            "file": "test/api/chatBotSpec.ts",
-            "description": "Responds with product price when asked question with product name",
-            "reason": "Verified clean business logic"
-        },
-        {
-            "file": "test/api/chatBotSpec.ts",
-            "description": "Greets back registered user after being told username",
-            "reason": "Verified clean business logic"
-        },
-        {
-            "file": "test/api/chatBotSpec.ts",
-            "description": "POST returns error for unauthenticated user",
-            "reason": "Verified clean business logic"
-        },
-        {
-            "file": "test/api/chatBotSpec.ts",
-            "description": "Returns proper response for custom callbacks",
-            "reason": "Verified clean business logic"
-        },
-        {
             "file": "test/api/complaintApiSpec.ts",
             "description": "POST new complaint",
             "reason": "Verified clean business logic"
@@ -4729,8 +4684,58 @@
         },
         {
             "file": "test/api/chatBotSpec.ts",
+            "description": "GET bot training state",
+            "reason": "File-level Exclude keyword: chatbotspec.ts"
+        },
+        {
+            "file": "test/api/chatBotSpec.ts",
+            "description": "GET bot state for anonymous users contains log in request",
+            "reason": "File-level Exclude keyword: chatbotspec.ts"
+        },
+        {
+            "file": "test/api/chatBotSpec.ts",
+            "description": "GET bot state for authenticated users contains request for username",
+            "reason": "File-level Exclude keyword: chatbotspec.ts"
+        },
+        {
+            "file": "test/api/chatBotSpec.ts",
+            "description": "Asks for username if not defined",
+            "reason": "File-level Exclude keyword: chatbotspec.ts"
+        },
+        {
+            "file": "test/api/chatBotSpec.ts",
+            "description": "Returns greeting if username is defined",
+            "reason": "File-level Exclude keyword: chatbotspec.ts"
+        },
+        {
+            "file": "test/api/chatBotSpec.ts",
+            "description": "Returns proper response for registered user",
+            "reason": "File-level Exclude keyword: chatbotspec.ts"
+        },
+        {
+            "file": "test/api/chatBotSpec.ts",
+            "description": "Responds with product price when asked question with product name",
+            "reason": "File-level Exclude keyword: chatbotspec.ts"
+        },
+        {
+            "file": "test/api/chatBotSpec.ts",
+            "description": "Greets back registered user after being told username",
+            "reason": "File-level Exclude keyword: chatbotspec.ts"
+        },
+        {
+            "file": "test/api/chatBotSpec.ts",
+            "description": "POST returns error for unauthenticated user",
+            "reason": "File-level Exclude keyword: chatbotspec.ts"
+        },
+        {
+            "file": "test/api/chatBotSpec.ts",
+            "description": "Returns proper response for custom callbacks",
+            "reason": "File-level Exclude keyword: chatbotspec.ts"
+        },
+        {
+            "file": "test/api/chatBotSpec.ts",
             "description": "Returns a 500 when the user name is set to crash request",
-            "reason": "PoC keyword: crash request"
+            "reason": "File-level Exclude keyword: chatbotspec.ts"
         },
         {
             "file": "test/api/deluxeApiSpec.ts",
