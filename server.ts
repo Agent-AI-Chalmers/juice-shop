@@ -118,12 +118,11 @@ import { updateProductReviews } from './routes/updateProductReviews'
 import { servePrivacyPolicyProof } from './routes/privacyPolicyProof'
 import { profileImageUrlUpload } from './routes/profileImageUrlUpload'
 import { profileImageFileUpload } from './routes/profileImageFileUpload'
-import { serveCodeFixes, checkCorrectFix } from './routes/vulnCodeFixes'
 import { imageCaptchas, verifyImageCaptcha } from './routes/imageCaptcha'
 import { upgradeToDeluxe, deluxeMembershipStatus } from './routes/deluxe'
 import { serveCodeSnippet, checkVulnLines } from './routes/vulnCodeSnippet'
 import { orderHistory, allOrders, toggleDeliveryStatus } from './routes/orderHistory'
-import { continueCode, continueCodeFindIt, continueCodeFixIt } from './routes/continueCode'
+import { continueCode, continueCodeFindIt } from './routes/continueCode'
 import { ensureFileIsPassed, handleZipFileUpload, checkUploadSize, checkFileType, handleXmlUpload, handleYamlUpload } from './routes/fileUpload'
 
 const app = express()
@@ -601,9 +600,7 @@ restoreOverwrittenFilesWithOriginals().then(() => {
   app.get('/rest/repeat-notification', repeatNotification())
   app.get('/rest/continue-code', continueCode())
   app.get('/rest/continue-code-findIt', continueCodeFindIt())
-  app.get('/rest/continue-code-fixIt', continueCodeFixIt())
   app.put('/rest/continue-code-findIt/apply/:continueCode', restoreProgress.restoreProgressFindIt())
-  app.put('/rest/continue-code-fixIt/apply/:continueCode', restoreProgress.restoreProgressFixIt())
   app.put('/rest/continue-code/apply/:continueCode', restoreProgress.restoreProgress())
   app.get('/rest/captcha', captchas())
   app.get('/rest/image-captcha', imageCaptchas())
@@ -661,9 +658,6 @@ restoreOverwrittenFilesWithOriginals().then(() => {
   /* Route for vulnerable code snippets */
   app.get('/snippets/:challenge', serveCodeSnippet())
   app.post('/snippets/verdict', checkVulnLines())
-  app.get('/snippets/fixes/:key', serveCodeFixes())
-  app.post('/snippets/fixes', checkCorrectFix())
-
   app.use(serveAngularClient())
 
   /* Error Handling */

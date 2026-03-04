@@ -35,7 +35,7 @@ interface ChallengeSolvedWebsocket {
 }
 interface CodeChallengeSolvedWebsocket {
   key: string
-  codingChallengeStatus: 0 | 1 | 2
+  codingChallengeStatus: 0 | 1
 }
 
 @Component({
