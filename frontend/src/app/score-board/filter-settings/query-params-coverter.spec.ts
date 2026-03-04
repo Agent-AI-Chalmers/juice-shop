@@ -26,7 +26,7 @@ describe('fromQueryParams', () => {
       fromQueryParams({
         searchQuery: 'jwt token',
         difficulties: '1,3,5,6',
-        status: 'partially-solved',
+        status: 'solved',
         tags: 'Danger Zone,Good for Demos,Prerequisite',
         categories: 'Improper Input Validation,Broken Anti Automation',
         showDisabledChallenges: 'false'
@@ -35,7 +35,7 @@ describe('fromQueryParams', () => {
       ...DEFAULT_FILTER_SETTING,
       searchQuery: 'jwt token',
       difficulties: [1, 3, 5, 6],
-      status: 'partially-solved',
+      status: 'solved',
       tags: ['Danger Zone', 'Good for Demos', 'Prerequisite'],
       categories: [
         'Improper Input Validation',
@@ -84,7 +84,7 @@ describe('toQueryParams', () => {
         ...DEFAULT_FILTER_SETTING,
         searchQuery: 'jwt token',
         difficulties: [1, 3, 5, 6],
-        status: 'partially-solved',
+        status: 'solved',
         tags: ['Danger Zone', 'Good for Demos', 'Prerequisite'],
         categories: ['Improper Input Validation', 'Broken Anti Automation'],
         showDisabledChallenges: false
@@ -92,7 +92,7 @@ describe('toQueryParams', () => {
     ).toEqual({
       searchQuery: 'jwt token',
       difficulties: '1,3,5,6',
-      status: 'partially-solved',
+      status: 'solved',
       tags: 'Danger Zone,Good for Demos,Prerequisite',
       categories: 'Improper Input Validation,Broken Anti Automation',
       showDisabledChallenges: 'false'

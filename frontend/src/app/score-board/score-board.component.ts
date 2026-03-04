@@ -1,13 +1,11 @@
 import { Component, NgZone, type OnDestroy, type OnInit, inject } from '@angular/core'
 import { ActivatedRoute, Router } from '@angular/router'
 import { DomSanitizer } from '@angular/platform-browser'
-import { MatDialog } from '@angular/material/dialog'
 import { type Subscription, combineLatest, firstValueFrom } from 'rxjs'
 
 import { fromQueryParams, toQueryParams } from './filter-settings/query-params-converters'
 import { DEFAULT_FILTER_SETTING, type FilterSetting } from './filter-settings/FilterSetting'
 import { type Config, ConfigurationService } from '../Services/configuration.service'
-import { CodeSnippetComponent } from '../code-snippet/code-snippet.component'
 import { ChallengeService } from '../Services/challenge.service'
 import { HintService } from '../Services/hint.service'
 import { filterChallenges } from './helpers/challenge-filtering'
@@ -22,7 +20,6 @@ import { MatProgressSpinner } from '@angular/material/progress-spinner'
 import { FilterSettingsComponent } from './components/filter-settings/filter-settings.component'
 import { NgClass } from '@angular/common'
 import { DifficultyOverviewScoreCardComponent } from './components/difficulty-overview-score-card/difficulty-overview-score-card.component'
-import { CodingChallengeProgressScoreCardComponent } from './components/coding-challenge-progress-score-card/coding-challenge-progress-score-card.component'
 import { HackingChallengeProgressScoreCardComponent } from './components/hacking-challenge-progress-score-card/hacking-challenge-progress-score-card.component'
 
 interface ChallengeSolvedWebsocket {
@@ -33,16 +30,12 @@ interface ChallengeSolvedWebsocket {
   hidden: boolean
   isRestore: boolean
 }
-interface CodeChallengeSolvedWebsocket {
-  key: string
-  codingChallengeStatus: 0 | 1
-}
 
 @Component({
   selector: 'app-score-board',
   templateUrl: './score-board.component.html',
   styleUrls: ['./score-board.component.scss'],
-  imports: [HackingChallengeProgressScoreCardComponent, CodingChallengeProgressScoreCardComponent, DifficultyOverviewScoreCardComponent, FilterSettingsComponent, MatProgressSpinner, ChallengesUnavailableWarningComponent, TutorialModeWarningComponent, ChallengeCardComponent, NgClass, TranslateModule]
+  imports: [HackingChallengeProgressScoreCardComponent, DifficultyOverviewScoreCardComponent, FilterSettingsComponent, MatProgressSpinner, ChallengesUnavailableWarningComponent, TutorialModeWarningComponent, ChallengeCardComponent, NgClass, TranslateModule]
 })
 export class ScoreBoardComponent implements OnInit, OnDestroy {
   private readonly challengeService = inject(ChallengeService);
@@ -51,7 +44,6 @@ export class ScoreBoardComponent implements OnInit, OnDestroy {
   private readonly sanitizer = inject(DomSanitizer);
   private readonly ngZone = inject(NgZone);
   private readonly io = inject(SocketIoService);
-  private readonly dialog = inject(MatDialog);
   private readonly router = inject(Router);
   private readonly route = inject(ActivatedRoute);
 
@@ -98,12 +90,10 @@ export class ScoreBoardComponent implements OnInit, OnDestroy {
     this.subscriptions.push(routerSubscription)
 
     this.io.socket().on('challenge solved', this.onChallengeSolvedWebsocket.bind(this))
-    this.io.socket().on('code challenge solved', this.onCodeChallengeSolvedWebsocket.bind(this))
   }
 
   ngOnDestroy (): void {
     this.io.socket().off('challenge solved', this.onChallengeSolvedWebsocket.bind(this))
-    this.io.socket().off('code challenge solved', this.onCodeChallengeSolvedWebsocket.bind(this))
     for (const subscription of this.subscriptions) {
       subscription.unsubscribe()
     }
@@ -135,26 +125,6 @@ export class ScoreBoardComponent implements OnInit, OnDestroy {
     this.ngZone.run(() => {})
   }
 
-  onCodeChallengeSolvedWebsocket (data?: CodeChallengeSolvedWebsocket) {
-    if (!data) {
-      return
-    }
-
-    this.allChallenges = this.allChallenges.map((challenge) => {
-      if (challenge.key === data.key) {
-        return {
-          ...challenge,
-          codingChallengeStatus: data.codingChallengeStatus
-        }
-      }
-      return { ...challenge }
-    })
-    this.filterAndUpdateChallenges()
-    // manually trigger angular change detection... :(
-    // unclear why this is necessary, possibly because the socket.io callback is not running inside angular
-    this.ngZone.run(() => {})
-  }
-
   filterAndUpdateChallenges (): void {
     this.filteredChallenges = sortChallenges(
       filterChallenges(this.allChallenges, {
@@ -172,19 +142,6 @@ export class ScoreBoardComponent implements OnInit, OnDestroy {
   reset () {
     this.router.navigate([], {
       queryParams: toQueryParams(DEFAULT_FILTER_SETTING)
-    })
-  }
-
-  openCodingChallengeDialog (challengeKey: string) {
-    const challenge = this.allChallenges.find((challenge) => challenge.key === challengeKey)
-
-    this.dialog.open(CodeSnippetComponent, {
-      disableClose: true,
-      data: {
-        key: challengeKey,
-        name: challenge.name,
-        codingChallengeStatus: challenge.codingChallengeStatus
-      }
     })
   }
 

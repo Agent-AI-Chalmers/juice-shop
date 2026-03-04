@@ -32,24 +32,6 @@
         <mat-icon [style.color]="'var(--theme-warn)'">info_outline</mat-icon>
       </button>
     }
-    <!-- coding challenge badge -->
-    @if (applicationConfiguration.challenges.codingChallengesEnabled !== 'never' && challenge.hasCodingChallenge) {
-      <button
-        class="badge"
-        (click)="openCodingChallengeDialog(challenge.key)"
-        [disabled]="challenge.solved === false && applicationConfiguration.challenges.codingChallengesEnabled !== 'always'"
-      [ngClass]="{
-        'partially-completed': challenge.codingChallengeStatus === 1,
-        'completed': challenge.codingChallengeStatus === 1
-      }"
-        [matTooltip]="(challenge.solved ? 'LAUNCH_CODING_CHALLENGE' : 'SOLVE_HACKING_CHALLENGE') | translate"
-        >
-        @if (challenge.codingChallengeStatus !== 0) {
-          <span class="badge-status">{{ challenge.codingChallengeStatus }}/1</span>
-        }
-        <mat-icon>code</mat-icon>
-      </button>
-    }
     <!-- mitigation link-->
     @if (challenge.mitigationUrl && challenge.solved) {
       <a

@@ -34,7 +34,7 @@ export class DifficultyOverviewScoreCardComponent implements OnInit, OnChanges {
   @Input()
   public allChallenges: EnrichedChallenge[] = []
 
-  // includes hacking and coding challenges (both find it and fix it)
+  // includes hacking challenges
   public totalChallenges: number
   public solvedChallenges: number
 
@@ -58,26 +58,19 @@ export class DifficultyOverviewScoreCardComponent implements OnInit, OnChanges {
   private updatedNumberOfSolvedChallenges (): void {
     const solvedHackingChallenges = this.allChallenges
       .filter((challenge) => challenge.solved).length
-    const availableCodingChallenges = this.allChallenges
-      .filter((challenge) => challenge.hasCodingChallenge)
-
-    const codingScore = availableCodingChallenges
-      .map((challenge) => challenge.codingChallengeStatus)
-      .reduce((a, b) => a + b, 0) // sum up the scores
 
     this.difficultySummaries = DifficultyOverviewScoreCardComponent.calculateDifficultySummaries(this.allChallenges)
 
-    this.totalChallenges = this.allChallenges.length + availableCodingChallenges.length
-    this.solvedChallenges = solvedHackingChallenges + codingScore
+    this.totalChallenges = this.allChallenges.length
+    this.solvedChallenges = solvedHackingChallenges
   }
 
   static calculateDifficultySummaries (challenges: EnrichedChallenge[]): DifficultySummary[] {
     const summariesLookup: DifficultySummaries = structuredClone(INITIAL_SUMMARIES)
     for (const challenge of challenges) {
-      summariesLookup[challenge.difficulty].availableChallenges += challenge.hasCodingChallenge ? 2 : 1
+      summariesLookup[challenge.difficulty].availableChallenges += 1
       if (challenge.solved) {
         summariesLookup[challenge.difficulty].solvedChallenges++
-        summariesLookup[challenge.difficulty].solvedChallenges += challenge.hasCodingChallenge ? challenge.codingChallengeStatus : 0
       }
     }
     return Object.values(summariesLookup)

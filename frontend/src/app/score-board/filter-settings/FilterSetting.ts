@@ -21,7 +21,7 @@ export interface FilterSetting {
   restrictToTutorialChallengesFirst: boolean
 }
 
-export type SolvedStatus = 'solved' | 'unsolved' | 'partially-solved'
+export type SolvedStatus = 'solved' | 'unsolved'
 
 export const DEFAULT_FILTER_SETTING: Readonly<FilterSetting> = Object.freeze({
   categories: [],

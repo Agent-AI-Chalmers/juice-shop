@@ -1,6 +1,5 @@
 <div class="score-row">
   <hacking-challenge-progress-score-card [allChallenges]="allChallenges" />
-  <coding-challenge-progress-score-card [allChallenges]="allChallenges" />
   <difficulty-overview-score-card [allChallenges]="allChallenges" />
 </div>
 
@@ -35,7 +34,6 @@
         <challenge-card
           [challenge]="challenge"
           [applicationConfiguration]="applicationConfiguration"
-          [openCodingChallengeDialog]="openCodingChallengeDialog.bind(this)"
           [repeatChallengeNotification]="repeatChallengeNotification.bind(this)"
           [unlockHint]="unlockHint.bind(this)"
           [ngClass]="{ solved: challenge.solved, unsolved: !challenge.solved, disabled: challenge.disabledEnv !== null }"

@@ -8,7 +8,6 @@ import { TranslateModule } from '@ngx-translate/core'
 import { of } from 'rxjs'
 
 import { HackingChallengeProgressScoreCardComponent } from './components/hacking-challenge-progress-score-card/hacking-challenge-progress-score-card.component'
-import { CodingChallengeProgressScoreCardComponent } from './components/coding-challenge-progress-score-card/coding-challenge-progress-score-card.component'
 import { ChallengesUnavailableWarningComponent } from './components/challenges-unavailable-warning/challenges-unavailable-warning.component'
 import { DifficultyOverviewScoreCardComponent } from './components/difficulty-overview-score-card/difficulty-overview-score-card.component'
 import { TutorialModeWarningComponent } from './components/tutorial-mode-warning/tutorial-mode-warning.component'
@@ -16,7 +15,6 @@ import { WarningCardComponent } from './components/warning-card/warning-card.com
 import { ScoreCardComponent } from './components/score-card/score-card.component'
 import { ScoreBoardComponent } from './score-board.component'
 import { ConfigurationService } from '../Services/configuration.service'
-import { CodeSnippetService } from '../Services/code-snippet.service'
 import { ChallengeService } from '../Services/challenge.service'
 import { type Challenge } from '../Models/challenge.model'
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations'
@@ -37,9 +35,7 @@ function createChallenge (challengeOverwrites: Partial<Challenge>): Challenge {
     tutorialOrder: null,
     hasTutorial: false,
     hasSnippet: false,
-    codingChallengeStatus: 0,
     mitigationUrl: '',
-    hasCodingChallenge: false,
     ...challengeOverwrites
   }
 }
@@ -49,15 +45,11 @@ describe('ScoreBoardComponent', () => {
   let fixture: ComponentFixture<ScoreBoardComponent>
   let challengeService
   let hintService
-  let codeSnippetService
   let configService
 
   beforeEach(async () => {
     challengeService = jasmine.createSpyObj('ChallengeService', ['find'])
     hintService = jasmine.createSpyObj('HintService', ['getAll'])
-    codeSnippetService = jasmine.createSpyObj('CodeSnippetService', [
-      'challenges'
-    ])
     configService = jasmine.createSpyObj('ConfigurationService', [
       'getApplicationConfiguration'
     ])
@@ -69,7 +61,6 @@ describe('ScoreBoardComponent', () => {
         MatIconModule,
         ScoreBoardComponent,
         HackingChallengeProgressScoreCardComponent,
-        CodingChallengeProgressScoreCardComponent,
         DifficultyOverviewScoreCardComponent,
         WarningCardComponent,
         ChallengesUnavailableWarningComponent,
@@ -79,7 +70,6 @@ describe('ScoreBoardComponent', () => {
       providers: [
         { provide: ChallengeService, useValue: challengeService },
         { provide: HintService, useValue: hintService },
-        { provide: CodeSnippetService, useValue: codeSnippetService },
         { provide: ConfigurationService, useValue: configService },
         provideHttpClient(withInterceptorsFromDi()),
         provideHttpClientTesting()
@@ -101,8 +91,7 @@ describe('ScoreBoardComponent', () => {
           category: 'category-blue',
           difficulty: 5,
           solved: false,
-          hasSnippet: true,
-          codingChallengeStatus: 1
+          hasSnippet: true
         }),
         createChallenge({
           name: 'Challenge 3',
@@ -117,7 +106,6 @@ describe('ScoreBoardComponent', () => {
 
     hintService.getAll.and.returnValue(of([]))
 
-    codeSnippetService.challenges.and.returnValue(of(['challenge-2']))
     configService.getApplicationConfiguration.and.returnValue(
       of({
         challenges: {
@@ -165,24 +153,5 @@ describe('ScoreBoardComponent', () => {
         (challenge) => challenge.key === 'challenge-3'
       ).solved
     ).toBeTrue()
-  })
-
-  it('should mark find it code challenges as solved on "code challenge solved" websocket', (): void => {
-    expect(
-      component.filteredChallenges.find(
-        (challenge) => challenge.key === 'challenge-3'
-      ).codingChallengeStatus
-    ).toBe(0)
-
-    component.onCodeChallengeSolvedWebsocket({
-      key: 'challenge-3',
-      codingChallengeStatus: 1
-    })
-
-    expect(
-      component.filteredChallenges.find(
-        (challenge) => challenge.key === 'challenge-3'
-      ).codingChallengeStatus
-    ).toBe(1)
   })
 })

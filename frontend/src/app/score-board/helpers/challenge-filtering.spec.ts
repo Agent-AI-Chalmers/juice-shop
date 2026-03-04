@@ -7,13 +7,11 @@ const CHALLENGE_1 = {
   description: 'lorem ipsum',
   originalDescription: 'lorem ipsum',
   difficulty: 1,
-  hasCodingChallenge: true,
   id: 1,
   key: 'challenge-1',
   mitigationUrl: 'https://owasp.example.com',
   name: 'challenge one',
   solved: false,
-  codingChallengeStatus: 0,
   tagList: ['easy'],
   disabledEnv: null,
   tutorialOrder: 1
@@ -24,13 +22,11 @@ const CHALLENGE_2 = {
   description: 'lorem ipsum',
   originalDescription: 'lorem ipsum',
   difficulty: 3,
-  hasCodingChallenge: true,
   id: 2,
   key: 'challenge-2',
   mitigationUrl: 'https://owasp.example.com',
   name: 'challenge two',
   solved: true,
-  codingChallengeStatus: 1,
   tagList: ['easy'],
   disabledEnv: null,
   tutorialOrder: 2
@@ -41,13 +37,11 @@ const CHALLENGE_3 = {
   description: 'lorem ipsum',
   originalDescription: 'lorem ipsum',
   difficulty: 6,
-  hasCodingChallenge: true,
   id: 3,
   key: 'challenge-3',
   mitigationUrl: 'https://owasp.example.com',
   name: 'challenge three',
   solved: true,
-  codingChallengeStatus: 1,
   tagList: ['hard'],
   disabledEnv: 'docker',
   tutorialOrder: null
@@ -96,15 +90,11 @@ describe('filterChallenges', () => {
     expect(filterChallenges(
       [CHALLENGE_1, CHALLENGE_2, CHALLENGE_3],
       { ...DEFAULT_FILTER_SETTING, status: 'solved' }
-    ).map((challenge) => challenge.key)).toEqual(jasmine.arrayWithExactContents(['challenge-2']))
+    ).map((challenge) => challenge.key)).toEqual(jasmine.arrayWithExactContents(['challenge-2', 'challenge-3']))
     expect(filterChallenges(
       [CHALLENGE_1, CHALLENGE_2, CHALLENGE_3],
       { ...DEFAULT_FILTER_SETTING, status: 'unsolved' }
     ).map((challenge) => challenge.key)).toEqual(jasmine.arrayWithExactContents(['challenge-1']))
-    expect(filterChallenges(
-      [CHALLENGE_1, CHALLENGE_2, CHALLENGE_3],
-      { ...DEFAULT_FILTER_SETTING, status: 'partially-solved' }
-    ).map((challenge) => challenge.key)).toEqual(jasmine.arrayWithExactContents(['challenge-3']))
   })
 
   it('should filter challenges based on searchQuery properly', () => {

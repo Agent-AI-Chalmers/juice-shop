@@ -18,9 +18,6 @@ export class ChallengeCardComponent implements OnInit {
   public challenge: EnrichedChallenge
 
   @Input()
-  public openCodingChallengeDialog: (challengeKey: string) => void
-
-  @Input()
   public repeatChallengeNotification: (challengeKey: string) => void
 
   @Input()

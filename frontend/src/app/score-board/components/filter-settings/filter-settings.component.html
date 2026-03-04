@@ -44,7 +44,6 @@
       <mat-select placeholder="All" [value]="filterSetting.status" (selectionChange)="onStatusFilterChange($event.value)">
         <mat-option [value]="null" class="mat-body">{{ 'STATUS_ALL' | translate }}</mat-option>
         <mat-option value="unsolved" class="mat-body">{{ 'STATUS_UNSOLVED' | translate }}</mat-option>
-        <mat-option value="partially-solved" class="mat-body">{{ 'STATUS_PARTIALLY_SOLVED' | translate }}</mat-option>
         <mat-option value="solved" class="mat-body">{{ 'STATUS_SOLVED' | translate }}</mat-option>
       </mat-select>
     </mat-form-field>
