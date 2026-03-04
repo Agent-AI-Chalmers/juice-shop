@@ -68,25 +68,11 @@ export const CodingChallengesInstruction: ChallengeInstruction = {
     },
     {
       text:
-        '🎊! You made it half-way through! In phase two you are now presented with several fix options. You must select the one which you think is the **best possible** fix for the security vulnerability.',
-      fixture: '#code-snippet',
-      resolved: waitInMs(10000)
-    },
-    {
-      text:
-        'This coding challenge is a bit "special", because the Score Board is crucial for progress tracking and acts as a hub for the other challenges. Keep that in mind when picking the _Correct Fix_ from the options _Fix 1_, _2_ and _3_.',
+        '🎊 Congratulations! You have successfully completed the coding challenge. Click _Close_ to return to the Score Board.',
       fixture: '#code-snippet',
       fixtureAfter: true,
       unskippable: true,
-      resolved: waitForElementToGetClicked('#fixItSubmitButton')
-    },
-    {
-      text:
-        'If you did\'nt get the answer right, just try again until the 🎊-cannon fires. Then click _Close_ to end the coding challenge and return to the Score Board.',
-      fixture: '#code-snippet',
-      fixtureAfter: true,
-      unskippable: true,
-      resolved: waitForElementToGetClicked('#fixItCloseButton')
+      resolved: waitForElementToGetClicked('#findItCloseButton')
     }
   ]
 }

@@ -33,16 +33,3 @@ export function continueCodeFindIt () {
     res.json({ continueCode })
   }
 }
-
-export function continueCodeFixIt () {
-  const hashids = new Hashids('yet another salt for the fixIt challenges', 60, 'abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ1234567890')
-  return async (req: Request, res: Response) => {
-    const ids = []
-    const challenges = await ChallengeModel.findAll({ where: { codingChallengeStatus: { [Op.gte]: 2 } } })
-    for (const challenge of challenges) {
-      ids.push(challenge.id)
-    }
-    const continueCode = ids.length > 0 ? hashids.encode(ids) : undefined
-    res.json({ continueCode })
-  }
-}
