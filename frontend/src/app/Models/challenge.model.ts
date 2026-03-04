@@ -18,7 +18,7 @@ export interface Challenge {
   tutorialOrder?: number
   hasTutorial?: boolean
   hasSnippet?: boolean
-  codingChallengeStatus?: 0 | 1 | 2
+  codingChallengeStatus?: 0 | 1
   mitigationUrl?: string
   hasCodingChallenge: boolean
 }

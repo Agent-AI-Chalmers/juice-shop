@@ -4,8 +4,6 @@
  */
 
 import { type NextFunction, type Request, type Response } from 'express'
-import yaml from 'js-yaml'
-import fs from 'node:fs'
 
 import { getCodeChallenges } from '../lib/codingChallenges'
 import * as challengeUtils from '../lib/challengeUtils'
@@ -85,22 +83,6 @@ export const checkVulnLines = () => async (req: Request<Record<string, unknown>,
   const neutralLines: number[] = snippetData.neutralLines
   const selectedLines: number[] = req.body.selectedLines
   const verdict = getVerdict(vulnLines, neutralLines, selectedLines)
-  let hint
-  if (fs.existsSync('./data/static/codefixes/' + key + '.info.yml')) {
-    const codingChallengeInfos = yaml.load(fs.readFileSync('./data/static/codefixes/' + key + '.info.yml', 'utf8'))
-    if (codingChallengeInfos?.hints) {
-      if (accuracy.getFindItAttempts(key) > codingChallengeInfos.hints.length) {
-        if (vulnLines.length === 1) {
-          hint = res.__('Line {{vulnLine}} is responsible for this vulnerability or security flaw. Select it and submit to proceed.', { vulnLine: vulnLines[0].toString() })
-        } else {
-          hint = res.__('Lines {{vulnLines}} are responsible for this vulnerability or security flaw. Select them and submit to proceed.', { vulnLines: vulnLines.toString() })
-        }
-      } else {
-        const nextHint = codingChallengeInfos.hints[accuracy.getFindItAttempts(key) - 1] // -1 prevents after first attempt
-        if (nextHint) hint = res.__(nextHint)
-      }
-    }
-  }
   if (verdict) {
     await challengeUtils.solveFindIt(key)
     res.status(200).json({
@@ -109,8 +91,7 @@ export const checkVulnLines = () => async (req: Request<Record<string, unknown>,
   } else {
     accuracy.storeFindItVerdict(key, false)
     res.status(200).json({
-      verdict: false,
-      hint
+      verdict: false
     })
   }
 }
